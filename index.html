@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>互動式報價單 - 崴浤科技</title>
+    <title>互動式網站設計報價單 - 崴浤科技</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -1231,35 +1231,40 @@
                                     <h1 class="text-2xl font-bold text-gray-800">崴浤科技股份有限公司</h1>
                                     <p class="text-gray-500 text-sm">網站設計 & SEO 優化方案報價單</p>
                                 </div>
-                                <div class="text-right text-sm text-gray-700">
-                                    <p><strong>專案人員:</strong> ${pmName}</p>
-                                    <p><strong>電話:</strong> ${pmPhone}</p>
-                                    <p><strong>Email:</strong> ${pmEmail}</p>
+                                <div class="text-sm text-gray-700">
+                                    <div class="grid grid-cols-[auto_1fr] gap-x-2">
+                                        <strong class="font-semibold">專案人員:</strong>
+                                        <span>${pmName}</span>
+                                        <strong class="font-semibold">電話:</strong>
+                                        <span>${pmPhone}</span>
+                                        <strong class="font-semibold">Email:</strong>
+                                        <span>${pmEmail}</span>
+                                    </div>
                                 </div>
                             </header>
                             
                             <div class="mb-8 p-4 border rounded-lg bg-gray-50">
                                  <h2 class="text-lg font-bold mb-3">報價資訊</h2>
-                                 <div class="grid grid-cols-4 gap-x-4 gap-y-2 text-sm">
-                                    <strong class="col-span-1 text-right font-semibold">報價單號：</strong>
-                                    <p class="col-span-1">${custQuoteNum}</p>
-                                    <strong class="col-span-1 text-right font-semibold">公司名稱：</strong>
-                                    <p class="col-span-1">${custName}</p>
+                                 <div class="grid grid-cols-[auto_1fr_auto_1fr] gap-x-4 gap-y-2 text-sm items-baseline">
+                                    <strong class="font-semibold">報價單號：</strong>
+                                    <p>${custQuoteNum}</p>
+                                    <strong class="font-semibold">公司名稱：</strong>
+                                    <p>${custName}</p>
                                     
-                                    <strong class="col-span-1 text-right font-semibold">報價日期：</strong>
-                                    <p class="col-span-1">${custDate}</p>
-                                    <strong class="col-span-1 text-right font-semibold">聯絡人：</strong>
-                                    <p class="col-span-1">${custContact}</p>
+                                    <strong class="font-semibold">報價日期：</strong>
+                                    <p>${custDate}</p>
+                                    <strong class="font-semibold">聯絡人：</strong>
+                                    <p>${custContact}</p>
 
-                                    <strong class="col-span-1 text-right font-semibold">電話：</strong>
-                                    <p class="col-span-1">${custTel}</p>
-                                    <strong class="col-span-1 text-right font-semibold">Email：</strong>
-                                    <p class="col-span-1">${custEmail}</p>
+                                    <strong class="font-semibold">電話：</strong>
+                                    <p>${custTel}</p>
+                                    <strong class="font-semibold">Email：</strong>
+                                    <p>${custEmail}</p>
 
-                                    <strong class="col-span-1 text-right font-semibold">統一編號：</strong>
-                                    <p class="col-span-1">${custTaxId}</p>
-                                    <strong class="col-span-1 text-right font-semibold">地址：</strong>
-                                    <p class="col-span-1">${custAddress}</p>
+                                    <strong class="font-semibold">統一編號：</strong>
+                                    <p>${custTaxId}</p>
+                                    <strong class="font-semibold">地址：</strong>
+                                    <p>${custAddress}</p>
                                 </div>
                             </div>
 
