@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>互動式報價單</title>
+    <title>互動式網站設計報價單 - 崴浤科技</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -31,6 +31,32 @@
         .form-input {
             @apply px-3 py-2 border border-gray-300 rounded-md w-full;
         }
+        .highlight-input {
+             @apply border-black border-2 rounded-md shadow-inner focus:ring-2 focus:ring-yellow-400;
+        }
+        /* Custom Number Input Styles */
+        .number-input-wrapper {
+            @apply flex items-center;
+        }
+        .number-input {
+            -moz-appearance: textfield;
+            @apply w-12 h-8 text-center border-t-2 border-b-2 border-black focus:outline-none focus:ring-0 font-bold;
+        }
+        .number-input::-webkit-inner-spin-button,
+        .number-input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .stepper-btn {
+            @apply bg-gray-200 w-8 h-8 flex items-center justify-center font-extrabold text-lg text-gray-700 hover:bg-gray-300 transition-colors duration-200 border-2 border-black;
+        }
+        .stepper-btn.minus {
+            @apply rounded-l-md border-r-0;
+        }
+        .stepper-btn.plus {
+            @apply rounded-r-md border-l-0;
+        }
+
         /* Print-specific styles */
         @media print {
             .no-print {
@@ -54,550 +80,649 @@
 </head>
 <body class="text-gray-800">
 
-    <div class="container mx-auto p-4 md:p-8">
-        
-        <!-- Editable Header -->
-        <header class="bg-white p-6 rounded-xl shadow-md mb-8 no-print">
-            <div class="grid md:grid-cols-2 gap-6">
-                <div>
-                    <h1 class="text-2xl md:text-3xl font-bold text-gray-800">崴浤科技股份有限公司</h1>
-                    <p class="text-gray-500 text-sm">網站設計 & SEO 優化方案</p>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex items-center gap-4">
-                        <label for="project-manager-name" class="text-sm font-medium text-gray-700 w-20 flex-shrink-0 text-right">客戶經理</label>
-                        <input type="text" id="project-manager-name" value="" placeholder="專案人員姓名" class="form-input text-sm">
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <label for="project-manager-phone" class="text-sm font-medium text-gray-700 w-20 flex-shrink-0 text-right">聯絡方式</label>
-                        <input type="text" id="project-manager-phone" value="" placeholder="專案人員電話" class="form-input text-sm">
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <label for="project-manager-email" class="text-sm font-medium text-gray-700 w-20 flex-shrink-0 text-right">Email</label>
-                        <input type="email" id="project-manager-email" value="" placeholder="專案人員Email" class="form-input text-sm">
-                    </div>
-                </div>
-            </div>
-        </header>
-        
-        <!-- Customer Info Form -->
-        <div id="customer-info-form" class="bg-white p-6 rounded-xl shadow-md mb-8 no-print">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold text-gray-800">客戶資料 (列印用)</h3>
-                <button id="clear-customer-info" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 text-sm">
-                    <i class="fas fa-user-times mr-1"></i>清空客戶資料
-                </button>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <input type="text" id="cust-quote-num" placeholder="報價單號" class="form-input bg-gray-100" readonly>
-                <input type="date" id="cust-date" class="form-input bg-gray-100" readonly>
-                <input type="text" id="cust-name" placeholder="公司名稱" class="form-input">
-                <input type="text" id="cust-contact" placeholder="聯絡人" class="form-input">
-                <input type="text" id="cust-tel" placeholder="電話" class="form-input">
-                <input type="text" id="cust-email" placeholder="Email" class="form-input">
-                <input type="text" id="cust-tax-id" placeholder="統一編號" class="form-input">
-                <input type="text" id="cust-address" placeholder="地址" class="form-input">
-            </div>
+    <!-- Password Modal -->
+    <div id="password-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-sm">
+            <h2 class="text-2xl font-bold mb-4 text-center">請輸入密碼</h2>
+            <form id="password-form">
+                <input type="password" id="password-input" class="form-input w-full mb-4" placeholder="Password">
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">登入</button>
+                <p id="password-error" class="text-red-500 text-sm mt-2 text-center hidden">密碼錯誤，請重試。</p>
+            </form>
         </div>
+    </div>
 
-
-        <div class="flex flex-col lg:flex-row gap-8">
-            <!-- Main Content -->
-            <main class="w-full lg:w-2/3">
-                <nav class="bg-white rounded-t-xl shadow-md no-print">
-                    <div class="flex border-b border-gray-200 overflow-x-auto no-scrollbar">
-                        <a href="#" class="nav-link active text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="website-design">網站設計</a>
-                        <a href="#" class="nav-link text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="seo-marketing">SEO 行銷</a>
-                        <a href="#" class="nav-link text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="premium-package">頂級方案</a>
-                        <a href="#" class="nav-link text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="additional-services">加購服務</a>
+    <div id="app-container" class="hidden">
+        <div class="container mx-auto p-4 md:p-8">
+            
+            <!-- Editable Header -->
+            <header class="bg-white p-6 rounded-xl shadow-md mb-8 no-print">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-gray-800">崴浤科技股份有限公司</h1>
+                        <p class="text-gray-500 text-sm">網站設計 & SEO 優化方案</p>
                     </div>
-                </nav>
-
-                <div class="bg-white p-6 rounded-b-xl shadow-md no-print">
-                    
-                    <!-- Website Design Tab -->
-                    <div id="website-design" class="tab-content space-y-6">
-                        
-                        <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300">
-                            <div class="flex items-start justify-between">
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-bold text-blue-700">專案設計</h3>
-                                    <p class="text-gray-500 mt-1">打造獨一無二的高質感品牌網站，提供全方位規劃服務。</p>
-                                </div>
-                                <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-blue-600 focus:ring-blue-500 cursor-pointer ml-4" 
-                                       data-name="專案設計" data-price="398000">
-                            </div>
-                            <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
-                                <li><b>專案經理輔助：</b>搭配專案經理輔助專案執行 (視訊溝通+3次外訪)</li>
-                                <li><b>專案流程規劃：</b>專案流程及設計時程規劃／設計及修改進度跟催／資料準備清單</li>
-                                <li><b>客製設計：</b>客製首頁提版設計1款，首頁每區塊設計師提出流行素材案例</li>
-                                <li><b>動態首頁：</b>動態全景式首頁（首頁Banner＊3、內頁Banner＊1）</li>
-                                <li><b>頁面設計：</b>首頁"五大主題"區域設計 + 內頁主選項頁面設計"5頁"</li>
-                                <li><b>商用圖庫：</b>123RF / iStock 圖庫 20 張（限網頁設計使用版權商用圖庫）</li>
-                                <li><b>技術規格：</b>全站 RWD 響應式網頁，語言版本：中文＆英文</li>
-                            </ul>
-                            <div class="mt-4 flex justify-end items-baseline gap-6">
-                               <p class="text-gray-800">首年: <span class="font-bold text-2xl text-blue-600">NT$ 398,000</span></p>
-                            </div>
-                            <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-2">
-                                        <input type="checkbox" id="renewal-check-1" class="renewal-checkbox h-5 w-5 rounded border-gray-400 text-blue-600 focus:ring-blue-500 cursor-pointer" 
-                                               data-renewal-price="48000" data-name="專案設計 - 續約">
-                                        <label for="renewal-check-1" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
-                                    </div>
-                                    <span class="font-semibold text-lg text-gray-600">NT$ 48,000 /年</span>
-                                </div>
-                                <div class="grid grid-cols-1 gap-4 pl-7">
-                                    <div>
-                                        <label for="renewal-years-1" class="text-sm text-gray-600">續約年份</label>
-                                        <input type="number" id="renewal-years-1" value="1" min="1" class="renewal-years form-input">
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-4">
+                            <label for="project-manager-name" class="text-sm font-medium text-gray-700 w-20 flex-shrink-0 text-right">客戶經理</label>
+                            <input type="text" id="project-manager-name" value="" placeholder="專案人員姓名" class="form-input text-sm">
                         </div>
-
-                        <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300">
-                            <div class="flex items-start justify-between">
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-bold text-green-700">基礎形象客製設計</h3>
-                                    <p class="text-gray-500 mt-1">適合需要建立專業形象，並具備高度彈性的企業。</p>
-                                </div>
-                                <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-green-600 focus:ring-green-500 cursor-pointer ml-4" 
-                                       data-name="基礎形象客製設計" data-price="200000">
-                            </div>
-                            <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
-                                <li><b>客製提版：</b>企業網站客製平面提版，首頁"三大主題"區塊設計</li>
-                                <li><b>頁面設計：</b>內頁頁面設計"2頁"</li>
-                                <li><b>靜態首頁：</b>靜態全景式首頁（首頁Banner＊2、內頁Banner＊1）</li>
-                                <li><b>商用圖庫：</b>123RF / iStock 版權圖庫 10 張（限網頁設計用版權商用圖庫）</li>
-                                <li><b>技術規格：</b>全站 RWD 響應式網頁，語言版本：中文＆英文</li>
-                            </ul>
-                            <div class="mt-4 flex justify-end items-baseline gap-6">
-                               <p class="text-gray-800">首年: <span class="font-bold text-2xl text-green-600">NT$ 200,000</span></p>
-                            </div>
-                             <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-2">
-                                        <input type="checkbox" id="renewal-check-2" class="renewal-checkbox h-5 w-5 rounded border-gray-400 text-green-600 focus:ring-green-500 cursor-pointer" 
-                                               data-renewal-price="20000" data-name="基礎形象客製設計 - 續約">
-                                        <label for="renewal-check-2" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
-                                    </div>
-                                    <span class="font-semibold text-lg text-gray-600">NT$ 20,000 /年</span>
-                                </div>
-                                <div class="grid grid-cols-1 gap-4 pl-7">
-                                    <div>
-                                        <label for="renewal-years-2" class="text-sm text-gray-600">續約年份</label>
-                                        <input type="number" id="renewal-years-2" value="1" min="1" class="renewal-years form-input">
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="flex items-center gap-4">
+                            <label for="project-manager-phone" class="text-sm font-medium text-gray-700 w-20 flex-shrink-0 text-right">聯絡方式</label>
+                            <input type="text" id="project-manager-phone" value="" placeholder="專案人員電話" class="form-input text-sm">
                         </div>
-
-                        <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300">
-                            <div class="flex items-start justify-between">
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-bold text-purple-700">Winshop 新公版</h3>
-                                    <p class="text-gray-500 mt-1">更具彈性的模組化公版，自由組合出 125 種獨特樣式。</p>
-                                </div>
-                                <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-purple-600 focus:ring-purple-500 cursor-pointer ml-4" 
-                                       data-name="Winshop新公版" data-price="128000">
-                            </div>
-                            <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
-                                <li><b>Banner設計：</b>首頁Banner＊2、內頁Banner＊1</li>
-                                <li><b>背景設計：</b>首頁區塊背景設計（公司簡介圖片＆背景圖、產品背景圖、最新消息背景圖）</li>
-                                <li><b>模組化版型：</b>首頁版型-開發版型模組選擇：公司簡介、產品介紹、最新消息</li>
-                                <li><b>內頁版型：</b>內頁版型-開發版型模組選擇：產品介紹、聯絡我們</li>
-                                <li><b>彈性組合：</b>每個模組提供5種選擇，可組合為125種樣式</li>
-                                <li><b>商用圖庫：</b>123RF / iStock圖庫10張（限網頁設計使用版權商用圖庫）</li>
-                            </ul>
-                            <div class="mt-4 flex justify-end items-baseline gap-6">
-                               <p class="text-gray-800">首年: <span class="font-bold text-2xl text-purple-600">NT$ 128,000</span></p>
-                            </div>
-                            <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-2">
-                                        <input type="checkbox" id="renewal-check-3" class="renewal-checkbox h-5 w-5 rounded border-gray-400 text-purple-600 focus:ring-purple-500 cursor-pointer" 
-                                               data-renewal-price="20000" data-name="Winshop 新公版 - 續約">
-                                        <label for="renewal-check-3" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
-                                    </div>
-                                    <span class="font-semibold text-lg text-gray-600">NT$ 20,000 /年</span>
-                                </div>
-                                <div class="grid grid-cols-1 gap-4 pl-7">
-                                    <div>
-                                        <label for="renewal-years-3" class="text-sm text-gray-600">續約年份</label>
-                                        <input type="number" id="renewal-years-3" value="1" min="1" class="renewal-years form-input">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- SEO Marketing Tab -->
-                    <div id="seo-marketing" class="tab-content hidden space-y-6">
-                        
-                        <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-group="seo-cross-border">
-                            <div class="flex items-start justify-between">
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-bold text-red-700">跨國 SEO 行銷優化服務</h3>
-                                    <p class="text-gray-500 mt-1">拓展全球業務，讓世界看見您的品牌。</p>
-                                </div>
-                                <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-red-600 focus:ring-red-500 cursor-pointer ml-4" 
-                                       data-name="跨國SEO行銷優化服務" data-price="300000">
-                            </div>
-                            <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
-                                <li><b>優化目標：</b>Google.com 搜尋引擎優化（英文）+ Google.com.tw 搜尋引擎優化（中文）</li>
-                                <li><b>關鍵字：</b>可同時優化中文+英文關鍵字，合計優化 20 組關鍵字</li>
-                                <li><b>關鍵字規劃：</b>關鍵字分析、評估、挑選，20組連結頁面重點優化</li>
-                                <li><b>技術優化：</b>結構化／多國語系／網址／sitemap／Robots等</li>
-                                <li><b>內容優化：</b>META／ALT／H標籤／文案／內容優化調整建議／社群等</li>
-                                <li><b>全球主機：</b>五大洲多節點智能主機（外銷升級），提升國際使用者體驗</li>
-                                <li><b>成效追蹤：</b>每月提供關鍵字排名報表，串接 GA4、GSC 數據分析工具</li>
-                            </ul>
-                            <div class="mt-4 flex justify-end items-baseline gap-6">
-                               <p class="text-gray-800">首年: <span class="font-bold text-2xl text-red-600">NT$ 300,000</span></p>
-                            </div>
-                            <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-2">
-                                        <input type="checkbox" id="renewal-check-4" class="renewal-checkbox h-5 w-5 rounded border-gray-400 text-red-600 focus:ring-red-500 cursor-pointer" 
-                                               data-renewal-price="250000" data-name="跨國 SEO - 續約">
-                                        <label for="renewal-check-4" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
-                                    </div>
-                                    <span class="font-semibold text-lg text-gray-600">NT$ 250,000 /年</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4 pl-7">
-                                    <div>
-                                        <label for="renewal-years-4" class="text-sm text-gray-600">續約年份</label>
-                                        <input type="number" id="renewal-years-4" value="1" min="1" class="renewal-years form-input">
-                                    </div>
-                                    <div>
-                                        <label for="renewal-discount-4" class="text-sm text-gray-600">折扣 (例: 0.85)</label>
-                                        <input type="number" id="renewal-discount-4" value="1" step="0.01" min="0" class="renewal-discount form-input">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-group="seo-chinese">
-                            <div class="flex items-start justify-between">
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-bold text-teal-700">中文 SEO 行銷優化服務</h3>
-                                    <p class="text-gray-500 mt-1">深耕在地市場，精準觸及台灣客戶。</p>
-                                </div>
-                                <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-teal-600 focus:ring-teal-500 cursor-pointer ml-4" 
-                                       data-name="中文SEO行銷優化服務" data-price="250000">
-                            </div>
-                            <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
-                                <li><b>優化目標：</b>Google.com.tw 搜尋引擎優化</li>
-                                <li><b>關鍵字：</b>可優化中文關鍵字合計共 20 組</li>
-                                <li><b>關鍵字規劃：</b>關鍵字分析、評估、挑選，20組連結頁面重點優化</li>
-                                <li><b>技術優化：</b>結構化／多國語系／網址／sitemap／Robots等</li>
-                                <li><b>內容優化：</b>META／ALT／H標籤／文案／內容優化調整建議／社群等</li>
-                                <li><b>在地化提交：</b>提交至 Google（桌機、手機版）、BING 搜尋引擎</li>
-                                <li><b>成效追蹤：</b>每月提供關鍵字排名報表，串接 GA4、GSC 數據分析工具</li>
-                            </ul>
-                            <div class="mt-4 flex justify-end items-baseline gap-6">
-                               <p class="text-gray-800">首年: <span class="font-bold text-2xl text-teal-600">NT$ 250,000</span></p>
-                            </div>
-                             <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-2">
-                                        <input type="checkbox" id="renewal-check-5" class="renewal-checkbox h-5 w-5 rounded border-gray-400 text-teal-600 focus:ring-teal-500 cursor-pointer" 
-                                               data-renewal-price="200000" data-name="中文 SEO - 續約">
-                                        <label for="renewal-check-5" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
-                                    </div>
-                                    <span class="font-semibold text-lg text-gray-600">NT$ 200,000 /年</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4 pl-7">
-                                    <div>
-                                        <label for="renewal-years-5" class="text-sm text-gray-600">續約年份</label>
-                                        <input type="number" id="renewal-years-5" value="1" min="1" class="renewal-years form-input">
-                                    </div>
-                                    <div>
-                                        <label for="renewal-discount-5" class="text-sm text-gray-600">折扣 (例: 0.85)</label>
-                                        <input type="number" id="renewal-discount-5" value="1" step="0.01" min="0" class="renewal-discount form-input">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Premium Package Tab -->
-                    <div id="premium-package" class="tab-content hidden space-y-6">
-                        
-                        <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-group="premium-chinese">
-                            <div class="flex items-start justify-between">
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-bold text-orange-700">專案行銷頂級方案 (中文SEO)</h3>
-                                    <p class="text-gray-500 mt-1">專案設計+中文SEO頂級整合方案，加量不加價。</p>
-                                </div>
-                                <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-orange-600 focus:ring-orange-500 cursor-pointer ml-4" 
-                                       data-name="專案行銷頂級方案(中文SEO)" data-price="700000">
-                            </div>
-                            <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
-                                <li><b>Winshop系統：</b>Winshop 系統核心，語系開版1款</li>
-                                <li><b>視覺設計：</b>首頁視覺風格設計2款（電腦版、手機版），3張首頁橫幅廣告banner設計</li>
-                                <li><b>頁面設計：</b>內頁設計7頁（每頁最多5區塊，含banner橫幅）</li>
-                                <li><b>ESG功能：</b>ESG 訊息管理功能，設計切版1頁主頁、1頁內容</li>
-                                <li><b>內容撰寫：</b>部落格文案3篇</li>
-                                <li><b>手機版設計：</b>手機版選單設計一式</li>
-                                <li><b>動態特效：</b>首頁、內頁基礎動態特效</li>
-                                <li><b>專案服務：</b>專案、設計師一起執行視覺設計規劃，全方位專案追蹤服務</li>
-                                <li><b>SEO升級：</b>中文關鍵字30組（比一般方案多10組）</li>
-                            </ul>
-                            <div class="mt-4 flex justify-end items-baseline gap-6">
-                               <p class="text-gray-800">首年: <span class="font-bold text-2xl text-orange-600">NT$ 700,000</span></p>
-                            </div>
-                            <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-2">
-                                        <input type="checkbox" id="renewal-check-6" class="renewal-checkbox h-5 w-5 rounded border-gray-400 text-orange-600 focus:ring-orange-500 cursor-pointer" 
-                                               data-renewal-price="248000" data-name="專案行銷頂級方案(中文SEO) - 續約">
-                                        <label for="renewal-check-6" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
-                                    </div>
-                                    <span class="font-semibold text-lg text-gray-600">NT$ 248,000 /年</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4 pl-7">
-                                    <div>
-                                        <label for="renewal-years-6" class="text-sm text-gray-600">續約年份</label>
-                                        <input type="number" id="renewal-years-6" value="1" min="1" class="renewal-years form-input">
-                                    </div>
-                                    <div>
-                                        <label for="renewal-discount-6" class="text-sm text-gray-600">折扣 (例: 0.85)</label>
-                                        <input type="number" id="renewal-discount-6" value="1" step="0.01" min="0" class="renewal-discount form-input">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-group="premium-english">
-                            <div class="flex items-start justify-between">
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-bold text-indigo-700">專案行銷頂級方案 (英文SEO)</h3>
-                                    <p class="text-gray-500 mt-1">專案設計+英文SEO頂級整合方案，拓展國際市場。</p>
-                                </div>
-                                <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-indigo-600 focus:ring-indigo-500 cursor-pointer ml-4" 
-                                       data-name="專案行銷頂級方案(英文SEO)" data-price="750000">
-                            </div>
-                            <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
-                                <li><b>Winshop系統：</b>Winshop 系統核心，語系開版1款</li>
-                                <li><b>視覺設計：</b>首頁視覺風格設計2款（電腦版、手機版），3張首頁橫幅廣告banner設計</li>
-                                <li><b>頁面設計：</b>內頁設計7頁（每頁最多5區塊，含banner橫幅）</li>
-                                <li><b>ESG功能：</b>ESG 訊息管理功能，設計切版1頁主頁、1頁內容</li>
-                                <li><b>內容撰寫：</b>部落格文案3篇</li>
-                                <li><b>手機版設計：</b>手機版選單設計一式</li>
-                                <li><b>動態特效：</b>首頁、內頁基礎動態特效</li>
-                                <li><b>專案服務：</b>專案、設計師一起執行視覺設計規劃，全方位專案追蹤服務</li>
-                                <li><b>SEO升級：</b>英文關鍵字30組（比一般方案多10組）</li>
-                            </ul>
-                            <div class="mt-4 flex justify-end items-baseline gap-6">
-                               <p class="text-gray-800">首年: <span class="font-bold text-2xl text-indigo-600">NT$ 750,000</span></p>
-                            </div>
-                             <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-2">
-                                        <input type="checkbox" id="renewal-check-7" class="renewal-checkbox h-5 w-5 rounded border-gray-400 text-indigo-600 focus:ring-indigo-500 cursor-pointer" 
-                                               data-renewal-price="268000" data-name="專案行銷頂級方案(英文SEO) - 續約">
-                                        <label for="renewal-check-7" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
-                                    </div>
-                                    <span class="font-semibold text-lg text-gray-600">NT$ 268,000 /年</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4 pl-7">
-                                    <div>
-                                        <label for="renewal-years-7" class="text-sm text-gray-600">續約年份</label>
-                                        <input type="number" id="renewal-years-7" value="1" min="1" class="renewal-years form-input">
-                                    </div>
-                                    <div>
-                                        <label for="renewal-discount-7" class="text-sm text-gray-600">折扣 (例: 0.85)</label>
-                                        <input type="number" id="renewal-discount-7" value="1" step="0.01" min="0" class="renewal-discount form-input">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Additional Services Tab -->
-                    <div id="additional-services" class="tab-content hidden space-y-6">
-                        
-                        <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300">
-                            <div class="flex items-start justify-between">
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-bold text-gray-700">HTTPS 安全加密</h3>
-                                    <p class="text-gray-500 mt-1">提供網站安全加密服務，提升網站安全等級。</p>
-                                </div>
-                                <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-gray-600 focus:ring-gray-500 cursor-pointer ml-4" 
-                                       data-name="HTTPS安全加密" data-price="6200" data-renewal="0">
-                            </div>
-                            <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
-                                <li><b>SSL憑證：</b>HTTPS 加密主機（SSL 憑證）</li>
-                                <li><b>最新技術：</b>最新升級 HTTP/3</li>
-                                <li><b>安全等級：</b>提升 HSTS 加密技術，系統安全 A+</li>
-                                <li><b>多語系：</b>其本語系：中、英、簡</li>
-                            </ul>
-                            <div class="mt-4 flex justify-end items-baseline gap-6">
-                               <p class="text-gray-500">一次性費用</p>
-                               <p class="text-gray-800">費用: <span class="font-bold text-2xl text-gray-600">NT$ 6,200</span> <span class="text-sm text-green-600">(3年約贈送)</span></p>
-                            </div>
-                        </div>
-
-                        <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300">
-                            <div class="flex items-start justify-between">
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-bold text-cyan-700">投資人專區</h3>
-                                    <p class="text-gray-500 mt-1">符合上市櫃公司投資人專區需求的專業模組。</p>
-                                </div>
-                                <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-cyan-600 focus:ring-cyan-500 cursor-pointer ml-4" 
-                                       data-name="投資人專區" data-price="40000" data-renewal="0">
-                            </div>
-                            <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
-                                <li><b>專業功能：</b>符合 80%上市櫃公司投資人專區需求</li>
-                                <li><b>搜尋設定：</b>搜尋設定、自訂表格設定等模組功能</li>
-                                <li><b>參考案例：</b>惠特科技 6706</li>
-                            </ul>
-                            <div class="mt-4 flex justify-end items-baseline gap-6">
-                               <p class="text-gray-500">一次性費用</p>
-                               <p class="text-gray-800">費用: <span class="font-bold text-2xl text-cyan-600">NT$ 40,000</span></p>
-                            </div>
-                        </div>
-
-                        <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300">
-                            <div class="flex items-start justify-between">
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-bold text-pink-700">內頁設計</h3>
-                                    <p class="text-gray-500 mt-1">單一頁面風格提版設計服務。</p>
-                                    <div class="mt-2">
-                                        <label class="text-sm text-gray-600">頁數：</label>
-                                        <input type="number" min="1" max="20" value="1" 
-                                               class="inner-page-count w-16 ml-2 px-2 py-1 border border-gray-300 rounded text-center"
-                                               data-base-price="20000">
-                                    </div>
-                                </div>
-                                <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-pink-600 focus:ring-pink-500 cursor-pointer ml-4" 
-                                       data-name="內頁設計" data-price="20000" data-renewal="0">
-                            </div>
-                            <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
-                                <li><b>風格提版：</b>單一頁面（內頁）風格提版（不含Banner設計）</li>
-                                <li><b>文案效果：</b>僅編輯器內的文案效果，不抓取其他程式及動態效果</li>
-                                <li><b>語系費用：</b>僅收單一語系費用，其他語系套用無需額外費用</li>
-                                <li><b>響應式：</b>Layout 切版/RWD 響應式網頁效果</li>
-                            </ul>
-                            <div class="mt-4 flex justify-end items-baseline gap-6">
-                               <p class="text-gray-500">一次性費用</p>
-                               <p class="text-gray-800">費用: <span class="font-bold text-2xl text-pink-600 inner-page-total">NT$ 20,000</span> /頁</p>
-                            </div>
-                        </div>
-
-                        <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300">
-                            <div class="flex items-start justify-between">
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-bold text-emerald-700">新增語系</h3>
-                                    <p class="text-gray-500 mt-1">為網站新增其他語言版本。</p>
-                                    <div class="mt-2 space-y-2">
-                                        <div>
-                                            <label class="text-sm text-gray-600">一般語系數量：</label>
-                                            <input type="number" min="0" max="10" value="0" 
-                                                   class="language-count w-16 ml-2 px-2 py-1 border border-gray-300 rounded text-center"
-                                                   data-price="8000">
-                                        </div>
-                                        <div>
-                                            <label class="text-sm text-gray-600">特殊語系數量：</label>
-                                            <input type="number" min="0" max="10" value="0" 
-                                                   class="special-language-count w-16 ml-2 px-2 py-1 border border-gray-300 rounded text-center"
-                                                   data-price="10000">
-                                        </div>
-                                    </div>
-                                </div>
-                                <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-emerald-600 focus:ring-emerald-500 cursor-pointer ml-4" 
-                                       data-name="新增語系" data-price="8000" data-renewal="0">
-                            </div>
-                            <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
-                                <li><b>一般語系：</b>網站建置每新增一語系 NT$ 8,000</li>
-                                <li><b>特殊語系：</b>如阿拉伯文（右至左排版）每語系 NT$ 10,000</li>
-                            </ul>
-                            <div class="mt-4 flex justify-end items-baseline gap-6">
-                               <p class="text-gray-500">一次性費用</p>
-                               <p class="text-gray-800 language-cost-p hidden">費用: <span class="font-bold text-2xl text-emerald-600 language-total">NT$ 0</span></p>
-                            </div>
-                        </div>
-
-                        <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300">
-                            <div class="flex items-start justify-between">
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-bold text-violet-700">部落格文案撰寫</h3>
-                                    <p class="text-gray-500 mt-1">專業文案撰寫服務，提升網站內容品質。</p>
-                                    <div class="mt-2 space-y-2">
-                                        <div>
-                                            <label class="text-sm text-gray-600">中文文案篇數：</label>
-                                            <input type="number" min="0" max="50" value="0" 
-                                                   class="chinese-blog-count w-16 ml-2 px-2 py-1 border border-gray-300 rounded text-center"
-                                                   data-price="15000">
-                                        </div>
-                                        <div>
-                                            <label class="text-sm text-gray-600">英文文案篇數：</label>
-                                            <input type="number" min="0" max="50" value="0" 
-                                                   class="english-blog-count w-16 ml-2 px-2 py-1 border border-gray-300 rounded text-center"
-                                                   data-price="15000">
-                                        </div>
-                                    </div>
-                                </div>
-                                <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-violet-600 focus:ring-violet-500 cursor-pointer ml-4" 
-                                       data-name="部落格文案撰寫" data-price="15000" data-renewal="0">
-                            </div>
-                            <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
-                                <li><b>中文文案：</b>中文 1200 字文案撰寫 NT$ 15,000/篇</li>
-                                <li><b>英文文案：</b>英文 1200 字文案撰寫 NT$ 15,000/篇</li>
-                            </ul>
-                            <div class="mt-4 flex justify-end items-baseline gap-6">
-                               <p class="text-gray-500">一次性費用</p>
-                               <p class="text-gray-800 blog-cost-p hidden">費用: <span class="font-bold text-2xl text-violet-600 blog-total">NT$ 0</span></p>
-                            </div>
+                        <div class="flex items-center gap-4">
+                            <label for="project-manager-email" class="text-sm font-medium text-gray-700 w-20 flex-shrink-0 text-right">Email</label>
+                            <input type="email" id="project-manager-email" value="" placeholder="專案人員Email" class="form-input text-sm">
                         </div>
                     </div>
                 </div>
-            </main>
-
-            <!-- Sidebar / Quote Summary -->
-            <aside class="w-full lg:w-1/3 no-print">
-                 <div class="bg-white rounded-xl shadow-md sticky top-8">
-                    <div class="p-6 border-b border-gray-200">
-                        <h3 class="text-xl font-bold flex items-center gap-3">
-                            <i class="fas fa-file-invoice-dollar text-blue-500"></i>報價單預覽
-                        </h3>
-                        <div class="mt-4 grid grid-cols-2 gap-2">
-                            <button id="clear-quote" class="w-full bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200">
-                                <i class="fas fa-trash-alt mr-2"></i>清空報價
-                            </button>
-                            <button id="print-quote" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                                <i class="fas fa-print mr-2"></i>列印報價單
-                            </button>
-                        </div>
-                    </div>
-                    <div id="quote-summary" class="p-6 space-y-3 min-h-[200px]">
-                       <p id="empty-quote" class="text-center text-gray-500 pt-12">尚未選擇任何服務項目。</p>
-                    </div>
-                    <div class="p-6 bg-gray-50 rounded-b-xl">
-                        <div class="space-y-2 mb-4">
-                             <div class="flex justify-between items-center text-gray-600">
-                                <span>平均每月金額</span>
-                                <span id="monthly-average" class="font-semibold text-lg">NT$ 0</span>
-                            </div>
-                        </div>
-                        <div class="border-t border-gray-200 pt-4">
-                             <div class="flex justify-between items-center">
-                                <span class="text-lg font-bold">總計 (未稅)</span>
-                                <span id="grand-total" class="font-bold text-2xl text-blue-600">NT$ 0</span>
-                            </div>
-                        </div>
-                    </div>
+            </header>
+            
+            <!-- Customer Info Form -->
+            <div id="customer-info-form" class="bg-white p-6 rounded-xl shadow-md mb-8 no-print">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">客戶資料 (列印用)</h3>
+                    <button id="clear-customer-info" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 text-sm">
+                        <i class="fas fa-user-times mr-1"></i>清空客戶資料
+                    </button>
                 </div>
-            </aside>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <input type="text" id="cust-quote-num" placeholder="報價單號" class="form-input bg-gray-100" readonly>
+                    <input type="date" id="cust-date" class="form-input bg-gray-100" readonly>
+                    <input type="text" id="cust-name" placeholder="公司名稱" class="form-input">
+                    <input type="text" id="cust-contact" placeholder="聯絡人" class="form-input">
+                    <input type="text" id="cust-tel" placeholder="電話" class="form-input">
+                    <input type="text" id="cust-email" placeholder="Email" class="form-input">
+                    <input type="text" id="cust-tax-id" placeholder="統一編號" class="form-input">
+                    <input type="text" id="cust-address" placeholder="地址" class="form-input">
+                </div>
+            </div>
+
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Main Content -->
+                <main class="w-full lg:w-2/3">
+                    <nav class="bg-white rounded-t-xl shadow-md no-print">
+                        <div class="flex border-b border-gray-200 overflow-x-auto no-scrollbar">
+                            <a href="#" class="nav-link active text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="website-design">網站設計</a>
+                            <a href="#" class="nav-link text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="seo-marketing">SEO 行銷</a>
+                            <a href="#" class="nav-link text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="premium-package">頂級方案</a>
+                            <a href="#" class="nav-link text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="additional-services">加購服務</a>
+                            <a href="#" class="nav-link text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="price-settings">價格調整</a>
+                        </div>
+                    </nav>
+
+                    <div class="bg-white p-6 rounded-b-xl shadow-md no-print">
+                        
+                        <!-- Website Design Tab -->
+                        <div id="website-design" class="tab-content space-y-6">
+                            
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="project-design">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-bold text-blue-700">專案設計</h3>
+                                        <p class="text-gray-500 mt-1">打造獨一無二的高質感品牌網站，提供全方位規劃服務。</p>
+                                    </div>
+                                    <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-blue-600 focus:ring-blue-500 cursor-pointer ml-4" 
+                                           data-name="專案設計" data-price="398000">
+                                </div>
+                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                    <li><b>專案經理輔助：</b>搭配專案經理輔助專案執行 (視訊溝通+3次外訪)</li>
+                                    <li><b>專案流程規劃：</b>專案流程及設計時程規劃／設計及修改進度跟催／資料準備清單</li>
+                                    <li><b>客製設計：</b>客製首頁提版設計1款，首頁每區塊設計師提出流行素材案例</li>
+                                    <li><b>動態首頁：</b>動態全景式首頁（首頁Banner＊3、內頁Banner＊1）</li>
+                                    <li><b>頁面設計：</b>首頁"五大主題"區域設計 + 內頁主選項頁面設計"5頁"</li>
+                                    <li><b>商用圖庫：</b>123RF / iStock 圖庫 20 張（限網頁設計使用版權商用圖庫）</li>
+                                    <li><b>技術規格：</b>全站 RWD 響應式網頁，語言版本：中文＆英文</li>
+                                </ul>
+                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                   <p class="text-gray-800">首年: <span class="font-bold text-2xl text-blue-600 price-display" data-price-id="project-design">NT$ 398,000</span></p>
+                                </div>
+                                <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" id="renewal-check-1" class="renewal-checkbox h-5 w-5 rounded border-gray-400 text-blue-600 focus:ring-blue-500 cursor-pointer" 
+                                                   data-renewal-price="48000" data-name="專案設計 - 續約">
+                                            <label for="renewal-check-1" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
+                                        </div>
+                                        <span class="font-semibold text-lg text-gray-600 renewal-price-display" data-renewal-price-id="project-design">NT$ 48,000 /年</span>
+                                    </div>
+                                    <div class="grid grid-cols-1 gap-4 pl-7">
+                                        <div>
+                                            <label for="renewal-years-1" class="text-sm text-gray-600">續約年份</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus">-</button>
+                                                <input type="number" id="renewal-years-1" value="1" min="1" class="renewal-years number-input">
+                                                <button type="button" class="stepper-btn plus">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="basic-design">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-bold text-green-700">基礎形象客製設計</h3>
+                                        <p class="text-gray-500 mt-1">適合需要建立專業形象，並具備高度彈性的企業。</p>
+                                    </div>
+                                    <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-green-600 focus:ring-green-500 cursor-pointer ml-4" 
+                                           data-name="基礎形象客製設計" data-price="200000">
+                                </div>
+                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                    <li><b>客製提版：</b>企業網站客製平面提版，首頁"三大主題"區塊設計</li>
+                                    <li><b>頁面設計：</b>內頁頁面設計"2頁"</li>
+                                    <li><b>靜態首頁：</b>靜態全景式首頁（首頁Banner＊2、內頁Banner＊1）</li>
+                                    <li><b>商用圖庫：</b>123RF / iStock 版權圖庫 10 張（限網頁設計用版權商用圖庫）</li>
+                                    <li><b>技術規格：</b>全站 RWD 響應式網頁，語言版本：中文＆英文</li>
+                                </ul>
+                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                   <p class="text-gray-800">首年: <span class="font-bold text-2xl text-green-600 price-display" data-price-id="basic-design">NT$ 200,000</span></p>
+                                </div>
+                                 <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" id="renewal-check-2" class="renewal-checkbox h-5 w-5 rounded border-gray-400 text-green-600 focus:ring-green-500 cursor-pointer" 
+                                                   data-renewal-price="20000" data-name="基礎形象客製設計 - 續約">
+                                            <label for="renewal-check-2" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
+                                        </div>
+                                        <span class="font-semibold text-lg text-gray-600 renewal-price-display" data-renewal-price-id="basic-design">NT$ 20,000 /年</span>
+                                    </div>
+                                    <div class="grid grid-cols-1 gap-4 pl-7">
+                                        <div>
+                                            <label for="renewal-years-2" class="text-sm text-gray-600">續約年份</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus">-</button>
+                                                <input type="number" id="renewal-years-2" value="1" min="1" class="renewal-years number-input">
+                                                <button type="button" class="stepper-btn plus">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="winshop-template">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-bold text-purple-700">Winshop 新公版</h3>
+                                        <p class="text-gray-500 mt-1">更具彈性的模組化公版，自由組合出 125 種獨特樣式。</p>
+                                    </div>
+                                    <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-purple-600 focus:ring-purple-500 cursor-pointer ml-4" 
+                                           data-name="Winshop新公版" data-price="128000">
+                                </div>
+                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                    <li><b>Banner設計：</b>首頁Banner＊2、內頁Banner＊1</li>
+                                    <li><b>背景設計：</b>首頁區塊背景設計（公司簡介圖片＆背景圖、產品背景圖、最新消息背景圖）</li>
+                                    <li><b>模組化版型：</b>首頁版型-開發版型模組選擇：公司簡介、產品介紹、最新消息</li>
+                                    <li><b>內頁版型：</b>內頁版型-開發版型模組選擇：產品介紹、聯絡我們</li>
+                                    <li><b>彈性組合：</b>每個模組提供5種選擇，可組合為125種樣式</li>
+                                    <li><b>商用圖庫：</b>123RF / iStock圖庫10張（限網頁設計使用版權商用圖庫）</li>
+                                </ul>
+                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                   <p class="text-gray-800">首年: <span class="font-bold text-2xl text-purple-600 price-display" data-price-id="winshop-template">NT$ 128,000</span></p>
+                                </div>
+                                <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" id="renewal-check-3" class="renewal-checkbox h-5 w-5 rounded border-gray-400 text-purple-600 focus:ring-purple-500 cursor-pointer" 
+                                                   data-renewal-price="20000" data-name="Winshop 新公版 - 續約">
+                                            <label for="renewal-check-3" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
+                                        </div>
+                                        <span class="font-semibold text-lg text-gray-600 renewal-price-display" data-renewal-price-id="winshop-template">NT$ 20,000 /年</span>
+                                    </div>
+                                    <div class="grid grid-cols-1 gap-4 pl-7">
+                                        <div>
+                                            <label for="renewal-years-3" class="text-sm text-gray-600">續約年份</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus">-</button>
+                                                <input type="number" id="renewal-years-3" value="1" min="1" class="renewal-years number-input">
+                                                <button type="button" class="stepper-btn plus">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- SEO Marketing Tab -->
+                        <div id="seo-marketing" class="tab-content hidden space-y-6">
+                            
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="seo-cross-border" data-service-group="seo-cross-border">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-bold text-red-700">跨國 SEO 行銷優化服務</h3>
+                                        <p class="text-gray-500 mt-1">拓展全球業務，讓世界看見您的品牌。</p>
+                                    </div>
+                                    <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-red-600 focus:ring-red-500 cursor-pointer ml-4" 
+                                           data-name="跨國SEO行銷優化服務" data-price="300000">
+                                </div>
+                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                    <li><b>優化目標：</b>Google.com 搜尋引擎優化（英文）+ Google.com.tw 搜尋引擎優化（中文）</li>
+                                    <li><b>關鍵字：</b>可同時優化中文+英文關鍵字，合計優化 20 組關鍵字</li>
+                                    <li><b>關鍵字規劃：</b>關鍵字分析、評估、挑選，20組連結頁面重點優化</li>
+                                    <li><b>技術優化：</b>結構化／多國語系／網址／sitemap／Robots等</li>
+                                    <li><b>內容優化：</b>META／ALT／H標籤／文案／內容優化調整建議／社群等</li>
+                                    <li><b>全球主機：</b>五大洲多節點智能主機（外銷升級），提升國際使用者體驗</li>
+                                    <li><b>成效追蹤：</b>每月提供關鍵字排名報表，串接 GA4、GSC 數據分析工具</li>
+                                </ul>
+                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                   <p class="text-gray-800">首年: <span class="font-bold text-2xl text-red-600 price-display" data-price-id="seo-cross-border">NT$ 300,000</span></p>
+                                </div>
+                                <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" id="renewal-check-4" class="renewal-checkbox h-5 w-5 rounded border-gray-400 text-red-600 focus:ring-red-500 cursor-pointer" 
+                                                   data-renewal-price="250000" data-name="跨國 SEO - 續約">
+                                            <label for="renewal-check-4" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
+                                        </div>
+                                        <span class="font-semibold text-lg text-gray-600 renewal-price-display" data-renewal-price-id="seo-cross-border">NT$ 250,000 /年</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4 pl-7">
+                                        <div>
+                                            <label for="renewal-years-4" class="text-sm text-gray-600">續約年份</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus">-</button>
+                                                <input type="number" id="renewal-years-4" value="1" min="1" class="renewal-years number-input">
+                                                <button type="button" class="stepper-btn plus">+</button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label for="renewal-discount-4" class="text-sm text-gray-600">折扣 (例: 0.85)</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
+                                                <input type="number" id="renewal-discount-4" value="1" step="0.01" min="0" class="renewal-discount number-input">
+                                                <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="seo-chinese" data-service-group="seo-chinese">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-bold text-teal-700">中文 SEO 行銷優化服務</h3>
+                                        <p class="text-gray-500 mt-1">深耕在地市場，精準觸及台灣客戶。</p>
+                                    </div>
+                                    <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-teal-600 focus:ring-teal-500 cursor-pointer ml-4" 
+                                           data-name="中文SEO行銷優化服務" data-price="250000">
+                                </div>
+                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                    <li><b>優化目標：</b>Google.com.tw 搜尋引擎優化</li>
+                                    <li><b>關鍵字：</b>可優化中文關鍵字合計共 20 組</li>
+                                    <li><b>關鍵字規劃：</b>關鍵字分析、評估、挑選，20組連結頁面重點優化</li>
+                                    <li><b>技術優化：</b>結構化／多國語系／網址／sitemap／Robots等</li>
+                                    <li><b>內容優化：</b>META／ALT／H標籤／文案／內容優化調整建議／社群等</li>
+                                    <li><b>在地化提交：</b>提交至 Google（桌機、手機版）、BING 搜尋引擎</li>
+                                    <li><b>成效追蹤：</b>每月提供關鍵字排名報表，串接 GA4、GSC 數據分析工具</li>
+                                </ul>
+                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                   <p class="text-gray-800">首年: <span class="font-bold text-2xl text-teal-600 price-display" data-price-id="seo-chinese">NT$ 250,000</span></p>
+                                </div>
+                                 <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" id="renewal-check-5" class="renewal-checkbox h-5 w-5 rounded border-gray-400 text-teal-600 focus:ring-teal-500 cursor-pointer" 
+                                                   data-renewal-price="200000" data-name="中文 SEO - 續約">
+                                            <label for="renewal-check-5" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
+                                        </div>
+                                        <span class="font-semibold text-lg text-gray-600 renewal-price-display" data-renewal-price-id="seo-chinese">NT$ 200,000 /年</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4 pl-7">
+                                        <div>
+                                            <label for="renewal-years-5" class="text-sm text-gray-600">續約年份</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus">-</button>
+                                                <input type="number" id="renewal-years-5" value="1" min="1" class="renewal-years number-input">
+                                                <button type="button" class="stepper-btn plus">+</button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label for="renewal-discount-5" class="text-sm text-gray-600">折扣 (例: 0.85)</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
+                                                <input type="number" id="renewal-discount-5" value="1" step="0.01" min="0" class="renewal-discount number-input">
+                                                <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Premium Package Tab -->
+                        <div id="premium-package" class="tab-content hidden space-y-6">
+                            
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="premium-chinese" data-service-group="premium-chinese">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-bold text-orange-700">專案行銷頂級方案 (中文SEO)</h3>
+                                        <p class="text-gray-500 mt-1">專案設計+中文SEO頂級整合方案，加量不加價。</p>
+                                    </div>
+                                    <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-orange-600 focus:ring-orange-500 cursor-pointer ml-4" 
+                                           data-name="專案行銷頂級方案(中文SEO)" data-price="700000">
+                                </div>
+                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                    <li><b>Winshop系統：</b>Winshop 系統核心，語系開版1款</li>
+                                    <li><b>視覺設計：</b>首頁視覺風格設計2款（電腦版、手機版），3張首頁橫幅廣告banner設計</li>
+                                    <li><b>頁面設計：</b>內頁設計7頁（每頁最多5區塊，含banner橫幅）</li>
+                                    <li><b>ESG功能：</b>ESG 訊息管理功能，設計切版1頁主頁、1頁內容</li>
+                                    <li><b>內容撰寫：</b>部落格文案3篇</li>
+                                    <li><b>手機版設計：</b>手機版選單設計一式</li>
+                                    <li><b>動態特效：</b>首頁、內頁基礎動態特效</li>
+                                    <li><b>專案服務：</b>專案、設計師一起執行視覺設計規劃，全方位專案追蹤服務</li>
+                                    <li><b>SEO升級：</b>中文關鍵字30組（比一般方案多10組）</li>
+                                </ul>
+                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                   <p class="text-gray-800">首年: <span class="font-bold text-2xl text-orange-600 price-display" data-price-id="premium-chinese">NT$ 700,000</span></p>
+                                </div>
+                                <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" id="renewal-check-6" class="renewal-checkbox h-5 w-5 rounded border-gray-400 text-orange-600 focus:ring-orange-500 cursor-pointer" 
+                                                   data-renewal-price="248000" data-name="專案行銷頂級方案(中文SEO) - 續約">
+                                            <label for="renewal-check-6" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
+                                        </div>
+                                        <span class="font-semibold text-lg text-gray-600 renewal-price-display" data-renewal-price-id="premium-chinese">NT$ 248,000 /年</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4 pl-7">
+                                        <div>
+                                            <label for="renewal-years-6" class="text-sm text-gray-600">續約年份</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus">-</button>
+                                                <input type="number" id="renewal-years-6" value="1" min="1" class="renewal-years number-input">
+                                                <button type="button" class="stepper-btn plus">+</button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label for="renewal-discount-6" class="text-sm text-gray-600">折扣 (例: 0.85)</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
+                                                <input type="number" id="renewal-discount-6" value="1" step="0.01" min="0" class="renewal-discount number-input">
+                                                <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="premium-english" data-service-group="premium-english">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-bold text-indigo-700">專案行銷頂級方案 (英文SEO)</h3>
+                                        <p class="text-gray-500 mt-1">專案設計+英文SEO頂級整合方案，拓展國際市場。</p>
+                                    </div>
+                                    <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-indigo-600 focus:ring-indigo-500 cursor-pointer ml-4" 
+                                           data-name="專案行銷頂級方案(英文SEO)" data-price="750000">
+                                </div>
+                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                    <li><b>Winshop系統：</b>Winshop 系統核心，語系開版1款</li>
+                                    <li><b>視覺設計：</b>首頁視覺風格設計2款（電腦版、手機版），3張首頁橫幅廣告banner設計</li>
+                                    <li><b>頁面設計：</b>內頁設計7頁（每頁最多5區塊，含banner橫幅）</li>
+                                    <li><b>ESG功能：</b>ESG 訊息管理功能，設計切版1頁主頁、1頁內容</li>
+                                    <li><b>內容撰寫：</b>部落格文案3篇</li>
+                                    <li><b>手機版設計：</b>手機版選單設計一式</li>
+                                    <li><b>動態特效：</b>首頁、內頁基礎動態特效</li>
+                                    <li><b>專案服務：</b>專案、設計師一起執行視覺設計規劃，全方位專案追蹤服務</li>
+                                    <li><b>SEO升級：</b>英文關鍵字30組（比一般方案多10組）</li>
+                                </ul>
+                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                   <p class="text-gray-800">首年: <span class="font-bold text-2xl text-indigo-600 price-display" data-price-id="premium-english">NT$ 750,000</span></p>
+                                </div>
+                                 <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" id="renewal-check-7" class="renewal-checkbox h-5 w-5 rounded border-gray-400 text-indigo-600 focus:ring-indigo-500 cursor-pointer" 
+                                                   data-renewal-price="268000" data-name="專案行銷頂級方案(英文SEO) - 續約">
+                                            <label for="renewal-check-7" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
+                                        </div>
+                                        <span class="font-semibold text-lg text-gray-600 renewal-price-display" data-renewal-price-id="premium-english">NT$ 268,000 /年</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4 pl-7">
+                                        <div>
+                                            <label for="renewal-years-7" class="text-sm text-gray-600">續約年份</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus">-</button>
+                                                <input type="number" id="renewal-years-7" value="1" min="1" class="renewal-years number-input">
+                                                <button type="button" class="stepper-btn plus">+</button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label for="renewal-discount-7" class="text-sm text-gray-600">折扣 (例: 0.85)</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
+                                                <input type="number" id="renewal-discount-7" value="1" step="0.01" min="0" class="renewal-discount number-input">
+                                                <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Services Tab -->
+                        <div id="additional-services" class="tab-content hidden space-y-6">
+                            
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="https">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-bold text-gray-700">HTTPS 安全加密</h3>
+                                        <p class="text-gray-500 mt-1">提供網站安全加密服務，提升網站安全等級。</p>
+                                    </div>
+                                    <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-gray-600 focus:ring-gray-500 cursor-pointer ml-4" 
+                                           data-name="HTTPS安全加密" data-price="6200" data-renewal="0">
+                                </div>
+                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                    <li><b>SSL憑證：</b>HTTPS 加密主機（SSL 憑證）</li>
+                                    <li><b>最新技術：</b>最新升級 HTTP/3</li>
+                                    <li><b>安全等級：</b>提升 HSTS 加密技術，系統安全 A+</li>
+                                    <li><b>多語系：</b>其本語系：中、英、簡</li>
+                                </ul>
+                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                   <p class="text-gray-500">一次性費用</p>
+                                   <p class="text-gray-800">費用: <span class="font-bold text-2xl text-gray-600 price-display" data-price-id="https">NT$ 6,200</span> <span class="text-sm text-green-600">(3年約贈送)</span></p>
+                                </div>
+                            </div>
+
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="investor-relations">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-bold text-cyan-700">投資人專區</h3>
+                                        <p class="text-gray-500 mt-1">符合上市櫃公司投資人專區需求的專業模組。</p>
+                                    </div>
+                                    <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-cyan-600 focus:ring-cyan-500 cursor-pointer ml-4" 
+                                           data-name="投資人專區" data-price="40000" data-renewal="0">
+                                </div>
+                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                    <li><b>專業功能：</b>符合 80%上市櫃公司投資人專區需求</li>
+                                    <li><b>搜尋設定：</b>搜尋設定、自訂表格設定等模組功能</li>
+                                    <li><b>參考案例：</b>惠特科技 6706</li>
+                                </ul>
+                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                   <p class="text-gray-500">一次性費用</p>
+                                   <p class="text-gray-800">費用: <span class="font-bold text-2xl text-cyan-600 price-display" data-price-id="investor-relations">NT$ 40,000</span></p>
+                                </div>
+                            </div>
+
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="inner-page-design">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-bold text-pink-700">內頁設計</h3>
+                                        <p class="text-gray-500 mt-1">單一頁面風格提版設計服務。</p>
+                                        <div class="mt-2">
+                                            <label class="text-sm text-gray-600">頁數：</label>
+                                            <div class="number-input-wrapper inline-flex">
+                                                <button type="button" class="stepper-btn minus">-</button>
+                                                <input type="number" min="1" max="20" value="1" class="inner-page-count number-input" data-base-price="20000">
+                                                <button type="button" class="stepper-btn plus">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-pink-600 focus:ring-pink-500 cursor-pointer ml-4" 
+                                           data-name="內頁設計" data-price="20000" data-renewal="0">
+                                </div>
+                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                    <li><b>風格提版：</b>單一頁面（內頁）風格提版（不含Banner設計）</li>
+                                    <li><b>文案效果：</b>僅編輯器內的文案效果，不抓取其他程式及動態效果</li>
+                                    <li><b>語系費用：</b>僅收單一語系費用，其他語系套用無需額外費用</li>
+                                    <li><b>響應式：</b>Layout 切版/RWD 響應式網頁效果</li>
+                                </ul>
+                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                   <p class="text-gray-500">一次性費用</p>
+                                   <p class="text-gray-800">費用: <span class="font-bold text-2xl text-pink-600 inner-page-total price-display" data-price-id="inner-page-design">NT$ 20,000</span> /頁</p>
+                                </div>
+                            </div>
+
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="language-add">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-bold text-emerald-700">新增語系</h3>
+                                        <p class="text-gray-500 mt-1">為網站新增其他語言版本。</p>
+                                        <div class="mt-2 space-y-2">
+                                            <div class="flex items-center gap-2">
+                                                <label class="text-sm text-gray-600 w-24">一般語系數量：</label>
+                                                <div class="number-input-wrapper">
+                                                    <button type="button" class="stepper-btn minus">-</button>
+                                                    <input type="number" min="0" max="10" value="0" class="language-count number-input" data-price="8000">
+                                                    <button type="button" class="stepper-btn plus">+</button>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <label class="text-sm text-gray-600 w-24">特殊語系數量：</label>
+                                                <div class="number-input-wrapper">
+                                                    <button type="button" class="stepper-btn minus">-</button>
+                                                    <input type="number" min="0" max="10" value="0" class="special-language-count number-input" data-price="10000">
+                                                    <button type="button" class="stepper-btn plus">+</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-emerald-600 focus:ring-emerald-500 cursor-pointer ml-4" 
+                                           data-name="新增語系" data-price="8000" data-renewal="0">
+                                </div>
+                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                    <li><b>一般語系：</b>網站建置每新增一語系 NT$ 8,000</li>
+                                    <li><b>特殊語系：</b>如阿拉伯文（右至左排版）每語系 NT$ 10,000</li>
+                                </ul>
+                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                   <p class="text-gray-500">一次性費用</p>
+                                   <p class="text-gray-800 language-cost-p hidden">費用: <span class="font-bold text-2xl text-emerald-600 language-total">NT$ 0</span></p>
+                                </div>
+                            </div>
+
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="blog-writing">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-bold text-violet-700">部落格文案撰寫</h3>
+                                        <p class="text-gray-500 mt-1">專業文案撰寫服務，提升網站內容品質。</p>
+                                        <div class="mt-2 space-y-2">
+                                            <div class="flex items-center gap-2">
+                                                <label class="text-sm text-gray-600 w-24">中文文案篇數：</label>
+                                                <div class="number-input-wrapper">
+                                                    <button type="button" class="stepper-btn minus">-</button>
+                                                    <input type="number" min="0" max="50" value="0" class="chinese-blog-count number-input" data-price="15000">
+                                                    <button type="button" class="stepper-btn plus">+</button>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <label class="text-sm text-gray-600 w-24">英文文案篇數：</label>
+                                                <div class="number-input-wrapper">
+                                                    <button type="button" class="stepper-btn minus">-</button>
+                                                    <input type="number" min="0" max="50" value="0" class="english-blog-count number-input" data-price="15000">
+                                                    <button type="button" class="stepper-btn plus">+</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-violet-600 focus:ring-violet-500 cursor-pointer ml-4" 
+                                           data-name="部落格文案撰寫" data-price="15000" data-renewal="0">
+                                </div>
+                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                    <li><b>中文文案：</b>中文 1200 字文案撰寫 NT$ 15,000/篇</li>
+                                    <li><b>英文文案：</b>英文 1200 字文案撰寫 NT$ 15,000/篇</li>
+                                </ul>
+                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                   <p class="text-gray-500">一次性費用</p>
+                                   <p class="text-gray-800 blog-cost-p hidden">費用: <span class="font-bold text-2xl text-violet-600 blog-total">NT$ 0</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Price Settings Tab -->
+                        <div id="price-settings" class="tab-content hidden space-y-4">
+                            <h3 class="text-xl font-bold text-gray-800">調整項目價格</h3>
+                            <div id="price-settings-container" class="space-y-3">
+                                <!-- Price adjustment inputs will be generated here by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </main>
+
+                <!-- Sidebar / Quote Summary -->
+                <aside class="w-full lg:w-1/3 no-print">
+                     <div class="bg-white rounded-xl shadow-md sticky top-8">
+                        <div class="p-6 border-b border-gray-200">
+                            <h3 class="text-xl font-bold flex items-center gap-3">
+                                <i class="fas fa-file-invoice-dollar text-blue-500"></i>報價單預覽
+                            </h3>
+                            <div class="mt-4 grid grid-cols-2 gap-2">
+                                <button id="clear-quote" class="w-full bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200">
+                                    <i class="fas fa-trash-alt mr-2"></i>清空報價
+                                </button>
+                                <button id="print-quote" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                                    <i class="fas fa-print mr-2"></i>列印報價單
+                                </button>
+                            </div>
+                        </div>
+                        <div id="quote-summary" class="p-6 space-y-3 min-h-[200px]">
+                           <p id="empty-quote" class="text-center text-gray-500 pt-12">尚未選擇任何服務項目。</p>
+                        </div>
+                        <div class="p-6 bg-gray-50 rounded-b-xl">
+                            <div class="space-y-2 mb-4">
+                                 <div class="flex justify-between items-center text-gray-600">
+                                    <span>平均每月金額</span>
+                                    <span id="monthly-average" class="font-semibold text-lg">NT$ 0</span>
+                                </div>
+                            </div>
+                            <div class="border-t border-gray-200 pt-4">
+                                 <div class="flex justify-between items-center">
+                                    <span class="text-lg font-bold">總計 (未稅)</span>
+                                    <span id="grand-total" class="font-bold text-2xl text-blue-600">NT$ 0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // --- Password Protection ---
+            const CORRECT_PASSWORD = 'winho'; // 您可以在這裡修改密碼
+            const passwordModal = document.getElementById('password-modal');
+            const passwordForm = document.getElementById('password-form');
+            const passwordInput = document.getElementById('password-input');
+            const passwordError = document.getElementById('password-error');
+            const appContainer = document.getElementById('app-container');
+
+            passwordForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (passwordInput.value === CORRECT_PASSWORD) {
+                    passwordModal.style.display = 'none';
+                    appContainer.style.display = 'block';
+                } else {
+                    passwordError.classList.remove('hidden');
+                    passwordInput.value = '';
+                }
+            });
+
+            // --- Global Price Store ---
+            let priceStore = {};
+
             // --- Tab Navigation ---
             const navLinks = document.querySelectorAll('.nav-link');
             const tabContents = document.querySelectorAll('.tab-content');
@@ -628,7 +753,7 @@
 
                 // --- Total Months Calculation for HTTPS logic ---
                 let maxTotalYears = 0;
-                document.querySelectorAll('.border').forEach(container => {
+                document.querySelectorAll('.border[data-service-id]').forEach(container => {
                     const mainCheckbox = container.querySelector('.service-checkbox');
                     const renewalCheckbox = container.querySelector('.renewal-checkbox');
                     
@@ -653,8 +778,8 @@
                 document.querySelectorAll('.service-checkbox:checked').forEach(checkbox => {
                     const container = checkbox.closest('.border');
                     const name = checkbox.dataset.name;
-                    const basePrice = parseInt(checkbox.dataset.price);
-                    let finalPrice = basePrice;
+                    const serviceId = container.dataset.serviceId;
+                    let finalPrice = priceStore[serviceId]?.price || 0;
                     let discountMultiplier = 1;
                     let discountDisplay = '';
 
@@ -677,19 +802,19 @@
                             finalPrice = 0;
                             discountDisplay = `<div class="text-xs text-green-600">3年約贈送</div>`;
                         } else {
-                            finalPrice = 6200;
+                            finalPrice = priceStore['https']?.price || 6200;
                         }
                     } else if (name === '內頁設計') {
                         const count = container.querySelector('.inner-page-count').value;
-                        finalPrice = basePrice * parseInt(count > 0 ? count : 1);
+                        finalPrice = (priceStore['inner-page-design']?.price || 20000) * parseInt(count > 0 ? count : 1);
                     } else if (name === '新增語系') {
                         const normalCount = container.querySelector('.language-count').value;
                         const specialCount = container.querySelector('.special-language-count').value;
-                        finalPrice = (8000 * parseInt(normalCount || 0)) + (10000 * parseInt(specialCount || 0));
+                        finalPrice = ((priceStore['language-add']?.price || 8000) * parseInt(normalCount || 0)) + ((priceStore['language-add-special']?.price || 10000) * parseInt(specialCount || 0));
                     } else if (name === '部落格文案撰寫') {
                         const chineseCount = container.querySelector('.chinese-blog-count').value;
                         const englishCount = container.querySelector('.english-blog-count').value;
-                        finalPrice = (15000 * parseInt(chineseCount || 0)) + (15000 * parseInt(englishCount || 0));
+                        finalPrice = ((priceStore['blog-writing']?.price || 15000) * parseInt(chineseCount || 0)) + ((priceStore['blog-writing-en']?.price || 15000) * parseInt(englishCount || 0));
                     }
 
                     totalCost += finalPrice;
@@ -705,8 +830,10 @@
 
                 document.querySelectorAll('.renewal-checkbox:checked').forEach(checkbox => {
                     const parentDiv = checkbox.closest('.renewal-section');
+                    const container = checkbox.closest('.border');
+                    const serviceId = container.dataset.serviceId;
                     const name = checkbox.dataset.name;
-                    const basePrice = parseInt(checkbox.dataset.renewalPrice);
+                    const basePrice = priceStore[serviceId]?.renewal || 0;
                     const years = parseInt(parentDiv.querySelector('.renewal-years').value) || 1;
                     
                     let discountMultiplier = 1;
@@ -755,7 +882,7 @@
                 if (langContainer) {
                     const normal = langContainer.querySelector('.language-count').value || 0;
                     const special = langContainer.querySelector('.special-language-count').value || 0;
-                    const total = (8000 * parseInt(normal)) + (10000 * parseInt(special));
+                    const total = (priceStore['language-add']?.price || 8000) * parseInt(normal) + (priceStore['language-add-special']?.price || 10000) * parseInt(special);
                     langContainer.querySelector('.language-total').textContent = `NT$ ${total.toLocaleString()}`;
                     langContainer.querySelector('.language-cost-p').classList.toggle('hidden', total === 0);
                 }
@@ -765,40 +892,147 @@
                 if (blogContainer) {
                     const chinese = blogContainer.querySelector('.chinese-blog-count').value || 0;
                     const english = blogContainer.querySelector('.english-blog-count').value || 0;
-                    const total = (15000 * parseInt(chinese)) + (15000 * parseInt(english));
+                    const total = (priceStore['blog-writing']?.price || 15000) * parseInt(chinese) + (priceStore['blog-writing-en']?.price || 15000) * parseInt(english);
                     blogContainer.querySelector('.blog-total').textContent = `NT$ ${total.toLocaleString()}`;
                     blogContainer.querySelector('.blog-cost-p').classList.toggle('hidden', total === 0);
                 }
             }
+            
+            function populatePriceSettings() {
+                const container = document.getElementById('price-settings-container');
+                container.innerHTML = ''; // Clear existing
+                
+                const allServices = document.querySelectorAll('.border[data-service-id]');
+                
+                allServices.forEach(serviceEl => {
+                    const serviceId = serviceEl.dataset.serviceId;
+                    if (!serviceId) return;
+
+                    const name = serviceEl.querySelector('h3').textContent;
+                    
+                    // Main price
+                    const mainCheckbox = serviceEl.querySelector('.service-checkbox');
+                    if (mainCheckbox) {
+                        const price = parseInt(mainCheckbox.dataset.price);
+                        priceStore[serviceId] = { ...priceStore[serviceId], price: price };
+                        
+                        const settingRow = document.createElement('div');
+                        settingRow.className = 'flex justify-between items-center py-2 border-b';
+                        settingRow.innerHTML = `
+                            <label for="price-edit-${serviceId}" class="text-sm">${name}</label>
+                            <input type="number" id="price-edit-${serviceId}" data-target-id="${serviceId}" data-price-type="price" class="form-input w-32 highlight-input" value="${price}">
+                        `;
+                        container.appendChild(settingRow);
+                    }
+                    
+                    // Renewal price
+                    const renewalCheckbox = serviceEl.querySelector('.renewal-checkbox');
+                    if (renewalCheckbox) {
+                        const renewalPrice = parseInt(renewalCheckbox.dataset.renewalPrice);
+                        priceStore[serviceId] = { ...priceStore[serviceId], renewal: renewalPrice };
+
+                        const settingRow = document.createElement('div');
+                        settingRow.className = 'flex justify-between items-center py-2 border-b';
+                        settingRow.innerHTML = `
+                            <label for="price-edit-renewal-${serviceId}" class="text-sm">${name} - 續約</label>
+                            <input type="number" id="price-edit-renewal-${serviceId}" data-target-id="${serviceId}" data-price-type="renewal" class="form-input w-32 highlight-input" value="${renewalPrice}">
+                        `;
+                        container.appendChild(settingRow);
+                    }
+                });
+                
+                // Add special cases like language and blog writing
+                priceStore['language-add-special'] = { price: 10000 };
+                const langSpecialRow = document.createElement('div');
+                langSpecialRow.className = 'flex justify-between items-center py-2 border-b';
+                langSpecialRow.innerHTML = `
+                    <label for="price-edit-language-add-special" class="text-sm">新增語系 (特殊)</label>
+                    <input type="number" id="price-edit-language-add-special" data-target-id="language-add-special" data-price-type="price" class="form-input w-32 highlight-input" value="10000">
+                `;
+                container.appendChild(langSpecialRow);
+                
+                priceStore['blog-writing-en'] = { price: 15000 };
+                const blogEnRow = document.createElement('div');
+                blogEnRow.className = 'flex justify-between items-center py-2 border-b';
+                blogEnRow.innerHTML = `
+                    <label for="price-edit-blog-writing-en" class="text-sm">部落格文案撰寫 (英文)</label>
+                    <input type="number" id="price-edit-blog-writing-en" data-target-id="blog-writing-en" data-price-type="price" class="form-input w-32 highlight-input" value="15000">
+                `;
+                container.appendChild(blogEnRow);
+                
+                // Add event listeners to new inputs
+                container.querySelectorAll('input').forEach(input => {
+                    input.addEventListener('input', (e) => {
+                        const targetId = e.target.dataset.targetId;
+                        const priceType = e.target.dataset.priceType;
+                        const newValue = parseInt(e.target.value) || 0;
+                        
+                        priceStore[targetId][priceType] = newValue;
+                        
+                        // Update display in original tabs
+                        const priceDisplay = document.querySelector(`.price-display[data-price-id="${targetId}"]`);
+                        if (priceDisplay && priceType === 'price') {
+                            priceDisplay.textContent = `NT$ ${newValue.toLocaleString()}`;
+                        }
+                        const renewalPriceDisplay = document.querySelector(`.renewal-price-display[data-renewal-price-id="${targetId}"]`);
+                        if (renewalPriceDisplay && priceType === 'renewal') {
+                            renewalPriceDisplay.textContent = `NT$ ${newValue.toLocaleString()} /年`;
+                        }
+                        
+                        updateQuote();
+                    });
+                });
+            }
+
 
             // --- Event Listeners Setup ---
             function setupListeners() {
                 const inputs = document.querySelectorAll(
                     '.service-checkbox, .renewal-checkbox, .renewal-years, .renewal-discount, ' +
-                    '.inner-page-count'
+                    '.inner-page-count, .language-count, .special-language-count, .chinese-blog-count, .english-blog-count'
                 );
                 inputs.forEach(input => {
                     input.addEventListener('input', updateQuote);
                     input.addEventListener('change', updateQuote);
                 });
                 
-                const addonInputs = document.querySelectorAll('.language-count, .special-language-count, .chinese-blog-count, .english-blog-count');
-                addonInputs.forEach(input => {
-                    input.addEventListener('input', () => {
-                        updateAddonDisplay();
-                        updateQuote();
-                    });
+                document.body.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('stepper-btn')) {
+                        const wrapper = e.target.closest('.number-input-wrapper');
+                        const input = wrapper.querySelector('.number-input');
+                        const step = parseFloat(e.target.dataset.step) || 1;
+                        const min = parseFloat(input.min) || 0;
+                        
+                        let currentValue = parseFloat(input.value);
+                        if (isNaN(currentValue)) currentValue = 0;
+
+                        if (e.target.classList.contains('plus')) {
+                            currentValue += step;
+                        } else {
+                            currentValue -= step;
+                        }
+
+                        if (currentValue < min) {
+                            currentValue = min;
+                        }
+                        
+                        // Handle floating point inaccuracies for decimal steps
+                        if (step < 1) {
+                            input.value = currentValue.toFixed(2);
+                        } else {
+                            input.value = currentValue;
+                        }
+
+                        // Manually trigger input event to update calculations
+                        input.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
                 });
-
-                document.querySelectorAll('.inner-page-count').forEach(input => input.addEventListener('input', e => {
-                    const total = (parseInt(e.target.dataset.basePrice) || 0) * parseInt(e.target.value || 0);
-                    e.target.closest('.border').querySelector('.inner-page-total').textContent = `NT$ ${total.toLocaleString()}`;
-                }));
                 
-                updateQuote(); // Initial calculation
-                updateAddonDisplay(); // Initial display update
+                updateQuote();
+                updateAddonDisplay();
             }
-
+            
+            populatePriceSettings();
             setupListeners();
             
             function generateQuoteInfo() {
@@ -816,20 +1050,16 @@
                 document.getElementById('cust-date').value = today;
             }
             
-            generateQuoteInfo(); // Generate on initial load
+            generateQuoteInfo();
 
             // --- Clear Quote Functionality ---
             document.getElementById('clear-quote').addEventListener('click', function() {
-                // Uncheck all boxes
                 document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
-                
-                // Reset text/number inputs to default
                 document.querySelectorAll('.renewal-years').forEach(input => input.value = 1);
                 document.querySelectorAll('.renewal-discount').forEach(input => input.value = 1);
                 document.querySelectorAll('.inner-page-count').forEach(input => input.value = 1);
                 document.querySelectorAll('.language-count, .special-language-count, .chinese-blog-count, .english-blog-count').forEach(input => input.value = 0);
                 
-                // Recalculate and update display
                 updateQuote();
                 updateAddonDisplay();
             });
@@ -842,7 +1072,7 @@
                 document.getElementById('cust-email').value = '';
                 document.getElementById('cust-tax-id').value = '';
                 document.getElementById('cust-address').value = '';
-                generateQuoteInfo(); // Regenerate quote number and date
+                generateQuoteInfo();
             });
 
             // --- Print Functionality ---
@@ -874,8 +1104,8 @@
                 document.querySelectorAll('.service-checkbox:checked').forEach(checkbox => {
                     const container = checkbox.closest('.border');
                     const name = checkbox.dataset.name;
-                    const basePrice = parseInt(checkbox.dataset.price);
-                    let finalPrice = basePrice;
+                    const serviceId = container.dataset.serviceId;
+                    let finalPrice = priceStore[serviceId]?.price || 0;
                     let discountMultiplier = 1;
                     let discountDisplay = '';
 
@@ -894,7 +1124,7 @@
                     let quantityDisplay = '';
                      if (name === 'HTTPS安全加密') {
                         let maxTotalYears = 0;
-                        document.querySelectorAll('.border').forEach(c => {
+                        document.querySelectorAll('.border[data-service-id]').forEach(c => {
                             const mc = c.querySelector('.service-checkbox');
                             const rc = c.querySelector('.renewal-checkbox');
                             if (mc && mc.checked) {
@@ -909,21 +1139,21 @@
                             finalPrice = 0;
                             discountDisplay = `<div class="text-xs text-green-600">3年約贈送</div>`;
                         } else {
-                            finalPrice = 6200;
+                            finalPrice = priceStore['https']?.price || 6200;
                         }
                     } else if (name === '內頁設計') {
                         const count = container.querySelector('.inner-page-count').value;
-                        finalPrice = basePrice * parseInt(count > 0 ? count : 1);
+                        finalPrice = (priceStore['inner-page-design']?.price || 20000) * parseInt(count > 0 ? count : 1);
                         quantityDisplay = ` (${count} 頁)`;
                     } else if (name === '新增語系') {
                         const normalCount = container.querySelector('.language-count').value || 0;
                         const specialCount = container.querySelector('.special-language-count').value || 0;
-                        finalPrice = (8000 * parseInt(normalCount)) + (10000 * parseInt(specialCount));
+                        finalPrice = ((priceStore['language-add']?.price || 8000) * parseInt(normalCount)) + ((priceStore['language-add-special']?.price || 10000) * parseInt(specialCount));
                         quantityDisplay = ` (一般: ${normalCount}, 特殊: ${specialCount})`;
                     } else if (name === '部落格文案撰寫') {
                         const chineseCount = container.querySelector('.chinese-blog-count').value || 0;
                         const englishCount = container.querySelector('.english-blog-count').value || 0;
-                        finalPrice = (15000 * parseInt(chineseCount)) + (15000 * parseInt(englishCount));
+                        finalPrice = ((priceStore['blog-writing']?.price || 15000) * parseInt(chineseCount)) + ((priceStore['blog-writing-en']?.price || 15000) * parseInt(englishCount));
                         quantityDisplay = ` (中: ${chineseCount}, 英: ${englishCount})`;
                     }
 
@@ -947,8 +1177,10 @@
                 // Process Renewal Services for Print
                 document.querySelectorAll('.renewal-checkbox:checked').forEach(checkbox => {
                     const parentDiv = checkbox.closest('.renewal-section');
+                    const container = checkbox.closest('.border');
+                    const serviceId = container.dataset.serviceId;
                     const name = checkbox.dataset.name;
-                    const basePrice = parseInt(checkbox.dataset.renewalPrice);
+                    const basePrice = priceStore[serviceId]?.renewal || 0;
                     const years = parseInt(parentDiv.querySelector('.renewal-years').value) || 1;
                     
                     let discountMultiplier = 1;
