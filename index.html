@@ -859,6 +859,10 @@
                                     <i class="fas fa-print mr-2"></i>列印報價單
                                 </button>
                             </div>
+                             <div class="mt-4 flex items-center justify-end">
+                                <input type="checkbox" id="include-tax-checkbox" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <label for="include-tax-checkbox" class="ml-2 text-sm font-medium text-gray-700">顯示含稅價格 (5%)</label>
+                            </div>
                         </div>
                         <div id="quote-summary" class="p-6 space-y-3 min-h-[200px]">
                            <p id="empty-quote" class="text-center text-gray-500 pt-12">尚未選擇任何服務項目。</p>
@@ -870,10 +874,14 @@
                                     <span id="monthly-average" class="font-semibold text-lg">NT$ 0</span>
                                 </div>
                             </div>
-                            <div class="border-t border-gray-200 pt-4">
+                            <div class="border-t border-gray-200 pt-4 space-y-2">
                                  <div class="flex justify-between items-center">
                                     <span class="text-lg font-bold">總計 (未稅)</span>
                                     <span id="grand-total" class="font-bold text-2xl text-blue-600">NT$ 0</span>
+                                </div>
+                                <div id="tax-total-container" class="hidden flex justify-between items-center">
+                                    <span class="text-lg font-bold">總計 (含稅)</span>
+                                    <span id="grand-total-taxed" class="font-bold text-2xl text-red-600">NT$ 0</span>
                                 </div>
                             </div>
                         </div>
@@ -963,6 +971,9 @@
             const quoteSummary = document.getElementById('quote-summary');
             const grandTotalEl = document.getElementById('grand-total');
             const monthlyAverageEl = document.getElementById('monthly-average');
+            const taxCheckbox = document.getElementById('include-tax-checkbox');
+            const taxTotalContainer = document.getElementById('tax-total-container');
+            const grandTotalTaxedEl = document.getElementById('grand-total-taxed');
 
             function updateQuote() {
                 let totalCost = 0;
@@ -1111,6 +1122,14 @@
                 
                 grandTotalEl.textContent = `NT$ ${Math.round(totalCost).toLocaleString()}`;
                 monthlyAverageEl.textContent = `NT$ ${monthlyAverage.toLocaleString()}`;
+
+                if (taxCheckbox.checked) {
+                    const taxedTotal = totalCost * 1.05;
+                    grandTotalTaxedEl.textContent = `NT$ ${Math.round(taxedTotal).toLocaleString()}`;
+                    taxTotalContainer.classList.remove('hidden');
+                } else {
+                    taxTotalContainer.classList.add('hidden');
+                }
             }
             
             function updateAddonDisplay() {
@@ -1340,6 +1359,8 @@
                     }
                 });
                 
+                taxCheckbox.addEventListener('change', updateQuote);
+
                 updateQuote();
                 updateAddonDisplay();
             }
@@ -1470,7 +1491,20 @@
 
                 const grandTotalHTML = document.getElementById('grand-total').textContent;
                 const monthlyAverageHTML = document.getElementById('monthly-average').textContent;
+                const includeTax = document.getElementById('include-tax-checkbox').checked;
                 
+                let taxedTotalHTML = '';
+                if (includeTax) {
+                    const totalCost = parseFloat(grandTotalEl.textContent.replace(/[^0-9.-]+/g,""));
+                    const taxedTotal = totalCost * 1.05;
+                    taxedTotalHTML = `
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-xl font-bold">總計 (含稅)</span>
+                            <span class="font-bold text-2xl text-red-600">NT$ ${Math.round(taxedTotal).toLocaleString()}</span>
+                        </div>
+                    `;
+                }
+
                 let printItemsHTML = '';
 
                 // Process Main Services for Print
@@ -1696,11 +1730,12 @@
                                             <span class="font-semibold text-lg">${monthlyAverageHTML}</span>
                                         </div>
                                     </div>
-                                    <div class="border-t border-gray-200 pt-4">
+                                    <div class="border-t border-gray-200 pt-4 space-y-2">
                                         <div class="flex justify-between items-center">
                                             <span class="text-xl font-bold">總計 (未稅)</span>
                                             <span class="font-bold text-2xl text-blue-600">${grandTotalHTML}</span>
                                         </div>
+                                        ${taxedTotalHTML}
                                     </div>
                                 </div>
                             </footer>
