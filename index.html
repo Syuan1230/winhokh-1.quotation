@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>互動式報價單 - 崴浤科技</title>
+    <title>互動式網站設計報價單 - 崴浤科技</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -31,16 +31,13 @@
         .form-input {
             @apply px-3 py-2 border border-gray-300 rounded-md w-full;
         }
-        .highlight-input {
-             @apply border-black border-2 rounded-md shadow-inner focus:ring-2 focus:ring-yellow-400;
-        }
         /* Custom Number Input Styles */
         .number-input-wrapper {
             @apply flex items-center;
         }
         .number-input {
             -moz-appearance: textfield;
-            @apply w-12 h-8 text-center border-t-2 border-b-2 border-black focus:outline-none focus:ring-0 font-bold;
+            @apply w-12 h-8 text-center border-t-2 border-b-2 border-black focus:outline-none focus:ring-0 font-bold bg-yellow-100;
         }
         .number-input::-webkit-inner-spin-button,
         .number-input::-webkit-outer-spin-button {
@@ -80,10 +77,22 @@
 </head>
 <body class="text-gray-800">
 
-    <!-- Password Modal -->
-    <div id="password-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+    <!-- Entry Password Modal -->
+    <div id="entry-password-modal" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
         <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-sm">
             <h2 class="text-2xl font-bold mb-4 text-center">請輸入密碼</h2>
+            <form id="entry-password-form">
+                <input type="password" id="entry-password-input" class="form-input w-full mb-4" placeholder="Password">
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">進入系統</button>
+                <p id="entry-password-error" class="text-red-500 text-sm mt-2 text-center hidden">密碼錯誤，請重試。</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Control Panel Password Modal -->
+    <div id="password-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-sm">
+            <h2 class="text-2xl font-bold mb-4 text-center">控制台密碼</h2>
             <form id="password-form">
                 <input type="password" id="password-input" class="form-input w-full mb-4" placeholder="Password">
                 <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">登入</button>
@@ -91,31 +100,58 @@
             </form>
         </div>
     </div>
+    
+    <!-- Price Settings Modal -->
+    <div id="price-settings-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-40 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] flex flex-col">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h2 class="text-2xl font-bold">價格調整控制台</h2>
+                <button id="close-price-settings" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+            </div>
+            <div id="price-settings-container" class="space-y-3 overflow-y-auto flex-grow">
+                <!-- Price adjustment inputs will be generated here by JavaScript -->
+            </div>
+             <div class="mt-6 border-t pt-4">
+                <h3 class="text-lg font-semibold mb-2">新增自訂義項目</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <input type="text" id="custom-item-name" placeholder="項目名稱" class="form-input">
+                    <input type="number" id="custom-item-price" placeholder="項目價格" class="form-input">
+                    <button id="add-custom-item" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">新增項目</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div id="app-container" class="hidden">
         <div class="container mx-auto p-4 md:p-8">
             
             <!-- Editable Header -->
             <header class="bg-white p-6 rounded-xl shadow-md mb-8 no-print">
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <h1 class="text-2xl md:text-3xl font-bold text-gray-800">崴浤科技股份有限公司</h1>
-                        <p class="text-gray-500 text-sm">網站設計 & SEO 優化方案</p>
+                 <div class="flex justify-between items-start">
+                    <div class="grid md:grid-cols-2 gap-6 w-full">
+                        <div>
+                            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">崴浤科技股份有限公司</h1>
+                            <p class="text-gray-500 text-sm">網站設計 & SEO 優化方案</p>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-4">
+                                <label for="project-manager-name" class="text-sm font-medium text-gray-700 w-20 flex-shrink-0 text-right">客戶經理</label>
+                                <input type="text" id="project-manager-name" value="" placeholder="專案人員姓名" class="form-input text-sm">
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <label for="project-manager-phone" class="text-sm font-medium text-gray-700 w-20 flex-shrink-0 text-right">聯絡方式</label>
+                                <input type="text" id="project-manager-phone" value="" placeholder="專案人員電話" class="form-input text-sm">
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <label for="project-manager-email" class="text-sm font-medium text-gray-700 w-20 flex-shrink-0 text-right">Email</label>
+                                <input type="email" id="project-manager-email" value="" placeholder="專案人員Email" class="form-input text-sm">
+                            </div>
+                        </div>
                     </div>
-                    <div class="space-y-3">
-                        <div class="flex items-center gap-4">
-                            <label for="project-manager-name" class="text-sm font-medium text-gray-700 w-20 flex-shrink-0 text-right">客戶經理</label>
-                            <input type="text" id="project-manager-name" value="" placeholder="專案人員姓名" class="form-input text-sm">
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <label for="project-manager-phone" class="text-sm font-medium text-gray-700 w-20 flex-shrink-0 text-right">聯絡方式</label>
-                            <input type="text" id="project-manager-phone" value="" placeholder="專案人員電話" class="form-input text-sm">
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <label for="project-manager-email" class="text-sm font-medium text-gray-700 w-20 flex-shrink-0 text-right">Email</label>
-                            <input type="email" id="project-manager-email" value="" placeholder="專案人員Email" class="form-input text-sm">
-                        </div>
-                    </div>
+                    <button id="open-price-settings" class="ml-4 text-gray-500 hover:text-blue-600 transition-colors">
+                        <i class="fas fa-cog fa-2x"></i>
+                    </button>
                 </div>
             </header>
             
@@ -149,7 +185,6 @@
                             <a href="#" class="nav-link text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="seo-marketing">SEO 行銷</a>
                             <a href="#" class="nav-link text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="premium-package">頂級方案</a>
                             <a href="#" class="nav-link text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="additional-services">加購服務</a>
-                            <a href="#" class="nav-link text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="price-settings">價格調整</a>
                         </div>
                     </nav>
 
@@ -176,7 +211,18 @@
                                     <li><b>商用圖庫：</b>123RF / iStock 圖庫 20 張（限網頁設計使用版權商用圖庫）</li>
                                     <li><b>技術規格：</b>全站 RWD 響應式網頁，語言版本：中文＆英文</li>
                                 </ul>
-                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                <div class="mt-2">
+                                    <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                                </div>
+                                <div class="mt-4 flex justify-end items-center gap-4">
+                                   <div>
+                                        <label class="text-sm text-gray-600">首年折扣</label>
+                                        <div class="number-input-wrapper">
+                                            <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
+                                            <input type="number" value="1" step="0.01" min="0" class="first-year-discount number-input">
+                                            <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
+                                        </div>
+                                   </div>
                                    <p class="text-gray-800">首年: <span class="font-bold text-2xl text-blue-600 price-display" data-price-id="project-design">NT$ 398,000</span></p>
                                 </div>
                                 <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
@@ -188,13 +234,21 @@
                                         </div>
                                         <span class="font-semibold text-lg text-gray-600 renewal-price-display" data-renewal-price-id="project-design">NT$ 48,000 /年</span>
                                     </div>
-                                    <div class="grid grid-cols-1 gap-4 pl-7">
+                                    <div class="grid grid-cols-2 gap-4 pl-7">
                                         <div>
-                                            <label for="renewal-years-1" class="text-sm text-gray-600">續約年份</label>
+                                            <label class="text-sm text-gray-600">續約年份</label>
                                             <div class="number-input-wrapper">
                                                 <button type="button" class="stepper-btn minus">-</button>
-                                                <input type="number" id="renewal-years-1" value="1" min="1" class="renewal-years number-input">
+                                                <input type="number" value="1" min="1" class="renewal-years number-input">
                                                 <button type="button" class="stepper-btn plus">+</button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="text-sm text-gray-600">續約折扣</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
+                                                <input type="number" value="1" step="0.01" min="0" class="renewal-discount number-input">
+                                                <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
                                             </div>
                                         </div>
                                     </div>
@@ -217,7 +271,18 @@
                                     <li><b>商用圖庫：</b>123RF / iStock 版權圖庫 10 張（限網頁設計用版權商用圖庫）</li>
                                     <li><b>技術規格：</b>全站 RWD 響應式網頁，語言版本：中文＆英文</li>
                                 </ul>
-                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                <div class="mt-2">
+                                    <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                                </div>
+                                <div class="mt-4 flex justify-end items-center gap-4">
+                                   <div>
+                                        <label class="text-sm text-gray-600">首年折扣</label>
+                                        <div class="number-input-wrapper">
+                                            <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
+                                            <input type="number" value="1" step="0.01" min="0" class="first-year-discount number-input">
+                                            <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
+                                        </div>
+                                   </div>
                                    <p class="text-gray-800">首年: <span class="font-bold text-2xl text-green-600 price-display" data-price-id="basic-design">NT$ 200,000</span></p>
                                 </div>
                                  <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
@@ -229,13 +294,21 @@
                                         </div>
                                         <span class="font-semibold text-lg text-gray-600 renewal-price-display" data-renewal-price-id="basic-design">NT$ 20,000 /年</span>
                                     </div>
-                                    <div class="grid grid-cols-1 gap-4 pl-7">
+                                    <div class="grid grid-cols-2 gap-4 pl-7">
                                         <div>
-                                            <label for="renewal-years-2" class="text-sm text-gray-600">續約年份</label>
+                                            <label class="text-sm text-gray-600">續約年份</label>
                                             <div class="number-input-wrapper">
                                                 <button type="button" class="stepper-btn minus">-</button>
-                                                <input type="number" id="renewal-years-2" value="1" min="1" class="renewal-years number-input">
+                                                <input type="number" value="1" min="1" class="renewal-years number-input">
                                                 <button type="button" class="stepper-btn plus">+</button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="text-sm text-gray-600">續約折扣</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
+                                                <input type="number" value="1" step="0.01" min="0" class="renewal-discount number-input">
+                                                <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
                                             </div>
                                         </div>
                                     </div>
@@ -259,7 +332,18 @@
                                     <li><b>彈性組合：</b>每個模組提供5種選擇，可組合為125種樣式</li>
                                     <li><b>商用圖庫：</b>123RF / iStock圖庫10張（限網頁設計使用版權商用圖庫）</li>
                                 </ul>
-                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                <div class="mt-2">
+                                    <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                                </div>
+                                <div class="mt-4 flex justify-end items-center gap-4">
+                                   <div>
+                                        <label class="text-sm text-gray-600">首年折扣</label>
+                                        <div class="number-input-wrapper">
+                                            <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
+                                            <input type="number" value="1" step="0.01" min="0" class="first-year-discount number-input">
+                                            <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
+                                        </div>
+                                   </div>
                                    <p class="text-gray-800">首年: <span class="font-bold text-2xl text-purple-600 price-display" data-price-id="winshop-template">NT$ 128,000</span></p>
                                 </div>
                                 <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
@@ -271,13 +355,21 @@
                                         </div>
                                         <span class="font-semibold text-lg text-gray-600 renewal-price-display" data-renewal-price-id="winshop-template">NT$ 20,000 /年</span>
                                     </div>
-                                    <div class="grid grid-cols-1 gap-4 pl-7">
+                                    <div class="grid grid-cols-2 gap-4 pl-7">
                                         <div>
-                                            <label for="renewal-years-3" class="text-sm text-gray-600">續約年份</label>
+                                            <label class="text-sm text-gray-600">續約年份</label>
                                             <div class="number-input-wrapper">
                                                 <button type="button" class="stepper-btn minus">-</button>
-                                                <input type="number" id="renewal-years-3" value="1" min="1" class="renewal-years number-input">
+                                                <input type="number" value="1" min="1" class="renewal-years number-input">
                                                 <button type="button" class="stepper-btn plus">+</button>
+                                            </div>
+                                        </div>
+                                         <div>
+                                            <label class="text-sm text-gray-600">續約折扣</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
+                                                <input type="number" value="1" step="0.01" min="0" class="renewal-discount number-input">
+                                                <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
                                             </div>
                                         </div>
                                     </div>
@@ -289,7 +381,7 @@
                         <!-- SEO Marketing Tab -->
                         <div id="seo-marketing" class="tab-content hidden space-y-6">
                             
-                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="seo-cross-border" data-service-group="seo-cross-border">
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="seo-cross-border">
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-red-700">跨國 SEO 行銷優化服務</h3>
@@ -307,6 +399,9 @@
                                     <li><b>全球主機：</b>五大洲多節點智能主機（外銷升級），提升國際使用者體驗</li>
                                     <li><b>成效追蹤：</b>每月提供關鍵字排名報表，串接 GA4、GSC 數據分析工具</li>
                                 </ul>
+                                 <div class="mt-2">
+                                    <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                                </div>
                                 <div class="mt-4 flex justify-end items-baseline gap-6">
                                    <p class="text-gray-800">首年: <span class="font-bold text-2xl text-red-600 price-display" data-price-id="seo-cross-border">NT$ 300,000</span></p>
                                 </div>
@@ -321,18 +416,18 @@
                                     </div>
                                     <div class="grid grid-cols-2 gap-4 pl-7">
                                         <div>
-                                            <label for="renewal-years-4" class="text-sm text-gray-600">續約年份</label>
+                                            <label class="text-sm text-gray-600">續約年份</label>
                                             <div class="number-input-wrapper">
                                                 <button type="button" class="stepper-btn minus">-</button>
-                                                <input type="number" id="renewal-years-4" value="1" min="1" class="renewal-years number-input">
+                                                <input type="number" value="1" min="1" class="renewal-years number-input">
                                                 <button type="button" class="stepper-btn plus">+</button>
                                             </div>
                                         </div>
                                         <div>
-                                            <label for="renewal-discount-4" class="text-sm text-gray-600">折扣 (例: 0.85)</label>
+                                            <label class="text-sm text-gray-600">折扣 (例: 0.85)</label>
                                             <div class="number-input-wrapper">
                                                 <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
-                                                <input type="number" id="renewal-discount-4" value="1" step="0.01" min="0" class="renewal-discount number-input">
+                                                <input type="number" value="1" step="0.01" min="0" class="renewal-discount number-input">
                                                 <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
                                             </div>
                                         </div>
@@ -340,7 +435,7 @@
                                 </div>
                             </div>
 
-                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="seo-chinese" data-service-group="seo-chinese">
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="seo-chinese">
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-teal-700">中文 SEO 行銷優化服務</h3>
@@ -358,6 +453,9 @@
                                     <li><b>在地化提交：</b>提交至 Google（桌機、手機版）、BING 搜尋引擎</li>
                                     <li><b>成效追蹤：</b>每月提供關鍵字排名報表，串接 GA4、GSC 數據分析工具</li>
                                 </ul>
+                                 <div class="mt-2">
+                                    <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                                </div>
                                 <div class="mt-4 flex justify-end items-baseline gap-6">
                                    <p class="text-gray-800">首年: <span class="font-bold text-2xl text-teal-600 price-display" data-price-id="seo-chinese">NT$ 250,000</span></p>
                                 </div>
@@ -372,18 +470,18 @@
                                     </div>
                                     <div class="grid grid-cols-2 gap-4 pl-7">
                                         <div>
-                                            <label for="renewal-years-5" class="text-sm text-gray-600">續約年份</label>
+                                            <label class="text-sm text-gray-600">續約年份</label>
                                             <div class="number-input-wrapper">
                                                 <button type="button" class="stepper-btn minus">-</button>
-                                                <input type="number" id="renewal-years-5" value="1" min="1" class="renewal-years number-input">
+                                                <input type="number" value="1" min="1" class="renewal-years number-input">
                                                 <button type="button" class="stepper-btn plus">+</button>
                                             </div>
                                         </div>
                                         <div>
-                                            <label for="renewal-discount-5" class="text-sm text-gray-600">折扣 (例: 0.85)</label>
+                                            <label class="text-sm text-gray-600">折扣 (例: 0.85)</label>
                                             <div class="number-input-wrapper">
                                                 <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
-                                                <input type="number" id="renewal-discount-5" value="1" step="0.01" min="0" class="renewal-discount number-input">
+                                                <input type="number" value="1" step="0.01" min="0" class="renewal-discount number-input">
                                                 <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
                                             </div>
                                         </div>
@@ -395,7 +493,7 @@
                         <!-- Premium Package Tab -->
                         <div id="premium-package" class="tab-content hidden space-y-6">
                             
-                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="premium-chinese" data-service-group="premium-chinese">
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="premium-chinese">
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-orange-700">專案行銷頂級方案 (中文SEO)</h3>
@@ -415,6 +513,9 @@
                                     <li><b>專案服務：</b>專案、設計師一起執行視覺設計規劃，全方位專案追蹤服務</li>
                                     <li><b>SEO升級：</b>中文關鍵字30組（比一般方案多10組）</li>
                                 </ul>
+                                 <div class="mt-2">
+                                    <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                                </div>
                                 <div class="mt-4 flex justify-end items-baseline gap-6">
                                    <p class="text-gray-800">首年: <span class="font-bold text-2xl text-orange-600 price-display" data-price-id="premium-chinese">NT$ 700,000</span></p>
                                 </div>
@@ -429,18 +530,18 @@
                                     </div>
                                     <div class="grid grid-cols-2 gap-4 pl-7">
                                         <div>
-                                            <label for="renewal-years-6" class="text-sm text-gray-600">續約年份</label>
+                                            <label class="text-sm text-gray-600">續約年份</label>
                                             <div class="number-input-wrapper">
                                                 <button type="button" class="stepper-btn minus">-</button>
-                                                <input type="number" id="renewal-years-6" value="1" min="1" class="renewal-years number-input">
+                                                <input type="number" value="1" min="1" class="renewal-years number-input">
                                                 <button type="button" class="stepper-btn plus">+</button>
                                             </div>
                                         </div>
                                         <div>
-                                            <label for="renewal-discount-6" class="text-sm text-gray-600">折扣 (例: 0.85)</label>
+                                            <label class="text-sm text-gray-600">續約折扣</label>
                                             <div class="number-input-wrapper">
                                                 <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
-                                                <input type="number" id="renewal-discount-6" value="1" step="0.01" min="0" class="renewal-discount number-input">
+                                                <input type="number" value="1" step="0.01" min="0" class="renewal-discount number-input">
                                                 <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
                                             </div>
                                         </div>
@@ -448,7 +549,7 @@
                                 </div>
                             </div>
 
-                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="premium-english" data-service-group="premium-english">
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="premium-english">
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-indigo-700">專案行銷頂級方案 (英文SEO)</h3>
@@ -468,6 +569,9 @@
                                     <li><b>專案服務：</b>專案、設計師一起執行視覺設計規劃，全方位專案追蹤服務</li>
                                     <li><b>SEO升級：</b>英文關鍵字30組（比一般方案多10組）</li>
                                 </ul>
+                                 <div class="mt-2">
+                                    <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                                </div>
                                 <div class="mt-4 flex justify-end items-baseline gap-6">
                                    <p class="text-gray-800">首年: <span class="font-bold text-2xl text-indigo-600 price-display" data-price-id="premium-english">NT$ 750,000</span></p>
                                 </div>
@@ -482,18 +586,18 @@
                                     </div>
                                     <div class="grid grid-cols-2 gap-4 pl-7">
                                         <div>
-                                            <label for="renewal-years-7" class="text-sm text-gray-600">續約年份</label>
+                                            <label class="text-sm text-gray-600">續約年份</label>
                                             <div class="number-input-wrapper">
                                                 <button type="button" class="stepper-btn minus">-</button>
-                                                <input type="number" id="renewal-years-7" value="1" min="1" class="renewal-years number-input">
+                                                <input type="number" value="1" min="1" class="renewal-years number-input">
                                                 <button type="button" class="stepper-btn plus">+</button>
                                             </div>
                                         </div>
                                         <div>
-                                            <label for="renewal-discount-7" class="text-sm text-gray-600">折扣 (例: 0.85)</label>
+                                            <label class="text-sm text-gray-600">續約折扣</label>
                                             <div class="number-input-wrapper">
                                                 <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
-                                                <input type="number" id="renewal-discount-7" value="1" step="0.01" min="0" class="renewal-discount number-input">
+                                                <input type="number" value="1" step="0.01" min="0" class="renewal-discount number-input">
                                                 <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
                                             </div>
                                         </div>
@@ -520,6 +624,9 @@
                                     <li><b>安全等級：</b>提升 HSTS 加密技術，系統安全 A+</li>
                                     <li><b>多語系：</b>其本語系：中、英、簡</li>
                                 </ul>
+                                 <div class="mt-2">
+                                    <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                                </div>
                                 <div class="mt-4 flex justify-end items-baseline gap-6">
                                    <p class="text-gray-500">一次性費用</p>
                                    <p class="text-gray-800">費用: <span class="font-bold text-2xl text-gray-600 price-display" data-price-id="https">NT$ 6,200</span> <span class="text-sm text-green-600">(3年約贈送)</span></p>
@@ -540,6 +647,9 @@
                                     <li><b>搜尋設定：</b>搜尋設定、自訂表格設定等模組功能</li>
                                     <li><b>參考案例：</b>惠特科技 6706</li>
                                 </ul>
+                                 <div class="mt-2">
+                                    <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                                </div>
                                 <div class="mt-4 flex justify-end items-baseline gap-6">
                                    <p class="text-gray-500">一次性費用</p>
                                    <p class="text-gray-800">費用: <span class="font-bold text-2xl text-cyan-600 price-display" data-price-id="investor-relations">NT$ 40,000</span></p>
@@ -569,6 +679,9 @@
                                     <li><b>語系費用：</b>僅收單一語系費用，其他語系套用無需額外費用</li>
                                     <li><b>響應式：</b>Layout 切版/RWD 響應式網頁效果</li>
                                 </ul>
+                                 <div class="mt-2">
+                                    <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                                </div>
                                 <div class="mt-4 flex justify-end items-baseline gap-6">
                                    <p class="text-gray-500">一次性費用</p>
                                    <p class="text-gray-800">費用: <span class="font-bold text-2xl text-pink-600 inner-page-total price-display" data-price-id="inner-page-design">NT$ 20,000</span> /頁</p>
@@ -600,12 +713,15 @@
                                         </div>
                                     </div>
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-emerald-600 focus:ring-emerald-500 cursor-pointer ml-4" 
-                                           data-name="新增語系" data-price="8000" data-renewal="0">
+                                           data-name="新增語系" data-price="0" data-renewal="0">
                                 </div>
                                 <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                     <li><b>一般語系：</b>網站建置每新增一語系 NT$ 8,000</li>
                                     <li><b>特殊語系：</b>如阿拉伯文（右至左排版）每語系 NT$ 10,000</li>
                                 </ul>
+                                 <div class="mt-2">
+                                    <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                                </div>
                                 <div class="mt-4 flex justify-end items-baseline gap-6">
                                    <p class="text-gray-500">一次性費用</p>
                                    <p class="text-gray-800 language-cost-p hidden">費用: <span class="font-bold text-2xl text-emerald-600 language-total">NT$ 0</span></p>
@@ -637,15 +753,83 @@
                                         </div>
                                     </div>
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-violet-600 focus:ring-violet-500 cursor-pointer ml-4" 
-                                           data-name="部落格文案撰寫" data-price="15000" data-renewal="0">
+                                           data-name="部落格文案撰寫" data-price="0" data-renewal="0">
                                 </div>
                                 <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                     <li><b>中文文案：</b>中文 1200 字文案撰寫 NT$ 15,000/篇</li>
                                     <li><b>英文文案：</b>英文 1200 字文案撰寫 NT$ 15,000/篇</li>
                                 </ul>
+                                 <div class="mt-2">
+                                    <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                                </div>
                                 <div class="mt-4 flex justify-end items-baseline gap-6">
                                    <p class="text-gray-500">一次性費用</p>
                                    <p class="text-gray-800 blog-cost-p hidden">費用: <span class="font-bold text-2xl text-violet-600 blog-total">NT$ 0</span></p>
+                                </div>
+                            </div>
+
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="mailcloud">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-bold text-blue-700">MailCloud郵件代管(5G)</h3>
+                                        <p class="text-gray-500 mt-1">費用計算方式為 首次設定費1000，一組mail 1200/年。</p>
+                                        <div class="mt-4 space-y-4">
+                                            <div class="flex items-center gap-4">
+                                                <input type="checkbox" id="mailcloud-setup-check" class="h-5 w-5 rounded border-gray-400 text-blue-600 focus:ring-blue-500 cursor-pointer mailcloud-setup-check">
+                                                <label for="mailcloud-setup-check" class="text-gray-700 cursor-pointer">首次設定費</label>
+                                            </div>
+                                            <div class="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label class="text-sm text-gray-600">郵件帳號數量</label>
+                                                    <div class="number-input-wrapper">
+                                                        <button type="button" class="stepper-btn minus">-</button>
+                                                        <input type="number" min="0" value="0" class="mailcloud-quantity number-input">
+                                                        <button type="button" class="stepper-btn plus">+</button>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label class="text-sm text-gray-600">使用年份</label>
+                                                    <div class="number-input-wrapper">
+                                                        <button type="button" class="stepper-btn minus">-</button>
+                                                        <input type="number" min="0" value="0" class="mailcloud-years number-input">
+                                                        <button type="button" class="stepper-btn plus">+</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-blue-600 focus:ring-blue-500 cursor-pointer ml-4" 
+                                           data-name="MailCloud郵件代管(5G)" data-price="0" data-renewal="0">
+                                </div>
+                                <div class="mt-2">
+                                    <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                                </div>
+                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                   <p class="text-gray-500">總計費用</p>
+                                   <p class="text-gray-800 mailcloud-cost-p hidden">費用: <span class="font-bold text-2xl text-blue-600 mailcloud-total">NT$ 0</span></p>
+                                </div>
+                            </div>
+                            
+                             <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="custom-dev">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-bold text-purple-700">客製程式</h3>
+                                        <p class="text-gray-500 mt-1">依據需求客製化程式功能。</p>
+                                    </div>
+                                    <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-purple-600 focus:ring-purple-500 cursor-pointer ml-4" 
+                                           data-name="客製程式" data-price="0" data-renewal="0">
+                                </div>
+                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                    <li><b>需求訪談：</b>與專案經理、工程師進行需求訪談。</li>
+                                    <li><b>時程規劃：</b>根據功能複雜度規劃開發時程。</li>
+                                    <li><b>功能交付：</b>分階段交付與測試客製化功能。</li>
+                                </ul>
+                                 <div class="mt-2">
+                                    <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                                </div>
+                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                   <p class="text-gray-500">一次性費用</p>
+                                   <p class="text-gray-800">費用: <span class="font-bold text-2xl text-purple-600 price-display" data-price-id="custom-dev">依工程師估價</span></p>
                                 </div>
                             </div>
                         </div>
@@ -653,7 +837,7 @@
                         <!-- Price Settings Tab -->
                         <div id="price-settings" class="tab-content hidden space-y-4">
                             <h3 class="text-xl font-bold text-gray-800">調整項目價格</h3>
-                            <div id="price-settings-container" class="space-y-3">
+                            <div id="price-settings-container-main" class="space-y-3">
                                 <!-- Price adjustment inputs will be generated here by JavaScript -->
                             </div>
                         </div>
@@ -702,21 +886,54 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // --- Password Protection ---
-            const CORRECT_PASSWORD = 'winho'; // 您可以在這裡修改密碼
-            const passwordModal = document.getElementById('password-modal');
-            const passwordForm = document.getElementById('password-form');
-            const passwordInput = document.getElementById('password-input');
-            const passwordError = document.getElementById('password-error');
+            const ENTRY_PASSWORD = '33550336';
+            const ADMIN_PASSWORD = 'winhokh';
+            
             const appContainer = document.getElementById('app-container');
+            
+            // Entry password
+            const entryPasswordModal = document.getElementById('entry-password-modal');
+            const entryPasswordForm = document.getElementById('entry-password-form');
+            const entryPasswordInput = document.getElementById('entry-password-input');
+            const entryPasswordError = document.getElementById('entry-password-error');
+            
+            // Admin password
+            const adminPasswordModal = document.getElementById('password-modal');
+            const adminPasswordForm = document.getElementById('password-form');
+            const adminPasswordInput = document.getElementById('password-input');
+            const adminPasswordError = document.getElementById('password-error');
+            const priceSettingsModal = document.getElementById('price-settings-modal');
 
-            passwordForm.addEventListener('submit', function(e) {
+            // Show entry modal on load
+            entryPasswordModal.classList.remove('hidden');
+
+            entryPasswordForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                if (passwordInput.value === CORRECT_PASSWORD) {
-                    passwordModal.style.display = 'none';
-                    appContainer.style.display = 'block';
+                if (entryPasswordInput.value === ENTRY_PASSWORD) {
+                    entryPasswordModal.classList.add('hidden');
+                    appContainer.classList.remove('hidden');
                 } else {
-                    passwordError.classList.remove('hidden');
-                    passwordInput.value = '';
+                    entryPasswordError.classList.remove('hidden');
+                }
+            });
+
+            document.getElementById('open-price-settings').addEventListener('click', () => {
+                adminPasswordModal.classList.remove('hidden');
+            });
+            
+            document.getElementById('close-price-settings').addEventListener('click', () => {
+                priceSettingsModal.classList.add('hidden');
+            });
+
+            adminPasswordForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (adminPasswordInput.value === ADMIN_PASSWORD) {
+                    adminPasswordModal.classList.add('hidden');
+                    priceSettingsModal.classList.remove('hidden');
+                    adminPasswordInput.value = '';
+                    adminPasswordError.classList.add('hidden');
+                } else {
+                    adminPasswordError.classList.remove('hidden');
                 }
             });
 
@@ -783,8 +1000,18 @@
                     let discountMultiplier = 1;
                     let discountDisplay = '';
 
-                    if (container.hasAttribute('data-service-group')) {
-                        const discountInput = container.querySelector('.renewal-discount');
+                    if (container.closest('#website-design')) {
+                        const discountInput = container.querySelector('.first-year-discount');
+                        if (discountInput) {
+                            const multiplier = parseFloat(discountInput.value);
+                            if (!isNaN(multiplier) && multiplier > 0 && multiplier !== 1) {
+                                discountMultiplier = multiplier;
+                                finalPrice *= discountMultiplier;
+                                discountDisplay = `<div class="text-xs text-green-600">首年 ${Math.round(discountMultiplier*100)} 折</div>`;
+                            }
+                        }
+                    } else if (container.closest('#seo-marketing')) {
+                         const discountInput = container.querySelector('.renewal-discount');
                         if (discountInput) {
                             const multiplier = parseFloat(discountInput.value);
                             if (!isNaN(multiplier) && multiplier > 0) {
@@ -815,14 +1042,24 @@
                         const chineseCount = container.querySelector('.chinese-blog-count').value;
                         const englishCount = container.querySelector('.english-blog-count').value;
                         finalPrice = ((priceStore['blog-writing']?.price || 15000) * parseInt(chineseCount || 0)) + ((priceStore['blog-writing-en']?.price || 15000) * parseInt(englishCount || 0));
+                    } else if (name === 'MailCloud郵件代管(5G)') {
+                        let itemPrice = 0;
+                        if (container.querySelector('.mailcloud-setup-check').checked) {
+                            itemPrice += priceStore['mailcloud-setup']?.price || 1000;
+                        }
+                        const quantity = parseInt(container.querySelector('.mailcloud-quantity').value) || 0;
+                        const years = parseInt(container.querySelector('.mailcloud-years').value) || 0;
+                        itemPrice += quantity * years * (priceStore['mailcloud-account']?.price || 1200);
+                        finalPrice = itemPrice;
                     }
+
 
                     totalCost += finalPrice;
                     summaryHTML += `
                         <div class="flex justify-between items-center py-2 border-b border-gray-100">
                             <span class="text-sm text-gray-700">${name}</span>
                             <div class="text-right">
-                                <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(finalPrice).toLocaleString()}</div>
+                                <div class="text-sm font-semibold text-gray-800">${(finalPrice === 0 && name === '客製程式') || (finalPrice === 0 && serviceId.startsWith('custom-')) ? '依工程師估價' : `NT$ ${Math.round(finalPrice).toLocaleString()}`}</div>
                                 ${discountDisplay}
                             </div>
                         </div>`;
@@ -878,7 +1115,7 @@
             
             function updateAddonDisplay() {
                 // Language
-                const langContainer = document.querySelector('.language-total').closest('.border');
+                const langContainer = document.querySelector('[data-service-id="language-add"]');
                 if (langContainer) {
                     const normal = langContainer.querySelector('.language-count').value || 0;
                     const special = langContainer.querySelector('.special-language-count').value || 0;
@@ -888,13 +1125,28 @@
                 }
                 
                 // Blog
-                const blogContainer = document.querySelector('.blog-total').closest('.border');
+                const blogContainer = document.querySelector('[data-service-id="blog-writing"]');
                 if (blogContainer) {
                     const chinese = blogContainer.querySelector('.chinese-blog-count').value || 0;
                     const english = blogContainer.querySelector('.english-blog-count').value || 0;
                     const total = (priceStore['blog-writing']?.price || 15000) * parseInt(chinese) + (priceStore['blog-writing-en']?.price || 15000) * parseInt(english);
                     blogContainer.querySelector('.blog-total').textContent = `NT$ ${total.toLocaleString()}`;
                     blogContainer.querySelector('.blog-cost-p').classList.toggle('hidden', total === 0);
+                }
+
+                // MailCloud
+                const mailcloudContainer = document.querySelector('[data-service-id="mailcloud"]');
+                if (mailcloudContainer) {
+                    let total = 0;
+                    if (mailcloudContainer.querySelector('.mailcloud-setup-check').checked) {
+                        total += priceStore['mailcloud-setup']?.price || 1000;
+                    }
+                    const quantity = parseInt(mailcloudContainer.querySelector('.mailcloud-quantity').value) || 0;
+                    const years = parseInt(mailcloudContainer.querySelector('.mailcloud-years').value) || 0;
+                    total += quantity * years * (priceStore['mailcloud-account']?.price || 1200);
+                    
+                    mailcloudContainer.querySelector('.mailcloud-total').textContent = `NT$ ${total.toLocaleString()}`;
+                    mailcloudContainer.querySelector('.mailcloud-cost-p').classList.toggle('hidden', total === 0);
                 }
             }
             
@@ -912,9 +1164,10 @@
                     
                     // Main price
                     const mainCheckbox = serviceEl.querySelector('.service-checkbox');
-                    if (mainCheckbox) {
+                    if (mainCheckbox && mainCheckbox.dataset.price !== "0") { // Don't add for items with calculated price
                         const price = parseInt(mainCheckbox.dataset.price);
-                        priceStore[serviceId] = { ...priceStore[serviceId], price: price };
+                        if (!priceStore[serviceId]) priceStore[serviceId] = {};
+                        priceStore[serviceId].price = price;
                         
                         const settingRow = document.createElement('div');
                         settingRow.className = 'flex justify-between items-center py-2 border-b';
@@ -929,7 +1182,8 @@
                     const renewalCheckbox = serviceEl.querySelector('.renewal-checkbox');
                     if (renewalCheckbox) {
                         const renewalPrice = parseInt(renewalCheckbox.dataset.renewalPrice);
-                        priceStore[serviceId] = { ...priceStore[serviceId], renewal: renewalPrice };
+                        if (!priceStore[serviceId]) priceStore[serviceId] = {};
+                        priceStore[serviceId].renewal = renewalPrice;
 
                         const settingRow = document.createElement('div');
                         settingRow.className = 'flex justify-between items-center py-2 border-b';
@@ -941,7 +1195,16 @@
                     }
                 });
                 
-                // Add special cases like language and blog writing
+                // Add special cases
+                priceStore['language-add'] = { price: 8000 };
+                const langRow = document.createElement('div');
+                langRow.className = 'flex justify-between items-center py-2 border-b';
+                langRow.innerHTML = `
+                    <label for="price-edit-language-add" class="text-sm">新增語系 (一般)</label>
+                    <input type="number" id="price-edit-language-add" data-target-id="language-add" data-price-type="price" class="form-input w-32 highlight-input" value="8000">
+                `;
+                container.appendChild(langRow);
+
                 priceStore['language-add-special'] = { price: 10000 };
                 const langSpecialRow = document.createElement('div');
                 langSpecialRow.className = 'flex justify-between items-center py-2 border-b';
@@ -951,6 +1214,15 @@
                 `;
                 container.appendChild(langSpecialRow);
                 
+                priceStore['blog-writing'] = { price: 15000 };
+                const blogCnRow = document.createElement('div');
+                blogCnRow.className = 'flex justify-between items-center py-2 border-b';
+                blogCnRow.innerHTML = `
+                    <label for="price-edit-blog-writing" class="text-sm">部落格文案撰寫 (中文)</label>
+                    <input type="number" id="price-edit-blog-writing" data-target-id="blog-writing" data-price-type="price" class="form-input w-32 highlight-input" value="15000">
+                `;
+                container.appendChild(blogCnRow);
+
                 priceStore['blog-writing-en'] = { price: 15000 };
                 const blogEnRow = document.createElement('div');
                 blogEnRow.className = 'flex justify-between items-center py-2 border-b';
@@ -959,20 +1231,48 @@
                     <input type="number" id="price-edit-blog-writing-en" data-target-id="blog-writing-en" data-price-type="price" class="form-input w-32 highlight-input" value="15000">
                 `;
                 container.appendChild(blogEnRow);
+
+                priceStore['mailcloud-setup'] = { price: 1000 };
+                const mailcloudSetupRow = document.createElement('div');
+                mailcloudSetupRow.className = 'flex justify-between items-center py-2 border-b';
+                mailcloudSetupRow.innerHTML = `
+                    <label for="price-edit-mailcloud-setup" class="text-sm">MailCloud 首次設定費</label>
+                    <input type="number" id="price-edit-mailcloud-setup" data-target-id="mailcloud-setup" data-price-type="price" class="form-input w-32 highlight-input" value="1000">
+                `;
+                container.appendChild(mailcloudSetupRow);
+
+                priceStore['mailcloud-account'] = { price: 1200 };
+                const mailcloudAccountRow = document.createElement('div');
+                mailcloudAccountRow.className = 'flex justify-between items-center py-2 border-b';
+                mailcloudAccountRow.innerHTML = `
+                    <label for="price-edit-mailcloud-account" class="text-sm">MailCloud 帳號費用/年</label>
+                    <input type="number" id="price-edit-mailcloud-account" data-target-id="mailcloud-account" data-price-type="price" class="form-input w-32 highlight-input" value="1200">
+                `;
+                container.appendChild(mailcloudAccountRow);
                 
-                // Add event listeners to new inputs
-                container.querySelectorAll('input').forEach(input => {
+                // Add event listeners to all inputs in the settings modal
+                addPriceSettingListeners(container);
+            }
+
+            function addPriceSettingListeners(container) {
+                 container.querySelectorAll('input').forEach(input => {
                     input.addEventListener('input', (e) => {
                         const targetId = e.target.dataset.targetId;
                         const priceType = e.target.dataset.priceType;
                         const newValue = parseInt(e.target.value) || 0;
                         
-                        priceStore[targetId][priceType] = newValue;
+                        if (priceStore[targetId]) {
+                            priceStore[targetId][priceType] = newValue;
+                        }
                         
                         // Update display in original tabs
                         const priceDisplay = document.querySelector(`.price-display[data-price-id="${targetId}"]`);
                         if (priceDisplay && priceType === 'price') {
-                            priceDisplay.textContent = `NT$ ${newValue.toLocaleString()}`;
+                            if ((targetId === 'custom-dev' || targetId.startsWith('custom-')) && newValue === 0) {
+                                priceDisplay.textContent = '依工程師估價';
+                            } else {
+                                priceDisplay.textContent = `NT$ ${newValue.toLocaleString()}`;
+                            }
                         }
                         const renewalPriceDisplay = document.querySelector(`.renewal-price-display[data-renewal-price-id="${targetId}"]`);
                         if (renewalPriceDisplay && priceType === 'renewal') {
@@ -980,21 +1280,33 @@
                         }
                         
                         updateQuote();
+                        updateAddonDisplay();
                     });
                 });
             }
 
 
             // --- Event Listeners Setup ---
-            function setupListeners() {
-                const inputs = document.querySelectorAll(
-                    '.service-checkbox, .renewal-checkbox, .renewal-years, .renewal-discount, ' +
-                    '.inner-page-count, .language-count, .special-language-count, .chinese-blog-count, .english-blog-count'
+            function setupListenersForElement(element) {
+                const inputs = element.querySelectorAll(
+                    '.service-checkbox, .renewal-checkbox, .renewal-years, .renewal-discount, .first-year-discount, ' +
+                    '.inner-page-count, .language-count, .special-language-count, .chinese-blog-count, .english-blog-count, ' +
+                    '.mailcloud-setup-check, .mailcloud-quantity, .mailcloud-years'
                 );
                 inputs.forEach(input => {
-                    input.addEventListener('input', updateQuote);
-                    input.addEventListener('change', updateQuote);
+                    input.addEventListener('input', () => {
+                        updateQuote();
+                        updateAddonDisplay();
+                    });
+                    input.addEventListener('change', () => {
+                        updateQuote();
+                        updateAddonDisplay();
+                    });
                 });
+            }
+
+            function setupAllListeners() {
+                document.querySelectorAll('.border[data-service-id]').forEach(setupListenersForElement);
                 
                 document.body.addEventListener('click', function(e) {
                     if (e.target.classList.contains('stepper-btn')) {
@@ -1033,7 +1345,7 @@
             }
             
             populatePriceSettings();
-            setupListeners();
+            setupAllListeners();
             
             function generateQuoteInfo() {
                 const now = new Date();
@@ -1055,10 +1367,10 @@
             // --- Clear Quote Functionality ---
             document.getElementById('clear-quote').addEventListener('click', function() {
                 document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
-                document.querySelectorAll('.renewal-years').forEach(input => input.value = 1);
-                document.querySelectorAll('.renewal-discount').forEach(input => input.value = 1);
+                document.querySelectorAll('.renewal-years, .mailcloud-years').forEach(input => input.value = 1);
+                document.querySelectorAll('.renewal-discount, .first-year-discount').forEach(input => input.value = 1);
                 document.querySelectorAll('.inner-page-count').forEach(input => input.value = 1);
-                document.querySelectorAll('.language-count, .special-language-count, .chinese-blog-count, .english-blog-count').forEach(input => input.value = 0);
+                document.querySelectorAll('.language-count, .special-language-count, .chinese-blog-count, .english-blog-count, .mailcloud-quantity').forEach(input => input.value = 0);
                 
                 updateQuote();
                 updateAddonDisplay();
@@ -1074,6 +1386,67 @@
                 document.getElementById('cust-address').value = '';
                 generateQuoteInfo();
             });
+
+            // --- Add Custom Item Functionality (FIXED) ---
+            document.getElementById('add-custom-item').addEventListener('click', function() {
+                const nameInput = document.getElementById('custom-item-name');
+                const priceInput = document.getElementById('custom-item-price');
+                const name = nameInput.value.trim();
+                const price = parseFloat(priceInput.value);
+
+                if (!name || isNaN(price)) {
+                    alert('請輸入有效的項目名稱和價格。');
+                    return;
+                }
+
+                const customId = 'custom-' + Date.now();
+                const additionalServicesContainer = document.getElementById('additional-services');
+
+                const newServiceHTML = `
+                    <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="${customId}">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-700">${name}</h3>
+                            </div>
+                            <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-gray-600 focus:ring-gray-500 cursor-pointer ml-4" 
+                                   data-name="${name}" data-price="${price}" data-renewal="0">
+                        </div>
+                        <div class="mt-2">
+                            <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                        </div>
+                        <div class="mt-4 flex justify-end items-baseline gap-6">
+                           <p class="text-gray-500">一次性費用</p>
+                           <p class="text-gray-800">費用: <span class="font-bold text-2xl text-gray-600 price-display" data-price-id="${customId}">${price === 0 ? '依工程師估價' : `NT$ ${price.toLocaleString()}`}</span></p>
+                        </div>
+                    </div>
+                `;
+                
+                additionalServicesContainer.insertAdjacentHTML('beforeend', newServiceHTML);
+
+                // Add to price store
+                priceStore[customId] = { price: price };
+
+                // Add to price settings modal
+                const settingsContainer = document.getElementById('price-settings-container');
+                const settingRow = document.createElement('div');
+                settingRow.className = 'flex justify-between items-center py-2 border-b';
+                settingRow.innerHTML = `
+                    <label for="price-edit-${customId}" class="text-sm">${name}</label>
+                    <input type="number" id="price-edit-${customId}" data-target-id="${customId}" data-price-type="price" class="form-input w-32 highlight-input" value="${price}">
+                `;
+                settingsContainer.appendChild(settingRow);
+                addPriceSettingListeners(settingRow); // Add listener to the new row
+
+                // Add listeners to the new service item itself
+                const newElement = document.querySelector(`[data-service-id="${customId}"]`);
+                setupListenersForElement(newElement);
+
+                // Clear inputs and switch tab
+                nameInput.value = '';
+                priceInput.value = '';
+                document.querySelector('[data-tab="additional-services"]').click();
+            });
+
 
             // --- Print Functionality ---
             document.getElementById('print-quote').addEventListener('click', function() {
@@ -1101,112 +1474,152 @@
                 let printItemsHTML = '';
 
                 // Process Main Services for Print
-                document.querySelectorAll('.service-checkbox:checked').forEach(checkbox => {
+                document.querySelectorAll('.service-checkbox:checked, .renewal-checkbox:checked').forEach(checkbox => {
                     const container = checkbox.closest('.border');
-                    const name = checkbox.dataset.name;
-                    const serviceId = container.dataset.serviceId;
-                    let finalPrice = priceStore[serviceId]?.price || 0;
-                    let discountMultiplier = 1;
-                    let discountDisplay = '';
+                    const mainCheckbox = container.querySelector('.service-checkbox');
+                    const renewalCheckbox = container.querySelector('.renewal-checkbox');
+                    const isRenewalOnly = renewalCheckbox && renewalCheckbox.checked && mainCheckbox && !mainCheckbox.checked;
 
-                    if (container.hasAttribute('data-service-group')) {
-                        const discountInput = container.querySelector('.renewal-discount');
+                    if (checkbox.classList.contains('service-checkbox') || isRenewalOnly) {
+                        const name = mainCheckbox.dataset.name;
+                        const serviceId = container.dataset.serviceId;
+                        let finalPrice = priceStore[serviceId]?.price || 0;
+                        let discountMultiplier = 1;
+                        let discountDisplay = '';
+                        const description = container.querySelector('.description-input').value;
+                        let detailsHTML = container.querySelector('ul')?.outerHTML || '';
+
+                        if (container.closest('#website-design')) {
+                            const discountInput = container.querySelector('.first-year-discount');
+                             if (discountInput) {
+                                const multiplier = parseFloat(discountInput.value);
+                                if (!isNaN(multiplier) && multiplier > 0 && multiplier !== 1) {
+                                    discountMultiplier = multiplier;
+                                    finalPrice *= discountMultiplier;
+                                    discountDisplay = `<div class="text-xs text-green-600">首年 ${Math.round(discountMultiplier*100)} 折</div>`;
+                                }
+                            }
+                        } else if (container.closest('#seo-marketing')) {
+                             const discountInput = container.querySelector('.renewal-discount');
+                            if (discountInput) {
+                                const multiplier = parseFloat(discountInput.value);
+                                if (!isNaN(multiplier) && multiplier > 0 && multiplier !== 1) {
+                                    discountMultiplier = multiplier;
+                                    finalPrice *= discountMultiplier;
+                                    discountDisplay = `<div class="text-xs text-green-600">首年 ${Math.round(discountMultiplier*100)} 折</div>`;
+                                }
+                            }
+                        }
+                        
+                        let quantityDisplay = '';
+                         if (name === 'HTTPS安全加密') {
+                            let maxTotalYears = 0;
+                            document.querySelectorAll('.border[data-service-id]').forEach(c => {
+                                const mc = c.querySelector('.service-checkbox');
+                                const rc = c.querySelector('.renewal-checkbox');
+                                if (mc && mc.checked) {
+                                    let y = 1;
+                                    if (rc && rc.checked) y += parseInt(c.querySelector('.renewal-years').value || 0);
+                                    maxTotalYears = Math.max(maxTotalYears, y);
+                                } else if (rc && rc.checked) {
+                                    maxTotalYears = Math.max(maxTotalYears, parseInt(c.querySelector('.renewal-years').value || 0));
+                                }
+                            });
+                            if (maxTotalYears >= 3) {
+                                finalPrice = 0;
+                                discountDisplay = `<div class="text-xs text-green-600">3年約贈送</div>`;
+                            } else {
+                                finalPrice = priceStore['https']?.price || 6200;
+                            }
+                        } else if (name === '內頁設計') {
+                            const count = container.querySelector('.inner-page-count').value;
+                            finalPrice = (priceStore['inner-page-design']?.price || 20000) * parseInt(count > 0 ? count : 1);
+                            quantityDisplay = ` (${count} 頁)`;
+                        } else if (name === '新增語系') {
+                            const normalCount = container.querySelector('.language-count').value || 0;
+                            const specialCount = container.querySelector('.special-language-count').value || 0;
+                            finalPrice = ((priceStore['language-add']?.price || 8000) * parseInt(normalCount)) + ((priceStore['language-add-special']?.price || 10000) * parseInt(specialCount));
+                            quantityDisplay = ` (一般: ${normalCount}, 特殊: ${specialCount})`;
+                        } else if (name === '部落格文案撰寫') {
+                            const chineseCount = container.querySelector('.chinese-blog-count').value || 0;
+                            const englishCount = container.querySelector('.english-blog-count').value || 0;
+                            finalPrice = ((priceStore['blog-writing']?.price || 15000) * parseInt(chineseCount)) + ((priceStore['blog-writing-en']?.price || 15000) * parseInt(englishCount));
+                            quantityDisplay = ` (中: ${chineseCount}, 英: ${englishCount})`;
+                        } else if (name === 'MailCloud郵件代管(5G)') {
+                            let itemPrice = 0;
+                            let setupFeeHTML = '';
+                            if (container.querySelector('.mailcloud-setup-check').checked) {
+                                itemPrice += priceStore['mailcloud-setup']?.price || 1000;
+                                setupFeeHTML = `<li>首次設定費: NT$ ${(priceStore['mailcloud-setup']?.price || 1000).toLocaleString()}</li>`;
+                            }
+                            const quantity = parseInt(container.querySelector('.mailcloud-quantity').value) || 0;
+                            const years = parseInt(container.querySelector('.mailcloud-years').value) || 0;
+                            itemPrice += quantity * years * (priceStore['mailcloud-account']?.price || 1200);
+                            finalPrice = itemPrice;
+                            detailsHTML = `<ul class="list-disc list-inside mt-2 text-sm text-gray-700">${setupFeeHTML}<li>郵件帳號: ${quantity} 組, ${years} 年</li></ul>`;
+                        }
+
+
+                        if (isRenewalOnly && container.closest('#website-design')) {
+                            detailsHTML = `
+                                <ul class="list-disc list-inside mt-2 text-sm text-gray-700">
+                                    <li><b>雙主機運行：</b>同時使用 Google 和微軟 Azure 主機，確保網站穩定。</li>
+                                    <li><b>資料備份：</b>在亞馬遜 (AWS) 進行備份，圖片保留7天，資料庫保留30天。</li>
+                                    <li><b>頂級安全防護：</b>具備 A+ 等級的 SSL 加密、防火牆 (WAF) 及 DDoS 攻擊防護，並提供 24 小時安全監控。</li>
+                                    <li><b>即時演算法更新：</b>隨時跟進 Google 的演算法變動，並快速調整。</li>
+                                    <li><b>系統全面更新：</b>透過中央控管系統，統一進行系統、程式與安全性的升級。</li>
+                                </ul>`;
+                        }
+
+
+                        printItemsHTML += `
+                            <div class="py-4 border-b last:border-b-0 break-inside-avoid">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="text-base font-bold text-gray-800">${name}${quantityDisplay}</h4>
+                                    <div class="text-right flex-shrink-0 ml-4">
+                                        <div class="text-sm font-semibold text-gray-800">${isRenewalOnly ? '' : ((finalPrice === 0 && name === '客製程式') || (finalPrice === 0 && serviceId.startsWith('custom-')) ? '依工程師估價' : `NT$ ${Math.round(finalPrice).toLocaleString()}`)}</div>
+                                        ${discountDisplay}
+                                    </div>
+                                </div>
+                                <div class="pl-4 text-sm text-gray-700">${detailsHTML}</div>
+                                ${description ? `<div class="pl-4 mt-2 text-sm text-gray-600"><strong>備註:</strong> ${description}</div>` : ''}
+                            </div>
+                        `;
+                    }
+
+                    if (checkbox.classList.contains('renewal-checkbox') && checkbox.checked) {
+                        const parentDiv = checkbox.closest('.renewal-section');
+                        const container = checkbox.closest('.border');
+                        const serviceId = container.dataset.serviceId;
+                        const name = checkbox.dataset.name;
+                        const basePrice = priceStore[serviceId]?.renewal || 0;
+                        const years = parseInt(parentDiv.querySelector('.renewal-years').value) || 1;
+                        
+                        let discountMultiplier = 1;
+                        let discountDisplay = '';
+                        const discountInput = parentDiv.querySelector('.renewal-discount');
                         if (discountInput) {
                             const multiplier = parseFloat(discountInput.value);
                             if (!isNaN(multiplier) && multiplier > 0 && multiplier !== 1) {
                                 discountMultiplier = multiplier;
-                                finalPrice *= discountMultiplier;
-                                discountDisplay = `<div class="text-xs text-green-600">首年 ${Math.round(discountMultiplier*100)} 折</div>`;
+                                discountDisplay = `<div class="text-xs text-green-600">${Math.round(discountMultiplier*100)} 折</div>`;
                             }
                         }
-                    }
-                    
-                    let quantityDisplay = '';
-                     if (name === 'HTTPS安全加密') {
-                        let maxTotalYears = 0;
-                        document.querySelectorAll('.border[data-service-id]').forEach(c => {
-                            const mc = c.querySelector('.service-checkbox');
-                            const rc = c.querySelector('.renewal-checkbox');
-                            if (mc && mc.checked) {
-                                let y = 1;
-                                if (rc && rc.checked) y += parseInt(c.querySelector('.renewal-years').value || 0);
-                                maxTotalYears = Math.max(maxTotalYears, y);
-                            } else if (rc && rc.checked) {
-                                maxTotalYears = Math.max(maxTotalYears, parseInt(c.querySelector('.renewal-years').value || 0));
-                            }
-                        });
-                        if (maxTotalYears >= 3) {
-                            finalPrice = 0;
-                            discountDisplay = `<div class="text-xs text-green-600">3年約贈送</div>`;
-                        } else {
-                            finalPrice = priceStore['https']?.price || 6200;
-                        }
-                    } else if (name === '內頁設計') {
-                        const count = container.querySelector('.inner-page-count').value;
-                        finalPrice = (priceStore['inner-page-design']?.price || 20000) * parseInt(count > 0 ? count : 1);
-                        quantityDisplay = ` (${count} 頁)`;
-                    } else if (name === '新增語系') {
-                        const normalCount = container.querySelector('.language-count').value || 0;
-                        const specialCount = container.querySelector('.special-language-count').value || 0;
-                        finalPrice = ((priceStore['language-add']?.price || 8000) * parseInt(normalCount)) + ((priceStore['language-add-special']?.price || 10000) * parseInt(specialCount));
-                        quantityDisplay = ` (一般: ${normalCount}, 特殊: ${specialCount})`;
-                    } else if (name === '部落格文案撰寫') {
-                        const chineseCount = container.querySelector('.chinese-blog-count').value || 0;
-                        const englishCount = container.querySelector('.english-blog-count').value || 0;
-                        finalPrice = ((priceStore['blog-writing']?.price || 15000) * parseInt(chineseCount)) + ((priceStore['blog-writing-en']?.price || 15000) * parseInt(englishCount));
-                        quantityDisplay = ` (中: ${chineseCount}, 英: ${englishCount})`;
-                    }
+                        
+                        const finalRenewalPrice = basePrice * years * discountMultiplier;
 
-                    const detailsList = container.querySelector('ul');
-                    const detailsHTML = detailsList ? detailsList.outerHTML : '';
-
-                    printItemsHTML += `
-                        <div class="py-4 border-b last:border-b-0 break-inside-avoid">
-                            <div class="flex justify-between items-start mb-2">
-                                <h4 class="text-base font-bold text-gray-800">${name}${quantityDisplay}</h4>
-                                <div class="text-right flex-shrink-0 ml-4">
-                                    <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(finalPrice).toLocaleString()}</div>
-                                    ${discountDisplay}
+                        printItemsHTML += `
+                            <div class="py-4 border-b last:border-b-0 break-inside-avoid">
+                                <div class="flex justify-between items-start">
+                                    <h4 class="text-base font-bold text-gray-800">${name} (${years}年)</h4>
+                                    <div class="text-right flex-shrink-0 ml-4">
+                                        <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(finalRenewalPrice).toLocaleString()}</div>
+                                        ${discountDisplay}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="pl-4 text-sm text-gray-700">${detailsHTML}</div>
-                        </div>
-                    `;
-                });
-
-                // Process Renewal Services for Print
-                document.querySelectorAll('.renewal-checkbox:checked').forEach(checkbox => {
-                    const parentDiv = checkbox.closest('.renewal-section');
-                    const container = checkbox.closest('.border');
-                    const serviceId = container.dataset.serviceId;
-                    const name = checkbox.dataset.name;
-                    const basePrice = priceStore[serviceId]?.renewal || 0;
-                    const years = parseInt(parentDiv.querySelector('.renewal-years').value) || 1;
-                    
-                    let discountMultiplier = 1;
-                    let discountDisplay = '';
-                    const discountInput = parentDiv.querySelector('.renewal-discount');
-                    if (discountInput) {
-                        const multiplier = parseFloat(discountInput.value);
-                        if (!isNaN(multiplier) && multiplier > 0 && multiplier !== 1) {
-                            discountMultiplier = multiplier;
-                            discountDisplay = `<div class="text-xs text-green-600">${Math.round(discountMultiplier*100)} 折</div>`;
-                        }
+                        `;
                     }
-                    
-                    const finalRenewalPrice = basePrice * years * discountMultiplier;
-
-                    printItemsHTML += `
-                        <div class="py-4 border-b last:border-b-0 break-inside-avoid">
-                            <div class="flex justify-between items-start">
-                                <h4 class="text-base font-bold text-gray-800">${name} (${years}年)</h4>
-                                <div class="text-right flex-shrink-0 ml-4">
-                                    <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(finalRenewalPrice).toLocaleString()}</div>
-                                    ${discountDisplay}
-                                </div>
-                            </div>
-                        </div>
-                    `;
                 });
 
 
@@ -1232,7 +1645,7 @@
                                     <p class="text-gray-500 text-sm">網站設計 & SEO 優化方案報價單</p>
                                 </div>
                                 <div class="text-sm text-gray-700">
-                                    <div class="grid grid-cols-[auto_1fr] gap-x-2">
+                                    <div class="grid grid-cols-[auto_1fr] gap-x-2 text-left">
                                         <strong class="font-semibold">專案人員:</strong>
                                         <span>${pmName}</span>
                                         <strong class="font-semibold">電話:</strong>
@@ -1246,24 +1659,24 @@
                             <div class="mb-8 p-4 border rounded-lg bg-gray-50">
                                  <h2 class="text-lg font-bold mb-3">報價資訊</h2>
                                  <div class="grid grid-cols-[auto_1fr_auto_1fr] gap-x-4 gap-y-2 text-sm items-baseline">
-                                    <strong class="font-semibold">報價單號：</strong>
+                                    <strong class="font-semibold text-left">報價單號：</strong>
                                     <p>${custQuoteNum}</p>
-                                    <strong class="font-semibold">公司名稱：</strong>
+                                    <strong class="font-semibold text-left">公司名稱：</strong>
                                     <p>${custName}</p>
                                     
-                                    <strong class="font-semibold">報價日期：</strong>
+                                    <strong class="font-semibold text-left">報價日期：</strong>
                                     <p>${custDate}</p>
-                                    <strong class="font-semibold">聯絡人：</strong>
+                                    <strong class="font-semibold text-left">聯絡人：</strong>
                                     <p>${custContact}</p>
 
-                                    <strong class="font-semibold">電話：</strong>
+                                    <strong class="font-semibold text-left">電話：</strong>
                                     <p>${custTel}</p>
-                                    <strong class="font-semibold">Email：</strong>
+                                    <strong class="font-semibold text-left">Email：</strong>
                                     <p>${custEmail}</p>
 
-                                    <strong class="font-semibold">統一編號：</strong>
+                                    <strong class="font-semibold text-left">統一編號：</strong>
                                     <p>${custTaxId}</p>
-                                    <strong class="font-semibold">地址：</strong>
+                                    <strong class="font-semibold text-left">地址：</strong>
                                     <p>${custAddress}</p>
                                 </div>
                             </div>
