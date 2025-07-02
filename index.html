@@ -1066,11 +1066,21 @@
 
 
                     totalCost += finalPrice;
+                    
+                    let priceText;
+                    if (serviceId.startsWith('custom-') && finalPrice === 0) {
+                        priceText = '<span class="text-green-600 font-semibold">特別優惠贈送</span>';
+                    } else if (name === '客製程式' && finalPrice === 0) {
+                        priceText = '依工程師估價';
+                    } else {
+                        priceText = `NT$ ${Math.round(finalPrice).toLocaleString()}`;
+                    }
+
                     summaryHTML += `
                         <div class="flex justify-between items-center py-2 border-b border-gray-100">
                             <span class="text-sm text-gray-700">${name}</span>
                             <div class="text-right">
-                                <div class="text-sm font-semibold text-gray-800">${(finalPrice === 0 && name === '客製程式') || (finalPrice === 0 && serviceId.startsWith('custom-')) ? '依工程師估價' : `NT$ ${Math.round(finalPrice).toLocaleString()}`}</div>
+                                <div class="text-sm font-semibold text-gray-800">${priceText}</div>
                                 ${discountDisplay}
                             </div>
                         </div>`;
@@ -1287,7 +1297,9 @@
                         // Update display in original tabs
                         const priceDisplay = document.querySelector(`.price-display[data-price-id="${targetId}"]`);
                         if (priceDisplay && priceType === 'price') {
-                            if ((targetId === 'custom-dev' || targetId.startsWith('custom-')) && newValue === 0) {
+                            if (targetId.startsWith('custom-') && newValue === 0) {
+                                priceDisplay.innerHTML = '<span class="text-green-600">特別優惠贈送</span>';
+                            } else if (targetId === 'custom-dev' && newValue === 0) {
                                 priceDisplay.textContent = '依工程師估價';
                             } else {
                                 priceDisplay.textContent = `NT$ ${newValue.toLocaleString()}`;
@@ -1408,7 +1420,7 @@
                 generateQuoteInfo();
             });
 
-            // --- Add Custom Item Functionality (FIXED) ---
+            // --- Add Custom Item Functionality ---
             document.getElementById('add-custom-item').addEventListener('click', function() {
                 const nameInput = document.getElementById('custom-item-name');
                 const priceInput = document.getElementById('custom-item-price');
@@ -1437,7 +1449,7 @@
                         </div>
                         <div class="mt-4 flex justify-end items-baseline gap-6">
                            <p class="text-gray-500">一次性費用</p>
-                           <p class="text-gray-800">費用: <span class="font-bold text-2xl text-gray-600 price-display" data-price-id="${customId}">${price === 0 ? '依工程師估價' : `NT$ ${price.toLocaleString()}`}</span></p>
+                           <p class="text-gray-800">費用: <span class="font-bold text-2xl text-gray-600 price-display" data-price-id="${customId}">${price === 0 ? '<span class="text-green-600">特別優惠贈送</span>' : `NT$ ${price.toLocaleString()}`}</span></p>
                         </div>
                     </div>
                 `;
@@ -1605,13 +1617,21 @@
                                 </ul>`;
                         }
 
+                        let printPriceText;
+                        if (serviceId.startsWith('custom-') && finalPrice === 0) {
+                            printPriceText = '<span style="color: #16a34a; font-weight: 600;">特別優惠贈送</span>';
+                        } else if (name === '客製程式' && finalPrice === 0) {
+                            printPriceText = '依工程師估價';
+                        } else {
+                            printPriceText = `NT$ ${Math.round(finalPrice).toLocaleString()}`;
+                        }
 
                         printItemsHTML += `
                             <div class="py-4 border-b last:border-b-0 break-inside-avoid">
                                 <div class="flex justify-between items-start mb-2">
                                     <h4 class="text-base font-bold text-gray-800">${name}${quantityDisplay}</h4>
                                     <div class="text-right flex-shrink-0 ml-4">
-                                        <div class="text-sm font-semibold text-gray-800">${isRenewalOnly ? '' : ((finalPrice === 0 && name === '客製程式') || (finalPrice === 0 && serviceId.startsWith('custom-')) ? '依工程師估價' : `NT$ ${Math.round(finalPrice).toLocaleString()}`)}</div>
+                                        <div class="text-sm font-semibold text-gray-800">${isRenewalOnly ? '' : printPriceText}</div>
                                         ${discountDisplay}
                                     </div>
                                 </div>
