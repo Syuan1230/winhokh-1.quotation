@@ -1066,7 +1066,30 @@
                     if (!mainCheckbox || !mainCheckbox.checked) return;
 
                     const name = mainCheckbox.dataset.name;
-                    const basePrice = priceStore[serviceId]?.price || 0;
+                    let basePrice = priceStore[serviceId]?.price || 0;
+
+                    // Handle addons with calculated prices
+                    if (serviceId === 'inner-page-design') {
+                        const count = parseInt(container.querySelector('.inner-page-count').value) || 0;
+                        basePrice = (priceStore['inner-page-design']?.price || 20000) * count;
+                    } else if (serviceId === 'language-add') {
+                        const normalCount = parseInt(container.querySelector('.language-count').value) || 0;
+                        const specialCount = parseInt(container.querySelector('.special-language-count').value) || 0;
+                        basePrice = ((priceStore['language-add']?.price || 8000) * normalCount) + ((priceStore['language-add-special']?.price || 10000) * specialCount);
+                    } else if (serviceId === 'blog-writing') {
+                        const chineseCount = parseInt(container.querySelector('.chinese-blog-count').value) || 0;
+                        const englishCount = parseInt(container.querySelector('.english-blog-count').value) || 0;
+                        basePrice = ((priceStore['blog-writing']?.price || 15000) * chineseCount) + ((priceStore['blog-writing-en']?.price || 15000) * englishCount);
+                    } else if (serviceId === 'mailcloud') {
+                        let mailPrice = 0;
+                        if (container.querySelector('.mailcloud-setup-check').checked) {
+                            mailPrice += priceStore['mailcloud-setup']?.price || 1000;
+                        }
+                        const quantity = parseInt(container.querySelector('.mailcloud-quantity').value) || 0;
+                        const years = parseInt(container.querySelector('.mailcloud-years').value) || 0;
+                        mailPrice += quantity * years * (priceStore['mailcloud-account']?.price || 1200);
+                        basePrice = mailPrice;
+                    }
                     
                     const firstYearDiscountInput = container.querySelector('.first-year-discount');
                     const firstYearDiscount = firstYearDiscountInput ? parseFloat(firstYearDiscountInput.value) || 1 : 1;
@@ -1079,7 +1102,7 @@
                             <span class="text-sm text-gray-700">${name}</span>
                             <div class="text-right">
                                 <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(discountedFirstYearPrice).toLocaleString()}</div>
-                                ${firstYearDiscount !== 1 ? `<div class="text-xs text-green-600">首年 ${Math.round(firstYearDiscount*100)} 折</div>` : ''}
+                                ${firstYearDiscount !== 1 && basePrice > 0 ? `<div class="text-xs text-green-600">首年 ${Math.round(firstYearDiscount*100)} 折</div>` : ''}
                             </div>
                         </div>`;
 
@@ -1129,8 +1152,9 @@
             
             function populatePriceSettings() {
                 const container = document.getElementById('price-settings-container');
-                container.innerHTML = ''; // Clear existing
-                
+                container.innerHTML = ''; 
+                const savedPrices = JSON.parse(localStorage.getItem('customPriceStore') || '{}');
+
                 const allServices = document.querySelectorAll('.border[data-service-id]');
                 
                 allServices.forEach(serviceEl => {
@@ -1141,7 +1165,10 @@
                     
                     const mainCheckbox = serviceEl.querySelector('.service-checkbox');
                     if (mainCheckbox && mainCheckbox.dataset.price !== "0") {
-                        const price = parseInt(mainCheckbox.dataset.price);
+                        const defaultPrice = parseInt(mainCheckbox.dataset.price);
+                        const savedPrice = savedPrices[serviceId]?.price;
+                        const price = (savedPrice !== undefined) ? savedPrice : defaultPrice;
+                        
                         if (!priceStore[serviceId]) priceStore[serviceId] = {};
                         priceStore[serviceId].price = price;
                         
@@ -1156,7 +1183,10 @@
                     
                     const renewalCheckbox = serviceEl.querySelector('.renewal-checkbox');
                     if (renewalCheckbox) {
-                        const renewalPrice = parseInt(renewalCheckbox.dataset.renewalPrice);
+                        const defaultRenewalPrice = parseInt(renewalCheckbox.dataset.renewalPrice);
+                        const savedRenewalPrice = savedPrices[serviceId]?.renewal;
+                        const renewalPrice = (savedRenewalPrice !== undefined) ? savedRenewalPrice : defaultRenewalPrice;
+
                         if (!priceStore[serviceId]) priceStore[serviceId] = {};
                         priceStore[serviceId].renewal = renewalPrice;
 
@@ -1180,11 +1210,8 @@
                         const priceType = e.target.dataset.priceType;
                         const newValue = parseInt(e.target.value) || 0;
                         
-                        if (priceStore[targetId]) {
-                            priceStore[targetId][priceType] = newValue;
-                        } else {
-                            priceStore[targetId] = { [priceType]: newValue };
-                        }
+                        if (!priceStore[targetId]) priceStore[targetId] = {};
+                        priceStore[targetId][priceType] = newValue;
                         
                         const priceDisplay = document.querySelector(`.price-display[data-price-id="${targetId}"]`);
                         if (priceDisplay && priceType === 'price') {
@@ -1527,9 +1554,26 @@
 
             function initialize() {
                 const savedPrices = JSON.parse(localStorage.getItem('customPriceStore') || '{}');
-                Object.assign(priceStore, savedPrices);
                 
-                populatePriceSettings();
+                populatePriceSettings(); // Populate with defaults first
+                Object.assign(priceStore, savedPrices); // Then overwrite with saved data
+                
+                // Re-apply saved prices to the UI
+                Object.keys(priceStore).forEach(serviceId => {
+                    if (priceStore[serviceId].price !== undefined) {
+                        const input = document.querySelector(`#price-edit-${serviceId}`);
+                        if (input) input.value = priceStore[serviceId].price;
+                        const display = document.querySelector(`.price-display[data-price-id="${serviceId}"]`);
+                        if (display) display.textContent = `NT$ ${priceStore[serviceId].price.toLocaleString()}`;
+                    }
+                    if (priceStore[serviceId].renewal !== undefined) {
+                         const input = document.querySelector(`#price-edit-renewal-${serviceId}`);
+                        if (input) input.value = priceStore[serviceId].renewal;
+                        const display = document.querySelector(`.renewal-price-display[data-renewal-price-id="${serviceId}"]`);
+                        if(display) display.textContent = `NT$ ${priceStore[serviceId].renewal.toLocaleString()} /年`;
+                    }
+                });
+
                 loadCustomPackages();
                 setupAllListeners();
                 generateQuoteInfo();
@@ -1587,6 +1631,8 @@
                 additionalServicesContainer.insertAdjacentHTML('beforeend', newServiceHTML);
 
                 priceStore[customId] = { price: price, renewal: 0 };
+                localStorage.setItem('customPriceStore', JSON.stringify(priceStore));
+
 
                 const settingsContainer = document.getElementById('price-settings-container');
                 const settingRow = document.createElement('div');
@@ -1641,56 +1687,7 @@
                     `;
                 }
                 
-                let printItemsHTML = '';
-                document.querySelectorAll('div[data-service-id]').forEach(container => {
-                    const mainCheckbox = container.querySelector('.service-checkbox');
-                    if(mainCheckbox && mainCheckbox.checked) {
-                        const name = mainCheckbox.dataset.name;
-                        const detailsHTML = container.querySelector('ul')?.outerHTML || '';
-                        const description = container.querySelector('.description-input').value;
-                        const firstYearDiscountInput = container.querySelector('.first-year-discount');
-                        const firstYearDiscount = firstYearDiscountInput ? parseFloat(firstYearDiscountInput.value) || 1 : 1;
-                        const basePrice = priceStore[container.dataset.serviceId]?.price || 0;
-                        const discountedFirstYearPrice = basePrice * firstYearDiscount;
-                        
-                        printItemsHTML += `
-                            <div class="py-4 border-b last:border-b-0 break-inside-avoid">
-                                <div class="flex justify-between items-start mb-2">
-                                    <h4 class="text-base font-bold text-gray-800">${name}</h4>
-                                    <div class="text-right flex-shrink-0 ml-4">
-                                        <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(discountedFirstYearPrice).toLocaleString()}</div>
-                                        ${firstYearDiscount !== 1 ? `<div class="text-xs text-green-600">首年 ${Math.round(firstYearDiscount*100)} 折</div>` : ''}
-                                    </div>
-                                </div>
-                                <div class="pl-4 text-sm text-gray-700">${detailsHTML}</div>
-                                ${description ? `<div class="pl-4 mt-2 text-sm text-gray-600"><strong>備註:</strong> ${description}</div>` : ''}
-                            </div>
-                        `;
-
-                        const renewalCheckbox = container.querySelector('.renewal-checkbox');
-                        if (renewalCheckbox && renewalCheckbox.checked) {
-                            const renewalName = renewalCheckbox.dataset.name;
-                            const renewalPrice = priceStore[container.dataset.serviceId]?.renewal || 0;
-                            const years = parseInt(container.querySelector('.renewal-years').value) || 1;
-                            const discount = parseFloat(container.querySelector('.renewal-discount').value) || 1;
-                            const renewalTotal = renewalPrice * years * discount;
-
-                            printItemsHTML += `
-                                <div class="py-4 border-b last:border-b-0 break-inside-avoid pl-4">
-                                    <div class="flex justify-between items-start">
-                                        <h4 class="text-base font-bold text-gray-800">${renewalName} (${years}年)</h4>
-                                        <div class="text-right flex-shrink-0 ml-4">
-                                            <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(renewalTotal).toLocaleString()}</div>
-                                            ${discount !== 1 ? `<div class="text-xs text-green-600">${Math.round(discount*100)} 折</div>` : ''}
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                        }
-                    }
-                });
-
-
+                const printItemsHTML = document.getElementById('quote-summary').innerHTML;
                 const comparisonTableHTML = comparisonSection.classList.contains('hidden') ? '' : comparisonSection.outerHTML;
 
                 const printWindow = window.open('', '_blank');
