@@ -1066,7 +1066,7 @@
                     if (!mainCheckbox || !mainCheckbox.checked) return;
 
                     const name = mainCheckbox.dataset.name;
-                    let basePrice = priceStore[serviceId]?.price || 0;
+                    let basePrice = priceStore[serviceId]?.price || parseFloat(mainCheckbox.dataset.price) || 0;
 
                     // Handle addons with calculated prices
                     if (serviceId === 'inner-page-design') {
@@ -1198,6 +1198,31 @@
                         `;
                         container.appendChild(settingRow);
                     }
+                });
+
+                // Manually add calculated items
+                const calculatedItems = [
+                    {id: 'language-add', name: '新增語系 (一般)', defaultPrice: 8000},
+                    {id: 'language-add-special', name: '新增語系 (特殊)', defaultPrice: 10000},
+                    {id: 'blog-writing', name: '部落格文案撰寫 (中文)', defaultPrice: 15000},
+                    {id: 'blog-writing-en', name: '部落格文案撰寫 (英文)', defaultPrice: 15000},
+                    {id: 'mailcloud-setup', name: 'MailCloud 首次設定費', defaultPrice: 1000},
+                    {id: 'mailcloud-account', name: 'MailCloud 帳號費用/年', defaultPrice: 1200},
+                ];
+
+                calculatedItems.forEach(item => {
+                    const savedPrice = savedPrices[item.id]?.price;
+                    const price = (savedPrice !== undefined) ? savedPrice : item.defaultPrice;
+                    if (!priceStore[item.id]) priceStore[item.id] = {};
+                    priceStore[item.id].price = price;
+
+                     const settingRow = document.createElement('div');
+                    settingRow.className = 'flex justify-between items-center py-2 border-b';
+                    settingRow.innerHTML = `
+                        <label for="price-edit-${item.id}" class="text-sm">${item.name}</label>
+                        <input type="number" id="price-edit-${item.id}" data-target-id="${item.id}" data-price-type="price" class="form-input w-32 highlight-input" value="${price}">
+                    `;
+                    container.appendChild(settingRow);
                 });
                 
                 addPriceSettingListeners(container);
