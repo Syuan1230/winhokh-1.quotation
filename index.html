@@ -1057,56 +1057,70 @@
                 let summaryHTML = '';
                 let totalCost = 0;
                 let maxYears = 1;
-                let hasSelections = document.querySelectorAll('.service-checkbox:checked').length > 0;
+                let hasSelections = document.querySelectorAll('.service-checkbox:checked, .renewal-checkbox:checked').length > 0;
 
                 document.querySelectorAll('div[data-service-id]').forEach(container => {
                     const serviceId = container.dataset.serviceId;
                     const mainCheckbox = container.querySelector('.service-checkbox');
-                    
-                    if (!mainCheckbox || !mainCheckbox.checked) return;
+                    const renewalCheckbox = container.querySelector('.renewal-checkbox');
+
+                    if (!mainCheckbox || (!mainCheckbox.checked && (!renewalCheckbox || !renewalCheckbox.checked))) return;
 
                     const name = mainCheckbox.dataset.name;
-                    let basePrice = priceStore[serviceId]?.price || parseFloat(mainCheckbox.dataset.price) || 0;
-
+                    let basePrice = priceStore[serviceId]?.price !== undefined ? priceStore[serviceId].price : parseFloat(mainCheckbox.dataset.price) || 0;
+                    
                     // Handle addons with calculated prices
                     if (serviceId === 'inner-page-design') {
                         const count = parseInt(container.querySelector('.inner-page-count').value) || 0;
-                        basePrice = (priceStore['inner-page-design']?.price || 20000) * count;
+                        basePrice = (priceStore['inner-page-design']?.price !== undefined ? priceStore['inner-page-design'].price : 20000) * count;
                     } else if (serviceId === 'language-add') {
                         const normalCount = parseInt(container.querySelector('.language-count').value) || 0;
                         const specialCount = parseInt(container.querySelector('.special-language-count').value) || 0;
-                        basePrice = ((priceStore['language-add']?.price || 8000) * normalCount) + ((priceStore['language-add-special']?.price || 10000) * specialCount);
+                        basePrice = ((priceStore['language-add']?.price !== undefined ? priceStore['language-add'].price : 8000) * normalCount) + ((priceStore['language-add-special']?.price !== undefined ? priceStore['language-add-special'].price : 10000) * specialCount);
                     } else if (serviceId === 'blog-writing') {
                         const chineseCount = parseInt(container.querySelector('.chinese-blog-count').value) || 0;
                         const englishCount = parseInt(container.querySelector('.english-blog-count').value) || 0;
-                        basePrice = ((priceStore['blog-writing']?.price || 15000) * chineseCount) + ((priceStore['blog-writing-en']?.price || 15000) * englishCount);
+                        basePrice = ((priceStore['blog-writing']?.price !== undefined ? priceStore['blog-writing'].price : 15000) * chineseCount) + ((priceStore['blog-writing-en']?.price !== undefined ? priceStore['blog-writing-en'].price : 15000) * englishCount);
                     } else if (serviceId === 'mailcloud') {
                         let mailPrice = 0;
                         if (container.querySelector('.mailcloud-setup-check').checked) {
-                            mailPrice += priceStore['mailcloud-setup']?.price || 1000;
+                            mailPrice += (priceStore['mailcloud-setup']?.price !== undefined ? priceStore['mailcloud-setup'].price : 1000);
                         }
                         const quantity = parseInt(container.querySelector('.mailcloud-quantity').value) || 0;
                         const years = parseInt(container.querySelector('.mailcloud-years').value) || 0;
-                        mailPrice += quantity * years * (priceStore['mailcloud-account']?.price || 1200);
+                        mailPrice += quantity * years * (priceStore['mailcloud-account']?.price !== undefined ? priceStore['mailcloud-account'].price : 1200);
                         basePrice = mailPrice;
+                    } else if (serviceId === 'custom-dev') {
+                        basePrice = priceStore['custom-dev']?.price || 0;
                     }
                     
-                    const firstYearDiscountInput = container.querySelector('.first-year-discount');
-                    const firstYearDiscount = firstYearDiscountInput ? parseFloat(firstYearDiscountInput.value) || 1 : 1;
-                    const discountedFirstYearPrice = basePrice * firstYearDiscount;
-                    
-                    totalCost += discountedFirstYearPrice;
+                    if (mainCheckbox.checked) {
+                        const firstYearDiscountInput = container.querySelector('.first-year-discount');
+                        const firstYearDiscount = firstYearDiscountInput ? parseFloat(firstYearDiscountInput.value) || 1 : 1;
+                        const discountedFirstYearPrice = basePrice * firstYearDiscount;
+                        
+                        totalCost += discountedFirstYearPrice;
 
-                    summaryHTML += `
-                        <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                            <span class="text-sm text-gray-700">${name}</span>
-                            <div class="text-right">
-                                <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(discountedFirstYearPrice).toLocaleString()}</div>
-                                ${firstYearDiscount !== 1 && basePrice > 0 ? `<div class="text-xs text-green-600">首年 ${Math.round(firstYearDiscount*100)} 折</div>` : ''}
-                            </div>
-                        </div>`;
+                        let priceText;
+                        if (serviceId === 'custom-dev' && discountedFirstYearPrice === 0) {
+                            priceText = '依工程師估價';
+                        } else if (basePrice === 0 && serviceId !== 'custom-dev') {
+                             priceText = `<span class="text-green-600 font-semibold">特別優惠</span>`;
+                        }
+                        else {
+                            priceText = `NT$ ${Math.round(discountedFirstYearPrice).toLocaleString()}`;
+                        }
 
-                    const renewalCheckbox = container.querySelector('.renewal-checkbox');
+                        summaryHTML += `
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="text-sm text-gray-700">${name}</span>
+                                <div class="text-right">
+                                    <div class="text-sm font-semibold text-gray-800">${priceText}</div>
+                                    ${firstYearDiscount !== 1 && basePrice > 0 && firstYearDiscountInput ? `<div class="text-xs text-green-600">首年 ${Math.round(firstYearDiscount*100)} 折</div>` : ''}
+                                </div>
+                            </div>`;
+                    }
+
                     if (renewalCheckbox && renewalCheckbox.checked) {
                         const renewalPrice = priceStore[serviceId]?.renewal || 0;
                         const yearsInput = container.querySelector('.renewal-years');
@@ -1159,13 +1173,13 @@
                 
                 allServices.forEach(serviceEl => {
                     const serviceId = serviceEl.dataset.serviceId;
-                    if (!serviceId && serviceId !== "") return;
+                    if (!serviceId && serviceId !== "" && serviceId !== "custom-dev") return;
 
                     const name = serviceEl.querySelector('h3').textContent;
                     
                     const mainCheckbox = serviceEl.querySelector('.service-checkbox');
-                    if (mainCheckbox && mainCheckbox.dataset.price !== "0") {
-                        const defaultPrice = parseInt(mainCheckbox.dataset.price);
+                    if (mainCheckbox && (mainCheckbox.dataset.price || serviceId === 'custom-dev')) {
+                        const defaultPrice = parseInt(mainCheckbox.dataset.price) || 0;
                         const savedPrice = savedPrices[serviceId]?.price;
                         const price = (savedPrice !== undefined) ? savedPrice : defaultPrice;
                         
@@ -1589,7 +1603,13 @@
                         const input = document.querySelector(`#price-edit-${serviceId}`);
                         if (input) input.value = priceStore[serviceId].price;
                         const display = document.querySelector(`.price-display[data-price-id="${serviceId}"]`);
-                        if (display) display.textContent = `NT$ ${priceStore[serviceId].price.toLocaleString()}`;
+                        if (display) {
+                            if(serviceId === 'custom-dev' && priceStore[serviceId].price === 0) {
+                                display.textContent = '依工程師估價';
+                            } else {
+                                display.textContent = `NT$ ${priceStore[serviceId].price.toLocaleString()}`;
+                            }
+                        }
                     }
                     if (priceStore[serviceId].renewal !== undefined) {
                          const input = document.querySelector(`#price-edit-renewal-${serviceId}`);
