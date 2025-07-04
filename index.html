@@ -27,11 +27,9 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        /* Base styles for input fields */
         .form-input {
             @apply px-3 py-2 border border-gray-300 rounded-md w-full;
         }
-        /* Custom Number Input Styles */
         .number-input-wrapper {
             @apply flex items-center;
         }
@@ -52,6 +50,12 @@
         }
         .stepper-btn.plus {
             @apply rounded-r-md border-l-0;
+        }
+        .package-card.selected {
+            @apply ring-4 ring-offset-2 ring-blue-500;
+        }
+        .compare-btn.added {
+            @apply bg-yellow-500 text-white;
         }
 
         /* Print-specific styles */
@@ -181,7 +185,8 @@
                 <main class="w-full lg:w-2/3">
                     <nav class="bg-white rounded-t-xl shadow-md no-print">
                         <div class="flex border-b border-gray-200 overflow-x-auto no-scrollbar">
-                            <a href="#" class="nav-link active text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="website-design">網站設計</a>
+                            <a href="#" class="nav-link active text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="combo-packages">組合方案</a>
+                            <a href="#" class="nav-link text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="website-design">網站設計</a>
                             <a href="#" class="nav-link text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="seo-marketing">SEO 行銷</a>
                             <a href="#" class="nav-link text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="premium-package">頂級方案</a>
                             <a href="#" class="nav-link text-sm md:text-base p-4 border-b-2 border-transparent hover:border-blue-500 hover:bg-gray-50 whitespace-nowrap" data-tab="additional-services">加購服務</a>
@@ -190,8 +195,16 @@
 
                     <div class="bg-white p-6 rounded-b-xl shadow-md no-print">
                         
+                        <!-- Combo Packages Tab -->
+                        <div id="combo-packages" class="tab-content space-y-8">
+                            <!-- Custom Packages Container -->
+                            <div id="packages-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Custom packages will be injected here -->
+                            </div>
+                        </div>
+
                         <!-- Website Design Tab -->
-                        <div id="website-design" class="tab-content space-y-6">
+                        <div id="website-design" class="tab-content hidden space-y-6">
                             
                             <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="project-design">
                                 <div class="flex items-start justify-between">
@@ -402,7 +415,15 @@
                                  <div class="mt-2">
                                     <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
                                 </div>
-                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                <div class="mt-4 flex justify-end items-center gap-4">
+                                   <div>
+                                        <label class="text-sm text-gray-600">首年折扣</label>
+                                        <div class="number-input-wrapper">
+                                            <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
+                                            <input type="number" value="1" step="0.01" min="0" class="first-year-discount number-input">
+                                            <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
+                                        </div>
+                                   </div>
                                    <p class="text-gray-800">首年: <span class="font-bold text-2xl text-red-600 price-display" data-price-id="seo-cross-border">NT$ 300,000</span></p>
                                 </div>
                                 <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
@@ -424,7 +445,7 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <label class="text-sm text-gray-600">折扣 (例: 0.85)</label>
+                                            <label class="text-sm text-gray-600">續約折扣</label>
                                             <div class="number-input-wrapper">
                                                 <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
                                                 <input type="number" value="1" step="0.01" min="0" class="renewal-discount number-input">
@@ -456,7 +477,15 @@
                                  <div class="mt-2">
                                     <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
                                 </div>
-                                <div class="mt-4 flex justify-end items-baseline gap-6">
+                                <div class="mt-4 flex justify-end items-center gap-4">
+                                   <div>
+                                        <label class="text-sm text-gray-600">首年折扣</label>
+                                        <div class="number-input-wrapper">
+                                            <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
+                                            <input type="number" value="1" step="0.01" min="0" class="first-year-discount number-input">
+                                            <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
+                                        </div>
+                                   </div>
                                    <p class="text-gray-800">首年: <span class="font-bold text-2xl text-teal-600 price-display" data-price-id="seo-chinese">NT$ 250,000</span></p>
                                 </div>
                                  <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
@@ -478,7 +507,7 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <label class="text-sm text-gray-600">折扣 (例: 0.85)</label>
+                                            <label class="text-sm text-gray-600">續約折扣</label>
                                             <div class="number-input-wrapper">
                                                 <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
                                                 <input type="number" value="1" step="0.01" min="0" class="renewal-discount number-input">
@@ -629,7 +658,7 @@
                                 </div>
                                 <div class="mt-4 flex justify-end items-baseline gap-6">
                                    <p class="text-gray-500">一次性費用</p>
-                                   <p class="text-gray-800">費用: <span class="font-bold text-2xl text-gray-600 price-display" data-price-id="https">NT$ 6,200</span> <span class="text-sm text-green-600">(3年約贈送)</span></p>
+                                   <p class="text-gray-800">費用: <span class="font-bold text-2xl text-gray-600 price-display" data-price-id="">NT$ 6,200</span> <span class="text-sm text-green-600">(3年約贈送)</span></p>
                                 </div>
                             </div>
 
@@ -864,10 +893,42 @@
                                 <label for="include-tax-checkbox" class="ml-2 text-sm font-medium text-gray-700">顯示含稅價格 (5%)</label>
                             </div>
                         </div>
-                        <div id="quote-summary" class="p-6 space-y-3 min-h-[200px]">
+                        <div id="quote-summary" class="p-6 space-y-3 min-h-[150px]">
                            <p id="empty-quote" class="text-center text-gray-500 pt-12">尚未選擇任何服務項目。</p>
                         </div>
                         <div class="p-6 bg-gray-50 rounded-b-xl">
+                            <!-- Save Package Section -->
+                            <div id="save-package-section" class="mb-4">
+                                <h4 class="font-bold text-md text-gray-700 mb-2">儲存目前選項為組合</h4>
+                                <div class="flex gap-2">
+                                    <input type="text" id="new-package-name" placeholder="請輸入新組合方案名稱" class="form-input text-sm">
+                                    <button id="save-as-package" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 flex-shrink-0">
+                                        <i class="fas fa-save"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Comparison Section -->
+                            <div id="comparison-section" class="mb-4 hidden">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-bold text-md text-gray-700">方案總價</h4>
+                                    <button id="clear-comparison" class="text-xs text-red-500 hover:text-red-700">清除比較</button>
+                                </div>
+                                <table class="w-full text-sm text-left">
+                                    <thead class="bg-gray-200">
+                                        <tr>
+                                            <th class="p-2">方案名稱</th>
+                                            <th class="p-2">平均年費</th>
+                                            <th class="p-2 text-green-600">可節省預算</th>
+                                            <th class="p-2"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="comparison-tbody">
+                                        <!-- Comparison rows will be generated by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+
                             <div class="space-y-2 mb-4">
                                  <div class="flex justify-between items-center text-gray-600">
                                     <span>平均每月金額</span>
@@ -876,11 +937,11 @@
                             </div>
                             <div class="border-t border-gray-200 pt-4 space-y-2">
                                  <div class="flex justify-between items-center">
-                                    <span class="text-lg font-bold">總計 (未稅)</span>
+                                    <span class="text-lg font-bold">方案總價 (未稅)</span>
                                     <span id="grand-total" class="font-bold text-2xl text-blue-600">NT$ 0</span>
                                 </div>
                                 <div id="tax-total-container" class="hidden flex justify-between items-center">
-                                    <span class="text-lg font-bold">總計 (含稅)</span>
+                                    <span class="text-lg font-bold">方案總價 (含稅)</span>
                                     <span id="grand-total-taxed" class="font-bold text-2xl text-red-600">NT$ 0</span>
                                 </div>
                             </div>
@@ -945,8 +1006,11 @@
                 }
             });
 
-            // --- Global Price Store ---
+            // --- Global Price Store & Package Definitions ---
             let priceStore = {};
+            let currentPackage = null;
+            let allPackages = {};
+            let comparisonList = [];
 
             // --- Tab Navigation ---
             const navLinks = document.querySelectorAll('.nav-link');
@@ -964,8 +1028,7 @@
                 });
             });
             
-            // Show the first tab by default
-            document.querySelector('.nav-link.active')?.click();
+            document.querySelector('.nav-link[data-tab="combo-packages"]')?.click();
 
             // --- Quote Calculation ---
             const quoteSummary = document.getElementById('quote-summary');
@@ -974,161 +1037,77 @@
             const taxCheckbox = document.getElementById('include-tax-checkbox');
             const taxTotalContainer = document.getElementById('tax-total-container');
             const grandTotalTaxedEl = document.getElementById('grand-total-taxed');
+            const comparisonSection = document.getElementById('comparison-section');
+            const comparisonTbody = document.getElementById('comparison-tbody');
+
+            function clearQuoteSelections() {
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
+                document.querySelectorAll('.renewal-years, .mailcloud-years').forEach(input => input.value = '1');
+                document.querySelectorAll('.renewal-discount, .first-year-discount').forEach(input => input.value = '1');
+                document.querySelectorAll('.inner-page-count').forEach(input => input.value = '1');
+                document.querySelectorAll('.language-count, .special-language-count, .chinese-blog-count, .english-blog-count, .mailcloud-quantity').forEach(input => input.value = '0');
+                
+                document.querySelectorAll('.package-card').forEach(card => card.classList.remove('selected'));
+                currentPackage = null;
+
+                updateQuote();
+            }
 
             function updateQuote() {
-                let totalCost = 0;
                 let summaryHTML = '';
+                let totalCost = 0;
+                let maxYears = 1;
+                let hasSelections = document.querySelectorAll('.service-checkbox:checked').length > 0;
 
-                // --- Total Months Calculation for HTTPS logic ---
-                let maxTotalYears = 0;
-                document.querySelectorAll('.border[data-service-id]').forEach(container => {
-                    const mainCheckbox = container.querySelector('.service-checkbox');
-                    const renewalCheckbox = container.querySelector('.renewal-checkbox');
-                    
-                    if (mainCheckbox && mainCheckbox.checked) {
-                        let currentYears = 1; 
-                        if (renewalCheckbox && renewalCheckbox.checked) {
-                            const renewalYearsInput = container.querySelector('.renewal-years');
-                            if (renewalYearsInput) {
-                                currentYears += parseInt(renewalYearsInput.value) || 0;
-                            }
-                        }
-                        maxTotalYears = Math.max(maxTotalYears, currentYears);
-                    } else if (renewalCheckbox && renewalCheckbox.checked) {
-                        const renewalYearsInput = container.querySelector('.renewal-years');
-                        if (renewalYearsInput) {
-                            maxTotalYears = Math.max(maxTotalYears, (parseInt(renewalYearsInput.value) || 0));
-                        }
-                    }
-                });
-
-                // --- Price Calculation ---
-                document.querySelectorAll('.service-checkbox:checked').forEach(checkbox => {
-                    const container = checkbox.closest('.border');
-                    const name = checkbox.dataset.name;
+                document.querySelectorAll('div[data-service-id]').forEach(container => {
                     const serviceId = container.dataset.serviceId;
-                    let finalPrice = priceStore[serviceId]?.price || 0;
-                    let discountMultiplier = 1;
-                    let discountDisplay = '';
-
-                    if (container.closest('#website-design')) {
-                        const discountInput = container.querySelector('.first-year-discount');
-                        if (discountInput) {
-                            const multiplier = parseFloat(discountInput.value);
-                            if (!isNaN(multiplier) && multiplier > 0 && multiplier !== 1) {
-                                discountMultiplier = multiplier;
-                                finalPrice *= discountMultiplier;
-                                discountDisplay = `<div class="text-xs text-green-600">首年 ${Math.round(discountMultiplier*100)} 折</div>`;
-                            }
-                        }
-                    } else if (container.closest('#seo-marketing')) {
-                         const discountInput = container.querySelector('.renewal-discount');
-                        if (discountInput) {
-                            const multiplier = parseFloat(discountInput.value);
-                            if (!isNaN(multiplier) && multiplier > 0) {
-                                discountMultiplier = multiplier;
-                                finalPrice *= discountMultiplier;
-                                if (discountMultiplier !== 1) {
-                                    discountDisplay = `<div class="text-xs text-green-600">首年 ${Math.round(discountMultiplier*100)} 折</div>`;
-                                }
-                            }
-                        }
-                    }
+                    const mainCheckbox = container.querySelector('.service-checkbox');
                     
-                    if (name === 'HTTPS安全加密') {
-                        if (maxTotalYears >= 3) {
-                            finalPrice = 0;
-                            discountDisplay = `<div class="text-xs text-green-600">3年約贈送</div>`;
-                        } else {
-                            finalPrice = priceStore['https']?.price || 6200;
-                        }
-                    } else if (name === '內頁設計') {
-                        const count = container.querySelector('.inner-page-count').value;
-                        finalPrice = (priceStore['inner-page-design']?.price || 20000) * parseInt(count > 0 ? count : 1);
-                    } else if (name === '新增語系') {
-                        const normalCount = container.querySelector('.language-count').value;
-                        const specialCount = container.querySelector('.special-language-count').value;
-                        finalPrice = ((priceStore['language-add']?.price || 8000) * parseInt(normalCount || 0)) + ((priceStore['language-add-special']?.price || 10000) * parseInt(specialCount || 0));
-                    } else if (name === '部落格文案撰寫') {
-                        const chineseCount = container.querySelector('.chinese-blog-count').value;
-                        const englishCount = container.querySelector('.english-blog-count').value;
-                        finalPrice = ((priceStore['blog-writing']?.price || 15000) * parseInt(chineseCount || 0)) + ((priceStore['blog-writing-en']?.price || 15000) * parseInt(englishCount || 0));
-                    } else if (name === 'MailCloud郵件代管(5G)') {
-                        let itemPrice = 0;
-                        if (container.querySelector('.mailcloud-setup-check').checked) {
-                            itemPrice += priceStore['mailcloud-setup']?.price || 1000;
-                        }
-                        const quantity = parseInt(container.querySelector('.mailcloud-quantity').value) || 0;
-                        const years = parseInt(container.querySelector('.mailcloud-years').value) || 0;
-                        itemPrice += quantity * years * (priceStore['mailcloud-account']?.price || 1200);
-                        finalPrice = itemPrice;
-                    }
+                    if (!mainCheckbox || !mainCheckbox.checked) return;
 
-
-                    totalCost += finalPrice;
+                    const name = mainCheckbox.dataset.name;
+                    const basePrice = priceStore[serviceId]?.price || 0;
                     
-                    let priceText;
-                    if (serviceId.startsWith('custom-') && finalPrice === 0) {
-                        priceText = '<span class="text-green-600 font-semibold">特別優惠贈送</span>';
-                    } else if (name === '客製程式' && finalPrice === 0) {
-                        priceText = '依工程師估價';
-                    } else {
-                        priceText = `NT$ ${Math.round(finalPrice).toLocaleString()}`;
-                    }
+                    const firstYearDiscountInput = container.querySelector('.first-year-discount');
+                    const firstYearDiscount = firstYearDiscountInput ? parseFloat(firstYearDiscountInput.value) || 1 : 1;
+                    const discountedFirstYearPrice = basePrice * firstYearDiscount;
+                    
+                    totalCost += discountedFirstYearPrice;
 
                     summaryHTML += `
                         <div class="flex justify-between items-center py-2 border-b border-gray-100">
                             <span class="text-sm text-gray-700">${name}</span>
                             <div class="text-right">
-                                <div class="text-sm font-semibold text-gray-800">${priceText}</div>
-                                ${discountDisplay}
+                                <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(discountedFirstYearPrice).toLocaleString()}</div>
+                                ${firstYearDiscount !== 1 ? `<div class="text-xs text-green-600">首年 ${Math.round(firstYearDiscount*100)} 折</div>` : ''}
                             </div>
                         </div>`;
-                });
 
-                document.querySelectorAll('.renewal-checkbox:checked').forEach(checkbox => {
-                    const parentDiv = checkbox.closest('.renewal-section');
-                    const container = checkbox.closest('.border');
-                    const serviceId = container.dataset.serviceId;
-                    const name = checkbox.dataset.name;
-                    const basePrice = priceStore[serviceId]?.renewal || 0;
-                    const years = parseInt(parentDiv.querySelector('.renewal-years').value) || 1;
-                    
-                    let discountMultiplier = 1;
-                    let discountDisplay = '';
-                    const discountInput = parentDiv.querySelector('.renewal-discount');
-                    if (discountInput) {
-                        const multiplier = parseFloat(discountInput.value);
-                        if (!isNaN(multiplier) && multiplier > 0) {
-                            discountMultiplier = multiplier;
-                             if (discountMultiplier !== 1) {
-                                discountDisplay = `<div class="text-xs text-green-600">${Math.round(discountMultiplier*100)} 折</div>`;
-                            }
-                        }
+                    const renewalCheckbox = container.querySelector('.renewal-checkbox');
+                    if (renewalCheckbox && renewalCheckbox.checked) {
+                        const renewalPrice = priceStore[serviceId]?.renewal || 0;
+                        const yearsInput = container.querySelector('.renewal-years');
+                        const discountInput = container.querySelector('.renewal-discount');
+                        
+                        const years = yearsInput ? parseInt(yearsInput.value) || 1 : 1;
+                        const discount = discountInput ? parseFloat(discountInput.value) || 1 : 1;
+                        
+                        const renewalTotal = renewalPrice * years * discount;
+                        totalCost += renewalTotal;
+                        maxYears = Math.max(maxYears, 1 + years);
+
+                        summaryHTML += `
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 pl-4">
+                                <span class="text-sm text-gray-700">${renewalCheckbox.dataset.name} (${years}年)</span>
+                                <div class="text-right">
+                                    <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(renewalTotal).toLocaleString()}</div>
+                                    ${discount !== 1 ? `<div class="text-xs text-green-600">${Math.round(discount*100)} 折</div>` : ''}
+                                </div>
+                            </div>`;
                     }
-                    
-                    const finalRenewalPrice = basePrice * years * discountMultiplier;
-                    
-                    totalCost += finalRenewalPrice;
-                    summaryHTML += `
-                        <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                            <span class="text-sm text-gray-700">${name} (${years}年)</span>
-                            <div class="text-right">
-                                <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(finalRenewalPrice).toLocaleString()}</div>
-                                ${discountDisplay}
-                            </div>
-                        </div>`;
                 });
 
-                const totalMonths = maxTotalYears > 0 ? maxTotalYears * 12 : 12;
-
-                if (summaryHTML === '') {
-                    quoteSummary.innerHTML = '<p id="empty-quote" class="text-center text-gray-500 pt-12">尚未選擇任何服務項目。</p>';
-                } else {
-                    quoteSummary.innerHTML = summaryHTML;
-                }
-
-                const monthlyAverage = totalCost > 0 ? Math.round(totalCost / totalMonths) : 0;
+                const monthlyAverage = totalCost > 0 ? Math.round(totalCost / (maxYears * 12)) : 0;
                 
                 grandTotalEl.textContent = `NT$ ${Math.round(totalCost).toLocaleString()}`;
                 monthlyAverageEl.textContent = `NT$ ${monthlyAverage.toLocaleString()}`;
@@ -1140,42 +1119,11 @@
                 } else {
                     taxTotalContainer.classList.add('hidden');
                 }
-            }
-            
-            function updateAddonDisplay() {
-                // Language
-                const langContainer = document.querySelector('[data-service-id="language-add"]');
-                if (langContainer) {
-                    const normal = langContainer.querySelector('.language-count').value || 0;
-                    const special = langContainer.querySelector('.special-language-count').value || 0;
-                    const total = (priceStore['language-add']?.price || 8000) * parseInt(normal) + (priceStore['language-add-special']?.price || 10000) * parseInt(special);
-                    langContainer.querySelector('.language-total').textContent = `NT$ ${total.toLocaleString()}`;
-                    langContainer.querySelector('.language-cost-p').classList.toggle('hidden', total === 0);
-                }
-                
-                // Blog
-                const blogContainer = document.querySelector('[data-service-id="blog-writing"]');
-                if (blogContainer) {
-                    const chinese = blogContainer.querySelector('.chinese-blog-count').value || 0;
-                    const english = blogContainer.querySelector('.english-blog-count').value || 0;
-                    const total = (priceStore['blog-writing']?.price || 15000) * parseInt(chinese) + (priceStore['blog-writing-en']?.price || 15000) * parseInt(english);
-                    blogContainer.querySelector('.blog-total').textContent = `NT$ ${total.toLocaleString()}`;
-                    blogContainer.querySelector('.blog-cost-p').classList.toggle('hidden', total === 0);
-                }
 
-                // MailCloud
-                const mailcloudContainer = document.querySelector('[data-service-id="mailcloud"]');
-                if (mailcloudContainer) {
-                    let total = 0;
-                    if (mailcloudContainer.querySelector('.mailcloud-setup-check').checked) {
-                        total += priceStore['mailcloud-setup']?.price || 1000;
-                    }
-                    const quantity = parseInt(mailcloudContainer.querySelector('.mailcloud-quantity').value) || 0;
-                    const years = parseInt(mailcloudContainer.querySelector('.mailcloud-years').value) || 0;
-                    total += quantity * years * (priceStore['mailcloud-account']?.price || 1200);
-                    
-                    mailcloudContainer.querySelector('.mailcloud-total').textContent = `NT$ ${total.toLocaleString()}`;
-                    mailcloudContainer.querySelector('.mailcloud-cost-p').classList.toggle('hidden', total === 0);
+                if (!hasSelections) {
+                    quoteSummary.innerHTML = '<p id="empty-quote" class="text-center text-gray-500 pt-12">尚未選擇任何服務項目。</p>';
+                } else {
+                    quoteSummary.innerHTML = summaryHTML;
                 }
             }
             
@@ -1187,13 +1135,12 @@
                 
                 allServices.forEach(serviceEl => {
                     const serviceId = serviceEl.dataset.serviceId;
-                    if (!serviceId) return;
+                    if (!serviceId && serviceId !== "") return;
 
                     const name = serviceEl.querySelector('h3').textContent;
                     
-                    // Main price
                     const mainCheckbox = serviceEl.querySelector('.service-checkbox');
-                    if (mainCheckbox && mainCheckbox.dataset.price !== "0") { // Don't add for items with calculated price
+                    if (mainCheckbox && mainCheckbox.dataset.price !== "0") {
                         const price = parseInt(mainCheckbox.dataset.price);
                         if (!priceStore[serviceId]) priceStore[serviceId] = {};
                         priceStore[serviceId].price = price;
@@ -1207,7 +1154,6 @@
                         container.appendChild(settingRow);
                     }
                     
-                    // Renewal price
                     const renewalCheckbox = serviceEl.querySelector('.renewal-checkbox');
                     if (renewalCheckbox) {
                         const renewalPrice = parseInt(renewalCheckbox.dataset.renewalPrice);
@@ -1224,62 +1170,6 @@
                     }
                 });
                 
-                // Add special cases
-                priceStore['language-add'] = { price: 8000 };
-                const langRow = document.createElement('div');
-                langRow.className = 'flex justify-between items-center py-2 border-b';
-                langRow.innerHTML = `
-                    <label for="price-edit-language-add" class="text-sm">新增語系 (一般)</label>
-                    <input type="number" id="price-edit-language-add" data-target-id="language-add" data-price-type="price" class="form-input w-32 highlight-input" value="8000">
-                `;
-                container.appendChild(langRow);
-
-                priceStore['language-add-special'] = { price: 10000 };
-                const langSpecialRow = document.createElement('div');
-                langSpecialRow.className = 'flex justify-between items-center py-2 border-b';
-                langSpecialRow.innerHTML = `
-                    <label for="price-edit-language-add-special" class="text-sm">新增語系 (特殊)</label>
-                    <input type="number" id="price-edit-language-add-special" data-target-id="language-add-special" data-price-type="price" class="form-input w-32 highlight-input" value="10000">
-                `;
-                container.appendChild(langSpecialRow);
-                
-                priceStore['blog-writing'] = { price: 15000 };
-                const blogCnRow = document.createElement('div');
-                blogCnRow.className = 'flex justify-between items-center py-2 border-b';
-                blogCnRow.innerHTML = `
-                    <label for="price-edit-blog-writing" class="text-sm">部落格文案撰寫 (中文)</label>
-                    <input type="number" id="price-edit-blog-writing" data-target-id="blog-writing" data-price-type="price" class="form-input w-32 highlight-input" value="15000">
-                `;
-                container.appendChild(blogCnRow);
-
-                priceStore['blog-writing-en'] = { price: 15000 };
-                const blogEnRow = document.createElement('div');
-                blogEnRow.className = 'flex justify-between items-center py-2 border-b';
-                blogEnRow.innerHTML = `
-                    <label for="price-edit-blog-writing-en" class="text-sm">部落格文案撰寫 (英文)</label>
-                    <input type="number" id="price-edit-blog-writing-en" data-target-id="blog-writing-en" data-price-type="price" class="form-input w-32 highlight-input" value="15000">
-                `;
-                container.appendChild(blogEnRow);
-
-                priceStore['mailcloud-setup'] = { price: 1000 };
-                const mailcloudSetupRow = document.createElement('div');
-                mailcloudSetupRow.className = 'flex justify-between items-center py-2 border-b';
-                mailcloudSetupRow.innerHTML = `
-                    <label for="price-edit-mailcloud-setup" class="text-sm">MailCloud 首次設定費</label>
-                    <input type="number" id="price-edit-mailcloud-setup" data-target-id="mailcloud-setup" data-price-type="price" class="form-input w-32 highlight-input" value="1000">
-                `;
-                container.appendChild(mailcloudSetupRow);
-
-                priceStore['mailcloud-account'] = { price: 1200 };
-                const mailcloudAccountRow = document.createElement('div');
-                mailcloudAccountRow.className = 'flex justify-between items-center py-2 border-b';
-                mailcloudAccountRow.innerHTML = `
-                    <label for="price-edit-mailcloud-account" class="text-sm">MailCloud 帳號費用/年</label>
-                    <input type="number" id="price-edit-mailcloud-account" data-target-id="mailcloud-account" data-price-type="price" class="form-input w-32 highlight-input" value="1200">
-                `;
-                container.appendChild(mailcloudAccountRow);
-                
-                // Add event listeners to all inputs in the settings modal
                 addPriceSettingListeners(container);
             }
 
@@ -1294,12 +1184,9 @@
                             priceStore[targetId][priceType] = newValue;
                         }
                         
-                        // Update display in original tabs
                         const priceDisplay = document.querySelector(`.price-display[data-price-id="${targetId}"]`);
                         if (priceDisplay && priceType === 'price') {
-                            if (targetId.startsWith('custom-') && newValue === 0) {
-                                priceDisplay.innerHTML = '<span class="text-green-600">特別優惠贈送</span>';
-                            } else if (targetId === 'custom-dev' && newValue === 0) {
+                             if (targetId === 'custom-dev' && newValue === 0) {
                                 priceDisplay.textContent = '依工程師估價';
                             } else {
                                 priceDisplay.textContent = `NT$ ${newValue.toLocaleString()}`;
@@ -1311,33 +1198,19 @@
                         }
                         
                         updateQuote();
-                        updateAddonDisplay();
-                    });
-                });
-            }
-
-
-            // --- Event Listeners Setup ---
-            function setupListenersForElement(element) {
-                const inputs = element.querySelectorAll(
-                    '.service-checkbox, .renewal-checkbox, .renewal-years, .renewal-discount, .first-year-discount, ' +
-                    '.inner-page-count, .language-count, .special-language-count, .chinese-blog-count, .english-blog-count, ' +
-                    '.mailcloud-setup-check, .mailcloud-quantity, .mailcloud-years'
-                );
-                inputs.forEach(input => {
-                    input.addEventListener('input', () => {
-                        updateQuote();
-                        updateAddonDisplay();
-                    });
-                    input.addEventListener('change', () => {
-                        updateQuote();
-                        updateAddonDisplay();
                     });
                 });
             }
 
             function setupAllListeners() {
-                document.querySelectorAll('.border[data-service-id]').forEach(setupListenersForElement);
+                const allInputs = document.querySelectorAll('.service-checkbox, .renewal-checkbox, .renewal-years, .renewal-discount, .first-year-discount, .inner-page-count, .language-count, .special-language-count, .chinese-blog-count, .english-blog-count, .mailcloud-setup-check, .mailcloud-quantity, .mailcloud-years, #include-tax-checkbox');
+                allInputs.forEach(input => {
+                    input.addEventListener('change', () => {
+                        currentPackage = null;
+                        document.querySelectorAll('.package-card').forEach(card => card.classList.remove('selected'));
+                        updateQuote();
+                    });
+                });
                 
                 document.body.addEventListener('click', function(e) {
                     if (e.target.classList.contains('stepper-btn')) {
@@ -1359,26 +1232,186 @@
                             currentValue = min;
                         }
                         
-                        // Handle floating point inaccuracies for decimal steps
                         if (step < 1) {
                             input.value = currentValue.toFixed(2);
                         } else {
                             input.value = currentValue;
                         }
+                        input.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
 
-                        // Manually trigger input event to update calculations
-                        input.dispatchEvent(new Event('input', { bubbles: true }));
+                    if (e.target.closest('.select-package-btn')) {
+                        const packageCard = e.target.closest('.package-card');
+                        const packageId = packageCard.dataset.packageId;
+                        selectPackage(packageId);
+                    }
+                    
+                    if (e.target.closest('.delete-custom-package-btn')) {
+                        const packageCard = e.target.closest('.package-card');
+                        const packageId = packageCard.dataset.packageId;
+                        if (confirm(`確定要刪除自訂方案 "${allPackages[packageId].name}" 嗎？`)) {
+                            deleteCustomPackage(packageId);
+                        }
+                    }
+
+                    if (e.target.closest('.compare-btn')) {
+                        const btn = e.target.closest('.compare-btn');
+                        const packageId = btn.closest('.package-card').dataset.packageId;
+                        toggleCompare(packageId, btn);
                     }
                 });
                 
-                taxCheckbox.addEventListener('change', updateQuote);
-
-                updateQuote();
-                updateAddonDisplay();
+                document.getElementById('save-as-package').addEventListener('click', saveCurrentSelectionAsPackage);
+                document.getElementById('clear-comparison').addEventListener('click', clearComparison);
             }
             
-            populatePriceSettings();
-            setupAllListeners();
+            function selectPackage(packageId) {
+                clearQuoteSelections();
+                
+                const packageInfo = allPackages[packageId];
+                if (!packageInfo) return;
+
+                currentPackage = packageId;
+                document.querySelector(`.package-card[data-package-id="${packageId}"]`)?.classList.add('selected');
+
+                packageInfo.items.forEach(itemState => {
+                    const container = document.querySelector(`div[data-service-id="${itemState.id}"]`);
+                    if (!container) return;
+
+                    const mainCheckbox = container.querySelector('.service-checkbox');
+                    if (mainCheckbox) mainCheckbox.checked = itemState.mainChecked;
+                    
+                    const renewalCheckbox = container.querySelector('.renewal-checkbox');
+                    if (renewalCheckbox) renewalCheckbox.checked = itemState.renewalChecked;
+
+                    for (const inputClass in itemState.inputs) {
+                        const inputEl = container.querySelector(`.${inputClass}`);
+                        if (inputEl) {
+                            if(inputEl.type === 'checkbox') {
+                                inputEl.checked = itemState.inputs[inputClass];
+                            } else {
+                                inputEl.value = itemState.inputs[inputClass];
+                            }
+                        }
+                    }
+                });
+                
+                updateQuote();
+            }
+
+            function saveCurrentSelectionAsPackage() {
+                const nameInput = document.getElementById('new-package-name');
+                const name = nameInput.value.trim();
+                if (!name) {
+                    alert('請為您的組合方案命名。');
+                    nameInput.focus();
+                    return;
+                }
+
+                const itemsState = [];
+                document.querySelectorAll('div[data-service-id]').forEach(container => {
+                    const serviceId = container.dataset.serviceId;
+                    const mainCheckbox = container.querySelector('.service-checkbox');
+                    const renewalCheckbox = container.querySelector('.renewal-checkbox');
+
+                    if ((mainCheckbox && mainCheckbox.checked) || (renewalCheckbox && renewalCheckbox.checked)) {
+                        const itemState = {
+                            id: serviceId,
+                            mainChecked: mainCheckbox ? mainCheckbox.checked : false,
+                            renewalChecked: renewalCheckbox ? renewalCheckbox.checked : false,
+                            inputs: {}
+                        };
+
+                        const inputsToSave = container.querySelectorAll('.first-year-discount, .renewal-years, .renewal-discount, .inner-page-count, .language-count, .special-language-count, .chinese-blog-count, .english-blog-count, .mailcloud-quantity, .mailcloud-years, .description-input, .mailcloud-setup-check');
+                        
+                        inputsToSave.forEach(input => {
+                            const key = input.classList[0] || input.id;
+                            if (input.type === 'checkbox') {
+                                itemState.inputs[key] = input.checked;
+                            } else {
+                                itemState.inputs[key] = input.value;
+                            }
+                        });
+                        itemsState.push(itemState);
+                    }
+                });
+
+                if (itemsState.length === 0) {
+                    alert("沒有選擇任何項目，無法儲存。");
+                    return;
+                }
+
+                const packageId = 'custom-' + Date.now();
+                const newPackage = {
+                    id: packageId,
+                    name: name,
+                    items: itemsState,
+                    isCustom: true
+                };
+
+                allPackages[packageId] = newPackage;
+                localStorage.setItem('customQuotePackages', JSON.stringify(allPackages));
+                renderCustomPackage(newPackage);
+                nameInput.value = ''; // Clear input
+                alert(`組合方案 "${newPackage.name}" 已儲存！`);
+            }
+
+            function renderCustomPackage(packageData) {
+                const container = document.getElementById('packages-container');
+                const card = document.createElement('div');
+                card.className = 'package-card border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-all duration-300 relative flex flex-col';
+                card.dataset.packageId = packageData.id;
+
+                const itemsHTML = packageData.items.map(item => {
+                    const serviceContainer = document.querySelector(`[data-service-id="${item.id}"]`);
+                    if (!serviceContainer) return '';
+                    
+                    let itemHTML = '';
+                    if (item.mainChecked) {
+                        const name = serviceContainer.querySelector('.service-checkbox').dataset.name;
+                        itemHTML += `<li>${name}</li>`;
+                    }
+                    if (item.renewalChecked) {
+                        const name = serviceContainer.querySelector('.renewal-checkbox').dataset.name;
+                        const years = item.inputs['renewal-years'] || 1;
+                        itemHTML += `<li>${name} (${years}年)</li>`;
+                    }
+                    return itemHTML;
+                }).join('');
+
+                card.innerHTML = `
+                    <button class="delete-custom-package-btn absolute top-3 left-3 text-gray-400 hover:text-red-500 transition-colors z-10">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <div class="absolute top-4 right-4 bg-gray-500 text-white text-xs font-bold px-2 py-1 rounded-full">自訂方案</div>
+                    <h3 class="text-xl font-bold text-gray-700">${packageData.name}</h3>
+                    <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2 text-sm flex-grow">${itemsHTML}</ul>
+                    <div class="mt-auto pt-4 text-right">
+                        <button class="mt-2 w-full bg-yellow-400 text-yellow-800 px-4 py-1.5 rounded-lg hover:bg-yellow-500 transition-colors text-sm font-bold compare-btn">
+                            <i class="fas fa-balance-scale-right mr-2"></i>加入比較
+                        </button>
+                        <button class="mt-3 bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 w-full select-package-btn">選擇此方案</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+            
+            function loadCustomPackages() {
+                const savedPackages = JSON.parse(localStorage.getItem('customQuotePackages') || '{}');
+                Object.keys(savedPackages).forEach(key => {
+                    if (savedPackages[key].isCustom) {
+                        allPackages[key] = savedPackages[key];
+                        renderCustomPackage(savedPackages[key]);
+                    }
+                });
+            }
+
+            function deleteCustomPackage(packageId) {
+                document.querySelector(`[data-package-id="${packageId}"]`).remove();
+                delete allPackages[packageId];
+                localStorage.setItem('customQuotePackages', JSON.stringify(allPackages));
+                updateQuote();
+            }
             
             function generateQuoteInfo() {
                 const now = new Date();
@@ -1394,22 +1427,114 @@
                 document.getElementById('cust-quote-num').value = quoteNumber;
                 document.getElementById('cust-date').value = today;
             }
-            
-            generateQuoteInfo();
 
-            // --- Clear Quote Functionality ---
-            document.getElementById('clear-quote').addEventListener('click', function() {
-                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
-                document.querySelectorAll('.renewal-years, .mailcloud-years').forEach(input => input.value = 1);
-                document.querySelectorAll('.renewal-discount, .first-year-discount').forEach(input => input.value = 1);
-                document.querySelectorAll('.inner-page-count').forEach(input => input.value = 1);
-                document.querySelectorAll('.language-count, .special-language-count, .chinese-blog-count, .english-blog-count, .mailcloud-quantity').forEach(input => input.value = 0);
-                
+            function calculatePackagePrice(packageId) {
+                const packageInfo = allPackages[packageId];
+                if (!packageInfo) return { totalPrice: 0, totalYears: 1 };
+
+                let totalCost = 0;
+                let maxYears = 1;
+
+                packageInfo.items.forEach(itemState => {
+                    const basePrice = priceStore[itemState.id]?.price || 0;
+                    const renewalPrice = priceStore[itemState.id]?.renewal || 0;
+                    
+                    let itemFirstYear = 0;
+                    let itemYears = 1;
+
+                    if (itemState.mainChecked) {
+                        const discount = parseFloat(itemState.inputs['first-year-discount']) || 1;
+                        itemFirstYear = basePrice * discount;
+                    }
+
+                    if (itemState.renewalChecked) {
+                        const years = parseInt(itemState.inputs['renewal-years']) || 1;
+                        const discount = parseFloat(itemState.inputs['renewal-discount']) || 1;
+                        totalCost += itemFirstYear + (renewalPrice * years * discount);
+                        itemYears = 1 + years;
+                    } else {
+                        totalCost += itemFirstYear;
+                    }
+                    maxYears = Math.max(maxYears, itemYears);
+                });
+
+                return { totalPrice: totalCost, totalYears: maxYears };
+            }
+
+            function toggleCompare(packageId, btn) {
+                const index = comparisonList.indexOf(packageId);
+                if (index > -1) {
+                    comparisonList.splice(index, 1);
+                    btn.classList.remove('added');
+                    btn.innerHTML = `<i class="fas fa-balance-scale-right mr-2"></i>加入比較`;
+                } else {
+                    comparisonList.push(packageId);
+                    btn.classList.add('added');
+                    btn.innerHTML = `<i class="fas fa-check mr-2"></i>已加入比較`;
+                }
+                updateComparisonTable();
+            }
+
+            function updateComparisonTable() {
+                if (comparisonList.length === 0) {
+                    comparisonSection.classList.add('hidden');
+                    return;
+                }
+                comparisonSection.classList.remove('hidden');
+                comparisonTbody.innerHTML = '';
+
+                const packageDetails = comparisonList.map(id => {
+                    const details = calculatePackagePrice(id);
+                    const averageCost = details.totalPrice / details.totalYears;
+                    return { id, name: allPackages[id].name, averageCost };
+                });
+
+                const maxAverageCost = Math.max(...packageDetails.map(p => p.averageCost));
+
+                packageDetails.forEach(detail => {
+                    const savings = maxAverageCost - detail.averageCost;
+                    const row = document.createElement('tr');
+                    row.className = 'border-b';
+                    row.innerHTML = `
+                        <td class="p-2 font-semibold">${detail.name}</td>
+                        <td class="p-2">NT$ ${Math.round(detail.averageCost).toLocaleString()} /年</td>
+                        <td class="p-2 text-green-600">${savings > 0 ? `省 ${Math.round(savings).toLocaleString()}` : '-'}</td>
+                        <td class="p-2"><button class="text-red-500 hover:text-red-700 remove-from-compare" data-id="${detail.id}">&times;</button></td>
+                    `;
+                    comparisonTbody.appendChild(row);
+                });
+
+                document.querySelectorAll('.remove-from-compare').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const idToRemove = e.target.dataset.id;
+                        const btnToReset = document.querySelector(`.package-card[data-package-id="${idToRemove}"] .compare-btn`);
+                        toggleCompare(idToRemove, btnToReset);
+                    });
+                });
+            }
+
+            function clearComparison() {
+                comparisonList = [];
+                document.querySelectorAll('.compare-btn').forEach(btn => {
+                    btn.classList.remove('added');
+                    btn.innerHTML = `<i class="fas fa-balance-scale-right mr-2"></i>加入比較`;
+                });
+                updateComparisonTable();
+            }
+
+            function initialize() {
+                populatePriceSettings();
+                loadCustomPackages();
+                setupAllListeners();
+                generateQuoteInfo();
                 updateQuote();
-                updateAddonDisplay();
-            });
+            }
 
-            // --- Clear Customer Info Functionality ---
+            initialize();
+            
+            // --- Other Event Listeners ---
+            document.getElementById('clear-quote').addEventListener('click', clearQuoteSelections);
+
             document.getElementById('clear-customer-info').addEventListener('click', function() {
                 document.getElementById('cust-name').value = '';
                 document.getElementById('cust-contact').value = '';
@@ -1420,7 +1545,6 @@
                 generateQuoteInfo();
             });
 
-            // --- Add Custom Item Functionality ---
             document.getElementById('add-custom-item').addEventListener('click', function() {
                 const nameInput = document.getElementById('custom-item-name');
                 const priceInput = document.getElementById('custom-item-price');
@@ -1456,10 +1580,8 @@
                 
                 additionalServicesContainer.insertAdjacentHTML('beforeend', newServiceHTML);
 
-                // Add to price store
-                priceStore[customId] = { price: price };
+                priceStore[customId] = { price: price, renewal: 0 };
 
-                // Add to price settings modal
                 const settingsContainer = document.getElementById('price-settings-container');
                 const settingRow = document.createElement('div');
                 settingRow.className = 'flex justify-between items-center py-2 border-b';
@@ -1468,18 +1590,14 @@
                     <input type="number" id="price-edit-${customId}" data-target-id="${customId}" data-price-type="price" class="form-input w-32 highlight-input" value="${price}">
                 `;
                 settingsContainer.appendChild(settingRow);
-                addPriceSettingListeners(settingRow); // Add listener to the new row
+                addPriceSettingListeners(settingRow);
 
-                // Add listeners to the new service item itself
-                const newElement = document.querySelector(`[data-service-id="${customId}"]`);
-                setupListenersForElement(newElement);
+                setupAllListeners(); // Re-run to attach listener to new item
 
-                // Clear inputs and switch tab
                 nameInput.value = '';
                 priceInput.value = '';
                 document.querySelector('[data-tab="additional-services"]').click();
             });
-
 
             // --- Print Functionality ---
             document.getElementById('print-quote').addEventListener('click', function() {
@@ -1501,181 +1619,73 @@
                 const custTaxId = document.getElementById('cust-tax-id').value || 'N/A';
                 const custAddress = document.getElementById('cust-address').value || 'N/A';
 
-                const grandTotalHTML = document.getElementById('grand-total').textContent;
-                const monthlyAverageHTML = document.getElementById('monthly-average').textContent;
+                const grandTotalText = document.getElementById('grand-total').textContent;
+                const monthlyAverageText = document.getElementById('monthly-average').textContent;
                 const includeTax = document.getElementById('include-tax-checkbox').checked;
                 
                 let taxedTotalHTML = '';
                 if (includeTax) {
-                    const totalCost = parseFloat(grandTotalEl.textContent.replace(/[^0-9.-]+/g,""));
+                    const totalCost = parseFloat(grandTotalText.replace(/[^0-9.-]+/g,""));
                     const taxedTotal = totalCost * 1.05;
                     taxedTotalHTML = `
                         <div class="flex justify-between items-center mt-2">
-                            <span class="text-xl font-bold">總計 (含稅)</span>
+                            <span class="text-lg font-bold">方案總價 (含稅)</span>
                             <span class="font-bold text-2xl text-red-600">NT$ ${Math.round(taxedTotal).toLocaleString()}</span>
                         </div>
                     `;
                 }
-
+                
                 let printItemsHTML = '';
-
-                // Process Main Services for Print
-                document.querySelectorAll('.service-checkbox:checked, .renewal-checkbox:checked').forEach(checkbox => {
-                    const container = checkbox.closest('.border');
+                document.querySelectorAll('div[data-service-id]').forEach(container => {
                     const mainCheckbox = container.querySelector('.service-checkbox');
-                    const renewalCheckbox = container.querySelector('.renewal-checkbox');
-                    const isRenewalOnly = renewalCheckbox && renewalCheckbox.checked && mainCheckbox && !mainCheckbox.checked;
-
-                    if (checkbox.classList.contains('service-checkbox') || isRenewalOnly) {
+                    if(mainCheckbox && mainCheckbox.checked) {
                         const name = mainCheckbox.dataset.name;
-                        const serviceId = container.dataset.serviceId;
-                        let finalPrice = priceStore[serviceId]?.price || 0;
-                        let discountMultiplier = 1;
-                        let discountDisplay = '';
+                        const detailsHTML = container.querySelector('ul')?.outerHTML || '';
                         const description = container.querySelector('.description-input').value;
-                        let detailsHTML = container.querySelector('ul')?.outerHTML || '';
-
-                        if (container.closest('#website-design')) {
-                            const discountInput = container.querySelector('.first-year-discount');
-                             if (discountInput) {
-                                const multiplier = parseFloat(discountInput.value);
-                                if (!isNaN(multiplier) && multiplier > 0 && multiplier !== 1) {
-                                    discountMultiplier = multiplier;
-                                    finalPrice *= discountMultiplier;
-                                    discountDisplay = `<div class="text-xs text-green-600">首年 ${Math.round(discountMultiplier*100)} 折</div>`;
-                                }
-                            }
-                        } else if (container.closest('#seo-marketing')) {
-                             const discountInput = container.querySelector('.renewal-discount');
-                            if (discountInput) {
-                                const multiplier = parseFloat(discountInput.value);
-                                if (!isNaN(multiplier) && multiplier > 0 && multiplier !== 1) {
-                                    discountMultiplier = multiplier;
-                                    finalPrice *= discountMultiplier;
-                                    discountDisplay = `<div class="text-xs text-green-600">首年 ${Math.round(discountMultiplier*100)} 折</div>`;
-                                }
-                            }
-                        }
+                        const firstYearDiscountInput = container.querySelector('.first-year-discount');
+                        const firstYearDiscount = firstYearDiscountInput ? parseFloat(firstYearDiscountInput.value) || 1 : 1;
+                        const basePrice = priceStore[container.dataset.serviceId]?.price || 0;
+                        const discountedFirstYearPrice = basePrice * firstYearDiscount;
                         
-                        let quantityDisplay = '';
-                         if (name === 'HTTPS安全加密') {
-                            let maxTotalYears = 0;
-                            document.querySelectorAll('.border[data-service-id]').forEach(c => {
-                                const mc = c.querySelector('.service-checkbox');
-                                const rc = c.querySelector('.renewal-checkbox');
-                                if (mc && mc.checked) {
-                                    let y = 1;
-                                    if (rc && rc.checked) y += parseInt(c.querySelector('.renewal-years').value || 0);
-                                    maxTotalYears = Math.max(maxTotalYears, y);
-                                } else if (rc && rc.checked) {
-                                    maxTotalYears = Math.max(maxTotalYears, parseInt(c.querySelector('.renewal-years').value || 0));
-                                }
-                            });
-                            if (maxTotalYears >= 3) {
-                                finalPrice = 0;
-                                discountDisplay = `<div class="text-xs text-green-600">3年約贈送</div>`;
-                            } else {
-                                finalPrice = priceStore['https']?.price || 6200;
-                            }
-                        } else if (name === '內頁設計') {
-                            const count = container.querySelector('.inner-page-count').value;
-                            finalPrice = (priceStore['inner-page-design']?.price || 20000) * parseInt(count > 0 ? count : 1);
-                            quantityDisplay = ` (${count} 頁)`;
-                        } else if (name === '新增語系') {
-                            const normalCount = container.querySelector('.language-count').value || 0;
-                            const specialCount = container.querySelector('.special-language-count').value || 0;
-                            finalPrice = ((priceStore['language-add']?.price || 8000) * parseInt(normalCount)) + ((priceStore['language-add-special']?.price || 10000) * parseInt(specialCount));
-                            quantityDisplay = ` (一般: ${normalCount}, 特殊: ${specialCount})`;
-                        } else if (name === '部落格文案撰寫') {
-                            const chineseCount = container.querySelector('.chinese-blog-count').value || 0;
-                            const englishCount = container.querySelector('.english-blog-count').value || 0;
-                            finalPrice = ((priceStore['blog-writing']?.price || 15000) * parseInt(chineseCount)) + ((priceStore['blog-writing-en']?.price || 15000) * parseInt(englishCount));
-                            quantityDisplay = ` (中: ${chineseCount}, 英: ${englishCount})`;
-                        } else if (name === 'MailCloud郵件代管(5G)') {
-                            let itemPrice = 0;
-                            let setupFeeHTML = '';
-                            if (container.querySelector('.mailcloud-setup-check').checked) {
-                                itemPrice += priceStore['mailcloud-setup']?.price || 1000;
-                                setupFeeHTML = `<li>首次設定費: NT$ ${(priceStore['mailcloud-setup']?.price || 1000).toLocaleString()}</li>`;
-                            }
-                            const quantity = parseInt(container.querySelector('.mailcloud-quantity').value) || 0;
-                            const years = parseInt(container.querySelector('.mailcloud-years').value) || 0;
-                            itemPrice += quantity * years * (priceStore['mailcloud-account']?.price || 1200);
-                            finalPrice = itemPrice;
-                            detailsHTML = `<ul class="list-disc list-inside mt-2 text-sm text-gray-700">${setupFeeHTML}<li>郵件帳號: ${quantity} 組, ${years} 年</li></ul>`;
-                        }
-
-
-                        if (isRenewalOnly && container.closest('#website-design')) {
-                            detailsHTML = `
-                                <ul class="list-disc list-inside mt-2 text-sm text-gray-700">
-                                    <li><b>雙主機運行：</b>同時使用 Google 和微軟 Azure 主機，確保網站穩定。</li>
-                                    <li><b>資料備份：</b>在亞馬遜 (AWS) 進行備份，圖片保留7天，資料庫保留30天。</li>
-                                    <li><b>頂級安全防護：</b>具備 A+ 等級的 SSL 加密、防火牆 (WAF) 及 DDoS 攻擊防護，並提供 24 小時安全監控。</li>
-                                    <li><b>即時演算法更新：</b>隨時跟進 Google 的演算法變動，並快速調整。</li>
-                                    <li><b>系統全面更新：</b>透過中央控管系統，統一進行系統、程式與安全性的升級。</li>
-                                </ul>`;
-                        }
-
-                        let printPriceText;
-                        if (serviceId.startsWith('custom-') && finalPrice === 0) {
-                            printPriceText = '<span style="color: #16a34a; font-weight: 600;">特別優惠贈送</span>';
-                        } else if (name === '客製程式' && finalPrice === 0) {
-                            printPriceText = '依工程師估價';
-                        } else {
-                            printPriceText = `NT$ ${Math.round(finalPrice).toLocaleString()}`;
-                        }
-
                         printItemsHTML += `
                             <div class="py-4 border-b last:border-b-0 break-inside-avoid">
                                 <div class="flex justify-between items-start mb-2">
-                                    <h4 class="text-base font-bold text-gray-800">${name}${quantityDisplay}</h4>
+                                    <h4 class="text-base font-bold text-gray-800">${name}</h4>
                                     <div class="text-right flex-shrink-0 ml-4">
-                                        <div class="text-sm font-semibold text-gray-800">${isRenewalOnly ? '' : printPriceText}</div>
-                                        ${discountDisplay}
+                                        <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(discountedFirstYearPrice).toLocaleString()}</div>
+                                        ${firstYearDiscount !== 1 ? `<div class="text-xs text-green-600">首年 ${Math.round(firstYearDiscount*100)} 折</div>` : ''}
                                     </div>
                                 </div>
                                 <div class="pl-4 text-sm text-gray-700">${detailsHTML}</div>
                                 ${description ? `<div class="pl-4 mt-2 text-sm text-gray-600"><strong>備註:</strong> ${description}</div>` : ''}
                             </div>
                         `;
-                    }
 
-                    if (checkbox.classList.contains('renewal-checkbox') && checkbox.checked) {
-                        const parentDiv = checkbox.closest('.renewal-section');
-                        const container = checkbox.closest('.border');
-                        const serviceId = container.dataset.serviceId;
-                        const name = checkbox.dataset.name;
-                        const basePrice = priceStore[serviceId]?.renewal || 0;
-                        const years = parseInt(parentDiv.querySelector('.renewal-years').value) || 1;
-                        
-                        let discountMultiplier = 1;
-                        let discountDisplay = '';
-                        const discountInput = parentDiv.querySelector('.renewal-discount');
-                        if (discountInput) {
-                            const multiplier = parseFloat(discountInput.value);
-                            if (!isNaN(multiplier) && multiplier > 0 && multiplier !== 1) {
-                                discountMultiplier = multiplier;
-                                discountDisplay = `<div class="text-xs text-green-600">${Math.round(discountMultiplier*100)} 折</div>`;
-                            }
-                        }
-                        
-                        const finalRenewalPrice = basePrice * years * discountMultiplier;
+                        const renewalCheckbox = container.querySelector('.renewal-checkbox');
+                        if (renewalCheckbox && renewalCheckbox.checked) {
+                            const renewalName = renewalCheckbox.dataset.name;
+                            const renewalPrice = priceStore[container.dataset.serviceId]?.renewal || 0;
+                            const years = parseInt(container.querySelector('.renewal-years').value) || 1;
+                            const discount = parseFloat(container.querySelector('.renewal-discount').value) || 1;
+                            const renewalTotal = renewalPrice * years * discount;
 
-                        printItemsHTML += `
-                            <div class="py-4 border-b last:border-b-0 break-inside-avoid">
-                                <div class="flex justify-between items-start">
-                                    <h4 class="text-base font-bold text-gray-800">${name} (${years}年)</h4>
-                                    <div class="text-right flex-shrink-0 ml-4">
-                                        <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(finalRenewalPrice).toLocaleString()}</div>
-                                        ${discountDisplay}
+                            printItemsHTML += `
+                                <div class="py-4 border-b last:border-b-0 break-inside-avoid pl-4">
+                                    <div class="flex justify-between items-start">
+                                        <h4 class="text-base font-bold text-gray-800">${renewalName} (${years}年)</h4>
+                                        <div class="text-right flex-shrink-0 ml-4">
+                                            <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(renewalTotal).toLocaleString()}</div>
+                                            ${discount !== 1 ? `<div class="text-xs text-green-600">${Math.round(discount*100)} 折</div>` : ''}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        `;
+                            `;
+                        }
                     }
                 });
 
+
+                const comparisonTableHTML = comparisonSection.classList.contains('hidden') ? '' : comparisonSection.outerHTML;
 
                 const printWindow = window.open('', '_blank');
                 printWindow.document.write(`
@@ -1690,6 +1700,8 @@
                                 .break-inside-avoid { break-inside: avoid; }
                                 ul { padding-left: 1.5rem; }
                                 li { margin-top: 0.25rem; }
+                                #comparison-section { display: block !important; }
+                                .delete-custom-package-btn, .remove-from-compare { display: none; }
                             </style>
                         </head>
                         <body class="p-4">
@@ -1744,16 +1756,17 @@
 
                             <footer class="flex justify-end break-inside-avoid">
                                 <div class="w-full md:w-2/3 lg:w-1/2 p-6 bg-gray-50 rounded-lg">
-                                    <div class="space-y-2 mb-4">
-                                        <div class="flex justify-between items-center text-gray-600">
+                                    ${comparisonTableHTML}
+                                    <div class="space-y-2 mb-4 border-t border-gray-200 pt-4 mt-4">
+                                         <div class="flex justify-between items-center text-gray-600">
                                             <span>平均每月金額</span>
-                                            <span class="font-semibold text-lg">${monthlyAverageHTML}</span>
+                                            <span id="monthly-average" class="font-semibold text-lg">${monthlyAverageText}</span>
                                         </div>
                                     </div>
                                     <div class="border-t border-gray-200 pt-4 space-y-2">
                                         <div class="flex justify-between items-center">
-                                            <span class="text-xl font-bold">總計 (未稅)</span>
-                                            <span class="font-bold text-2xl text-blue-600">${grandTotalHTML}</span>
+                                            <span class="text-xl font-bold">方案總價 (未稅)</span>
+                                            <span class="font-bold text-2xl text-blue-600">${grandTotalText}</span>
                                         </div>
                                         ${taxedTotalHTML}
                                     </div>
