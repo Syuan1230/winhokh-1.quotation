@@ -1182,6 +1182,8 @@
                         
                         if (priceStore[targetId]) {
                             priceStore[targetId][priceType] = newValue;
+                        } else {
+                            priceStore[targetId] = { [priceType]: newValue };
                         }
                         
                         const priceDisplay = document.querySelector(`.price-display[data-price-id="${targetId}"]`);
@@ -1197,6 +1199,7 @@
                             renewalPriceDisplay.textContent = `NT$ ${newValue.toLocaleString()} /年`;
                         }
                         
+                        localStorage.setItem('customPriceStore', JSON.stringify(priceStore));
                         updateQuote();
                     });
                 });
@@ -1523,6 +1526,9 @@
             }
 
             function initialize() {
+                const savedPrices = JSON.parse(localStorage.getItem('customPriceStore') || '{}');
+                Object.assign(priceStore, savedPrices);
+                
                 populatePriceSettings();
                 loadCustomPackages();
                 setupAllListeners();
