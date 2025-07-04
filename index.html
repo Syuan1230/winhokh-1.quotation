@@ -57,6 +57,13 @@
         .compare-btn.added {
             @apply bg-yellow-500 text-white;
         }
+        .features-list ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .features-list li {
+            margin-top: 0.25rem;
+        }
 
         /* Print-specific styles */
         @media print {
@@ -1053,21 +1060,26 @@
                 updateQuote();
             }
 
-            function updateQuote() {
-                let summaryHTML = '';
+            function getItemsHTML(isForPrint = false) {
+                let html = '';
                 let totalCost = 0;
                 let maxYears = 1;
-                let hasSelections = document.querySelectorAll('.service-checkbox:checked, .renewal-checkbox:checked').length > 0;
 
                 document.querySelectorAll('div[data-service-id]').forEach(container => {
                     const serviceId = container.dataset.serviceId;
                     const mainCheckbox = container.querySelector('.service-checkbox');
                     const renewalCheckbox = container.querySelector('.renewal-checkbox');
 
-                    if (!mainCheckbox || (!mainCheckbox.checked && (!renewalCheckbox || !renewalCheckbox.checked))) return;
+                    if (!mainCheckbox || (!mainCheckbox.checked && !(renewalCheckbox && renewalCheckbox.checked))) {
+                        return;
+                    }
 
                     const name = mainCheckbox.dataset.name;
                     let basePrice = priceStore[serviceId]?.price !== undefined ? priceStore[serviceId].price : parseFloat(mainCheckbox.dataset.price) || 0;
+                    const descriptionInput = container.querySelector('.description-input');
+                    const description = descriptionInput ? descriptionInput.value.trim() : '';
+                    const featuresList = container.querySelector('ul');
+                    const featuresHTML = featuresList ? featuresList.outerHTML : '';
                     
                     // Handle addons with calculated prices
                     if (serviceId === 'inner-page-design') {
@@ -1094,11 +1106,13 @@
                         basePrice = priceStore['custom-dev']?.price || 0;
                     }
                     
+                    let mainServiceHTML = '';
+                    let renewalServiceHTML = '';
+
                     if (mainCheckbox.checked) {
                         const firstYearDiscountInput = container.querySelector('.first-year-discount');
                         const firstYearDiscount = firstYearDiscountInput ? parseFloat(firstYearDiscountInput.value) || 1 : 1;
                         const discountedFirstYearPrice = basePrice * firstYearDiscount;
-                        
                         totalCost += discountedFirstYearPrice;
 
                         let priceText;
@@ -1110,15 +1124,43 @@
                         else {
                             priceText = `NT$ ${Math.round(discountedFirstYearPrice).toLocaleString()}`;
                         }
+                        
+                        let displayName = name;
+                        if (serviceId === 'inner-page-design') {
+                            const count = parseInt(container.querySelector('.inner-page-count').value) || 0;
+                            if (count > 0) displayName += ` (共 ${count} 頁)`;
+                        } else if (serviceId === 'language-add') {
+                            const normalCount = parseInt(container.querySelector('.language-count').value) || 0;
+                            const specialCount = parseInt(container.querySelector('.special-language-count').value) || 0;
+                            const totalCount = normalCount + specialCount;
+                            if (totalCount > 0) displayName += ` (共 ${totalCount} 組)`;
+                        } else if (serviceId === 'blog-writing') {
+                            const chineseCount = parseInt(container.querySelector('.chinese-blog-count').value) || 0;
+                            const englishCount = parseInt(container.querySelector('.english-blog-count').value) || 0;
+                            const totalCount = chineseCount + englishCount;
+                            if (totalCount > 0) displayName += ` (共 ${totalCount} 篇)`;
+                        } else if (serviceId === 'mailcloud') {
+                            const quantity = parseInt(container.querySelector('.mailcloud-quantity').value) || 0;
+                            const years = parseInt(container.querySelector('.mailcloud-years').value) || 0;
+                            let details = [];
+                            if (quantity > 0) details.push(`${quantity} 組`);
+                            if (years > 0) details.push(`${years} 年`);
+                            if (details.length > 0) displayName += ` (${details.join(', ')})`;
+                        }
 
-                        summaryHTML += `
-                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                                <span class="text-sm text-gray-700">${name}</span>
-                                <div class="text-right">
+                        mainServiceHTML = `
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1 pr-2">
+                                    <span class="text-sm text-gray-800 font-bold">${displayName}</span>
+                                </div>
+                                <div class="text-right flex-shrink-0">
                                     <div class="text-sm font-semibold text-gray-800">${priceText}</div>
                                     ${firstYearDiscount !== 1 && basePrice > 0 && firstYearDiscountInput ? `<div class="text-xs text-green-600">首年 ${Math.round(firstYearDiscount*100)} 折</div>` : ''}
                                 </div>
-                            </div>`;
+                            </div>
+                            ${isForPrint ? `<div class="text-xs text-gray-600 mt-2 pl-2 features-list">${featuresHTML}</div>` : ''}
+                            ${description ? `<p class="text-xs text-gray-500 mt-2 pl-2 border-l-2 border-gray-200">${description}</p>` : ''}
+                        `;
                     }
 
                     if (renewalCheckbox && renewalCheckbox.checked) {
@@ -1133,8 +1175,22 @@
                         totalCost += renewalTotal;
                         maxYears = Math.max(maxYears, 1 + years);
 
-                        summaryHTML += `
-                            <div class="flex justify-between items-center py-2 border-b border-gray-100 pl-4">
+                        // If for print and main service is not checked, prepend the details
+                        if (isForPrint && !mainCheckbox.checked) {
+                             renewalServiceHTML += `
+                                <div class="flex justify-between items-start">
+                                    <div class="flex-1 pr-2">
+                                        <span class="text-sm text-gray-800 font-bold">${name}</span>
+                                    </div>
+                                </div>
+                                <div class="text-xs text-gray-600 mt-2 pl-2 features-list">${featuresHTML}</div>
+                                ${description ? `<p class="text-xs text-gray-500 mt-2 pl-2 border-l-2 border-gray-200">${description}</p>` : ''}
+                                <div class="mt-2 pt-2 border-t border-gray-200"></div>
+                             `;
+                        }
+                        
+                        renewalServiceHTML += `
+                            <div class="flex justify-between items-center ${isForPrint && !mainCheckbox.checked ? 'pl-4' : ''}">
                                 <span class="text-sm text-gray-700">${renewalCheckbox.dataset.name} (${years}年)</span>
                                 <div class="text-right">
                                     <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(renewalTotal).toLocaleString()}</div>
@@ -1142,7 +1198,18 @@
                                 </div>
                             </div>`;
                     }
+
+                    if (mainServiceHTML || renewalServiceHTML) {
+                        html += `<div class="py-2 border-b border-gray-100 break-inside-avoid">${mainServiceHTML}${renewalServiceHTML}</div>`;
+                    }
                 });
+
+                return { html, totalCost, maxYears };
+            }
+
+            function updateQuote() {
+                const { html, totalCost, maxYears } = getItemsHTML(false); // false for preview
+                const hasSelections = html.length > 0;
 
                 const monthlyAverage = totalCost > 0 ? Math.round(totalCost / (maxYears * 12)) : 0;
                 
@@ -1160,7 +1227,7 @@
                 if (!hasSelections) {
                     quoteSummary.innerHTML = '<p id="empty-quote" class="text-center text-gray-500 pt-12">尚未選擇任何服務項目。</p>';
                 } else {
-                    quoteSummary.innerHTML = summaryHTML;
+                    quoteSummary.innerHTML = html;
                 }
             }
             
@@ -1271,17 +1338,26 @@
                 });
             }
 
-            function setupAllListeners() {
-                const allInputs = document.querySelectorAll('.service-checkbox, .renewal-checkbox, .renewal-years, .renewal-discount, .first-year-discount, .inner-page-count, .language-count, .special-language-count, .chinese-blog-count, .english-blog-count, .mailcloud-setup-check, .mailcloud-quantity, .mailcloud-years, #include-tax-checkbox');
-                allInputs.forEach(input => {
-                    input.addEventListener('change', () => {
+            // Delegated event listeners for real-time updates
+            appContainer.addEventListener('input', function(e) {
+                if (e.target.matches('.description-input, .first-year-discount, .renewal-years, .renewal-discount, .inner-page-count, .language-count, .special-language-count, .chinese-blog-count, .english-blog-count, .mailcloud-quantity, .mailcloud-years, .number-input')) {
+                    updateQuote();
+                }
+            });
+
+            appContainer.addEventListener('change', function(e) {
+                if (e.target.matches('.service-checkbox, .renewal-checkbox, .mailcloud-setup-check, #include-tax-checkbox')) {
+                    if (e.target.matches('.service-checkbox, .renewal-checkbox')) {
                         currentPackage = null;
                         document.querySelectorAll('.package-card').forEach(card => card.classList.remove('selected'));
-                        updateQuote();
-                    });
-                });
-                
+                    }
+                    updateQuote();
+                }
+            });
+
+            function setupClickListeners() {
                 document.body.addEventListener('click', function(e) {
+                    // Stepper buttons
                     if (e.target.classList.contains('stepper-btn')) {
                         const wrapper = e.target.closest('.number-input-wrapper');
                         const input = wrapper.querySelector('.number-input');
@@ -1306,15 +1382,18 @@
                         } else {
                             input.value = currentValue;
                         }
-                        input.dispatchEvent(new Event('change', { bubbles: true }));
+                        // Manually dispatch 'input' event to trigger updateQuote
+                        input.dispatchEvent(new Event('input', { bubbles: true }));
                     }
 
+                    // Select package button
                     if (e.target.closest('.select-package-btn')) {
                         const packageCard = e.target.closest('.package-card');
                         const packageId = packageCard.dataset.packageId;
                         selectPackage(packageId);
                     }
                     
+                    // Delete custom package button
                     if (e.target.closest('.delete-custom-package-btn')) {
                         const packageCard = e.target.closest('.package-card');
                         const packageId = packageCard.dataset.packageId;
@@ -1323,6 +1402,7 @@
                         }
                     }
 
+                    // Compare button
                     if (e.target.closest('.compare-btn')) {
                         const btn = e.target.closest('.compare-btn');
                         const packageId = btn.closest('.package-card').dataset.packageId;
@@ -1620,7 +1700,7 @@
                 });
 
                 loadCustomPackages();
-                setupAllListeners();
+                setupClickListeners();
                 generateQuoteInfo();
                 updateQuote();
             }
@@ -1689,8 +1769,6 @@
                 settingsContainer.appendChild(settingRow);
                 addPriceSettingListeners(settingRow);
 
-                setupAllListeners(); // Re-run to attach listener to new item
-
                 nameInput.value = '';
                 priceInput.value = '';
                 document.querySelector('[data-tab="additional-services"]').click();
@@ -1732,7 +1810,7 @@
                     `;
                 }
                 
-                const printItemsHTML = document.getElementById('quote-summary').innerHTML;
+                const { html: printItemsHTML } = getItemsHTML(true); // true for print
                 const comparisonTableHTML = comparisonSection.classList.contains('hidden') ? '' : comparisonSection.outerHTML;
 
                 const printWindow = window.open('', '_blank');
@@ -1746,8 +1824,8 @@
                                 body { font-family: 'Noto Sans TC', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
                                 @page { size: A4; margin: 1.5cm; }
                                 .break-inside-avoid { break-inside: avoid; }
-                                ul { padding-left: 1.5rem; }
-                                li { margin-top: 0.25rem; }
+                                .features-list ul { list-style-type: disc; list-style-position: inside; padding-left: 0.5rem; }
+                                .features-list li { margin-top: 0.25rem; }
                                 #comparison-section { display: block !important; }
                                 .delete-custom-package-btn, .remove-from-compare { display: none; }
                             </style>
@@ -1795,7 +1873,7 @@
                                 </div>
                             </div>
 
-                            <div class="mb-8" style="page-break-after: avoid;">
+                            <div class="mb-8">
                                 <h2 class="text-lg font-bold mb-3">報價項目</h2>
                                 <div class="border rounded-lg p-4">
                                     ${printItemsHTML}
