@@ -64,6 +64,9 @@
         .features-list li {
             margin-top: 0.25rem;
         }
+        [contenteditable="true"] {
+            @apply p-1 rounded hover:bg-gray-100 focus:bg-blue-50 focus:ring-1 focus:ring-blue-300 outline-none transition-colors;
+        }
 
         /* Print-specific styles */
         @media print {
@@ -88,30 +91,6 @@
 </head>
 <body class="text-gray-800">
 
-    <!-- Entry Password Modal -->
-    <div id="entry-password-modal" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
-        <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-sm">
-            <h2 class="text-2xl font-bold mb-4 text-center">請輸入密碼</h2>
-            <form id="entry-password-form">
-                <input type="password" id="entry-password-input" class="form-input w-full mb-4" placeholder="Password">
-                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">進入系統</button>
-                <p id="entry-password-error" class="text-red-500 text-sm mt-2 text-center hidden">密碼錯誤，請重試。</p>
-            </form>
-        </div>
-    </div>
-
-    <!-- Control Panel Password Modal -->
-    <div id="password-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 hidden">
-        <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-sm">
-            <h2 class="text-2xl font-bold mb-4 text-center">控制台密碼</h2>
-            <form id="password-form">
-                <input type="password" id="password-input" class="form-input w-full mb-4" placeholder="Password">
-                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">登入</button>
-                <p id="password-error" class="text-red-500 text-sm mt-2 text-center hidden">密碼錯誤，請重試。</p>
-            </form>
-        </div>
-    </div>
-    
     <!-- Price Settings Modal -->
     <div id="price-settings-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-40 hidden">
         <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] flex flex-col">
@@ -134,7 +113,7 @@
     </div>
 
 
-    <div id="app-container" class="hidden">
+    <div id="app-container">
         <div class="container mx-auto p-4 md:p-8">
             
             <!-- Editable Header -->
@@ -217,12 +196,12 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-blue-700">專案設計</h3>
-                                        <p class="text-gray-500 mt-1">打造獨一無二的高質感品牌網站，提供全方位規劃服務。</p>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">打造獨一無二的高質感品牌網站，提供全方位規劃服務。</p>
                                     </div>
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-blue-600 focus:ring-blue-500 cursor-pointer ml-4" 
                                            data-name="專案設計" data-price="398000">
                                 </div>
-                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                <ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                     <li><b>專案經理輔助：</b>搭配專案經理輔助專案執行 (視訊溝通+3次外訪)</li>
                                     <li><b>專案流程規劃：</b>專案流程及設計時程規劃／設計及修改進度跟催／資料準備清單</li>
                                     <li><b>客製設計：</b>客製首頁提版設計1款，首頁每區塊設計師提出流行素材案例</li>
@@ -279,12 +258,12 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-green-700">基礎形象客製設計</h3>
-                                        <p class="text-gray-500 mt-1">適合需要建立專業形象，並具備高度彈性的企業。</p>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">適合需要建立專業形象，並具備高度彈性的企業。</p>
                                     </div>
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-green-600 focus:ring-green-500 cursor-pointer ml-4" 
                                            data-name="基礎形象客製設計" data-price="200000">
                                 </div>
-                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                <ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                     <li><b>客製提版：</b>企業網站客製平面提版，首頁"三大主題"區塊設計</li>
                                     <li><b>頁面設計：</b>內頁頁面設計"2頁"</li>
                                     <li><b>靜態首頁：</b>靜態全景式首頁（首頁Banner＊2、內頁Banner＊1）</li>
@@ -339,12 +318,12 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-purple-700">Winshop 新公版</h3>
-                                        <p class="text-gray-500 mt-1">更具彈性的模組化公版，自由組合出 125 種獨特樣式。</p>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">更具彈性的模組化公版，自由組合出 125 種獨特樣式。</p>
                                     </div>
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-purple-600 focus:ring-purple-500 cursor-pointer ml-4" 
                                            data-name="Winshop新公版" data-price="128000">
                                 </div>
-                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                <ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                     <li><b>Banner設計：</b>首頁Banner＊2、內頁Banner＊1</li>
                                     <li><b>背景設計：</b>首頁區塊背景設計（公司簡介圖片＆背景圖、產品背景圖、最新消息背景圖）</li>
                                     <li><b>模組化版型：</b>首頁版型-開發版型模組選擇：公司簡介、產品介紹、最新消息</li>
@@ -405,12 +384,12 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-red-700">跨國 SEO 行銷優化服務</h3>
-                                        <p class="text-gray-500 mt-1">拓展全球業務，讓世界看見您的品牌。</p>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">拓展全球業務，讓世界看見您的品牌。</p>
                                     </div>
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-red-600 focus:ring-red-500 cursor-pointer ml-4" 
                                            data-name="跨國SEO行銷優化服務" data-price="300000">
                                 </div>
-                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                <ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                     <li><b>優化目標：</b>Google.com 搜尋引擎優化（英文）+ Google.com.tw 搜尋引擎優化（中文）</li>
                                     <li><b>關鍵字：</b>可同時優化中文+英文關鍵字，合計優化 20 組關鍵字</li>
                                     <li><b>關鍵字規劃：</b>關鍵字分析、評估、挑選，20組連結頁面重點優化</li>
@@ -467,12 +446,12 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-teal-700">中文 SEO 行銷優化服務</h3>
-                                        <p class="text-gray-500 mt-1">深耕在地市場，精準觸及台灣客戶。</p>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">深耕在地市場，精準觸及台灣客戶。</p>
                                     </div>
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-teal-600 focus:ring-teal-500 cursor-pointer ml-4" 
                                            data-name="中文SEO行銷優化服務" data-price="250000">
                                 </div>
-                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                <ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                     <li><b>優化目標：</b>Google.com.tw 搜尋引擎優化</li>
                                     <li><b>關鍵字：</b>可優化中文關鍵字合計共 20 組</li>
                                     <li><b>關鍵字規劃：</b>關鍵字分析、評估、挑選，20組連結頁面重點優化</li>
@@ -533,12 +512,12 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-orange-700">專案行銷頂級方案 (中文SEO)</h3>
-                                        <p class="text-gray-500 mt-1">專案設計+中文SEO頂級整合方案，加量不加價。</p>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">專案設計+中文SEO頂級整合方案，加量不加價。</p>
                                     </div>
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-orange-600 focus:ring-orange-500 cursor-pointer ml-4" 
                                            data-name="專案行銷頂級方案(中文SEO)" data-price="700000">
                                 </div>
-                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                <ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                     <li><b>Winshop系統：</b>Winshop 系統核心，語系開版1款</li>
                                     <li><b>視覺設計：</b>首頁視覺風格設計2款（電腦版、手機版），3張首頁橫幅廣告banner設計</li>
                                     <li><b>頁面設計：</b>內頁設計7頁（每頁最多5區塊，含banner橫幅）</li>
@@ -589,12 +568,12 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-indigo-700">專案行銷頂級方案 (英文SEO)</h3>
-                                        <p class="text-gray-500 mt-1">專案設計+英文SEO頂級整合方案，拓展國際市場。</p>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">專案設計+英文SEO頂級整合方案，拓展國際市場。</p>
                                     </div>
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-indigo-600 focus:ring-indigo-500 cursor-pointer ml-4" 
                                            data-name="專案行銷頂級方案(英文SEO)" data-price="750000">
                                 </div>
-                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                <ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                     <li><b>Winshop系統：</b>Winshop 系統核心，語系開版1款</li>
                                     <li><b>視覺設計：</b>首頁視覺風格設計2款（電腦版、手機版），3張首頁橫幅廣告banner設計</li>
                                     <li><b>頁面設計：</b>內頁設計7頁（每頁最多5區塊，含banner橫幅）</li>
@@ -645,16 +624,16 @@
                         <!-- Additional Services Tab -->
                         <div id="additional-services" class="tab-content hidden space-y-6">
                             
-                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="https">
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="">
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-gray-700">HTTPS 安全加密</h3>
-                                        <p class="text-gray-500 mt-1">提供網站安全加密服務，提升網站安全等級。</p>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">提供網站安全加密服務，提升網站安全等級。</p>
                                     </div>
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-gray-600 focus:ring-gray-500 cursor-pointer ml-4" 
                                            data-name="HTTPS安全加密" data-price="6200" data-renewal="0">
                                 </div>
-                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                <ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                     <li><b>SSL憑證：</b>HTTPS 加密主機（SSL 憑證）</li>
                                     <li><b>最新技術：</b>最新升級 HTTP/3</li>
                                     <li><b>安全等級：</b>提升 HSTS 加密技術，系統安全 A+</li>
@@ -673,12 +652,12 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-cyan-700">投資人專區</h3>
-                                        <p class="text-gray-500 mt-1">符合上市櫃公司投資人專區需求的專業模組。</p>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">符合上市櫃公司投資人專區需求的專業模組。</p>
                                     </div>
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-cyan-600 focus:ring-cyan-500 cursor-pointer ml-4" 
                                            data-name="投資人專區" data-price="40000" data-renewal="0">
                                 </div>
-                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                <ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                     <li><b>專業功能：</b>符合 80%上市櫃公司投資人專區需求</li>
                                     <li><b>搜尋設定：</b>搜尋設定、自訂表格設定等模組功能</li>
                                     <li><b>參考案例：</b>惠特科技 6706</li>
@@ -696,7 +675,7 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-pink-700">內頁設計</h3>
-                                        <p class="text-gray-500 mt-1">單一頁面風格提版設計服務。</p>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">單一頁面風格提版設計服務。</p>
                                         <div class="mt-2">
                                             <label class="text-sm text-gray-600">頁數：</label>
                                             <div class="number-input-wrapper inline-flex">
@@ -709,7 +688,7 @@
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-pink-600 focus:ring-pink-500 cursor-pointer ml-4" 
                                            data-name="內頁設計" data-price="20000" data-renewal="0">
                                 </div>
-                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                <ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                     <li><b>風格提版：</b>單一頁面（內頁）風格提版（不含Banner設計）</li>
                                     <li><b>文案效果：</b>僅編輯器內的文案效果，不抓取其他程式及動態效果</li>
                                     <li><b>語系費用：</b>僅收單一語系費用，其他語系套用無需額外費用</li>
@@ -728,7 +707,7 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-emerald-700">新增語系</h3>
-                                        <p class="text-gray-500 mt-1">為網站新增其他語言版本。</p>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">為網站新增其他語言版本。</p>
                                         <div class="mt-2 space-y-2">
                                             <div class="flex items-center gap-2">
                                                 <label class="text-sm text-gray-600 w-24">一般語系數量：</label>
@@ -751,7 +730,7 @@
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-emerald-600 focus:ring-emerald-500 cursor-pointer ml-4" 
                                            data-name="新增語系" data-price="0" data-renewal="0">
                                 </div>
-                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                <ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                     <li><b>一般語系：</b>網站建置每新增一語系 NT$ 8,000</li>
                                     <li><b>特殊語系：</b>如阿拉伯文（右至左排版）每語系 NT$ 10,000</li>
                                 </ul>
@@ -768,7 +747,7 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-violet-700">部落格文案撰寫</h3>
-                                        <p class="text-gray-500 mt-1">專業文案撰寫服務，提升網站內容品質。</p>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">專業文案撰寫服務，提升網站內容品質。</p>
                                         <div class="mt-2 space-y-2">
                                             <div class="flex items-center gap-2">
                                                 <label class="text-sm text-gray-600 w-24">中文文案篇數：</label>
@@ -791,7 +770,7 @@
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-violet-600 focus:ring-violet-500 cursor-pointer ml-4" 
                                            data-name="部落格文案撰寫" data-price="0" data-renewal="0">
                                 </div>
-                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                <ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                     <li><b>中文文案：</b>中文 1200 字文案撰寫 NT$ 15,000/篇</li>
                                     <li><b>英文文案：</b>英文 1200 字文案撰寫 NT$ 15,000/篇</li>
                                 </ul>
@@ -808,7 +787,7 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-blue-700">MailCloud郵件代管(5G)</h3>
-                                        <p class="text-gray-500 mt-1">費用計算方式為 首次設定費1000，一組mail 1200/年。</p>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">費用計算方式為 首次設定費1000，一組mail 1200/年。</p>
                                         <div class="mt-4 space-y-4">
                                             <div class="flex items-center gap-4">
                                                 <input type="checkbox" id="mailcloud-setup-check" class="h-5 w-5 rounded border-gray-400 text-blue-600 focus:ring-blue-500 cursor-pointer mailcloud-setup-check">
@@ -850,12 +829,12 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-purple-700">客製程式</h3>
-                                        <p class="text-gray-500 mt-1">依據需求客製化程式功能。</p>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">依據需求客製化程式功能。</p>
                                     </div>
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-purple-600 focus:ring-purple-500 cursor-pointer ml-4" 
                                            data-name="客製程式" data-price="0" data-renewal="0">
                                 </div>
-                                <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                <ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                     <li><b>需求訪談：</b>與專案經理、工程師進行需求訪談。</li>
                                     <li><b>時程規劃：</b>根據功能複雜度規劃開發時程。</li>
                                     <li><b>功能交付：</b>分階段交付與測試客製化功能。</li>
@@ -961,953 +940,261 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // --- Password Protection ---
-            const ENTRY_PASSWORD = '33550336';
-            const ADMIN_PASSWORD = 'winhokh';
-            
-            const appContainer = document.getElementById('app-container');
-            
-            // Entry password
-            const entryPasswordModal = document.getElementById('entry-password-modal');
-            const entryPasswordForm = document.getElementById('entry-password-form');
-            const entryPasswordInput = document.getElementById('entry-password-input');
-            const entryPasswordError = document.getElementById('entry-password-error');
-            
-            // Admin password
-            const adminPasswordModal = document.getElementById('password-modal');
-            const adminPasswordForm = document.getElementById('password-form');
-            const adminPasswordInput = document.getElementById('password-input');
-            const adminPasswordError = document.getElementById('password-error');
-            const priceSettingsModal = document.getElementById('price-settings-modal');
+            // =================================================================
+            // 1. STATE MANAGEMENT & CONFIGURATION
+            // =================================================================
 
-            // Show entry modal on load
-            entryPasswordModal.classList.remove('hidden');
-
-            entryPasswordForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                if (entryPasswordInput.value === ENTRY_PASSWORD) {
-                    entryPasswordModal.classList.add('hidden');
-                    appContainer.classList.remove('hidden');
-                } else {
-                    entryPasswordError.classList.remove('hidden');
-                }
-            });
-
-            document.getElementById('open-price-settings').addEventListener('click', () => {
-                adminPasswordModal.classList.remove('hidden');
-            });
-            
-            document.getElementById('close-price-settings').addEventListener('click', () => {
-                priceSettingsModal.classList.add('hidden');
-            });
-
-            adminPasswordForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                if (adminPasswordInput.value === ADMIN_PASSWORD) {
-                    adminPasswordModal.classList.add('hidden');
-                    priceSettingsModal.classList.remove('hidden');
-                    adminPasswordInput.value = '';
-                    adminPasswordError.classList.add('hidden');
-                } else {
-                    adminPasswordError.classList.remove('hidden');
-                }
-            });
-
-            // --- Global Price Store & Package Definitions ---
             let priceStore = {};
-            let currentPackage = null;
+            let currentPackageId = null;
             let allPackages = {};
             let comparisonList = [];
 
-            // --- Tab Navigation ---
-            const navLinks = document.querySelectorAll('.nav-link');
-            const tabContents = document.querySelectorAll('.tab-content');
+            const dom = {
+                appContainer: document.getElementById('app-container'),
+                priceSettingsModal: document.getElementById('price-settings-modal'),
+                quoteSummary: document.getElementById('quote-summary'),
+                grandTotalEl: document.getElementById('grand-total'),
+                monthlyAverageEl: document.getElementById('monthly-average'),
+                taxCheckbox: document.getElementById('include-tax-checkbox'),
+                taxTotalContainer: document.getElementById('tax-total-container'),
+                grandTotalTaxedEl: document.getElementById('grand-total-taxed'),
+                comparisonSection: document.getElementById('comparison-section'),
+                comparisonTbody: document.getElementById('comparison-tbody'),
+                packagesContainer: document.getElementById('packages-container'),
+                priceSettingsContainer: document.getElementById('price-settings-container'),
+                additionalServicesContainer: document.getElementById('additional-services'),
+            };
 
-            navLinks.forEach(link => {
-                link.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    navLinks.forEach(item => item.classList.remove('active'));
-                    this.classList.add('active');
-                    const targetTab = this.getAttribute('data-tab');
-                    tabContents.forEach(content => {
-                        content.classList.toggle('hidden', content.id !== targetTab);
-                    });
-                });
-            });
+            const serviceCalculators = {
+                'inner-page-design': c => (priceStore['inner-page-design']?.price ?? 20000) * (parseInt(c.querySelector('.inner-page-count').value) || 0),
+                'language-add': c => ((priceStore['language-add']?.price ?? 8000) * (parseInt(c.querySelector('.language-count').value) || 0)) + ((priceStore['language-add-special']?.price ?? 10000) * (parseInt(c.querySelector('.special-language-count').value) || 0)),
+                'blog-writing': c => ((priceStore['blog-writing']?.price ?? 15000) * (parseInt(c.querySelector('.chinese-blog-count').value) || 0)) + ((priceStore['blog-writing-en']?.price ?? 15000) * (parseInt(c.querySelector('.english-blog-count').value) || 0)),
+                'mailcloud': c => (c.querySelector('.mailcloud-setup-check').checked ? (priceStore['mailcloud-setup']?.price ?? 1000) : 0) + ((parseInt(c.querySelector('.mailcloud-quantity').value) || 0) * (parseInt(c.querySelector('.mailcloud-years').value) || 0) * (priceStore['mailcloud-account']?.price ?? 1200)),
+                'custom-dev': () => priceStore['custom-dev']?.price || 0
+            };
             
-            document.querySelector('.nav-link[data-tab="combo-packages"]')?.click();
+            // =================================================================
+            // 2. INITIALIZATION
+            // =================================================================
 
-            // --- Quote Calculation ---
-            const quoteSummary = document.getElementById('quote-summary');
-            const grandTotalEl = document.getElementById('grand-total');
-            const monthlyAverageEl = document.getElementById('monthly-average');
-            const taxCheckbox = document.getElementById('include-tax-checkbox');
-            const taxTotalContainer = document.getElementById('tax-total-container');
-            const grandTotalTaxedEl = document.getElementById('grand-total-taxed');
-            const comparisonSection = document.getElementById('comparison-section');
-            const comparisonTbody = document.getElementById('comparison-tbody');
-
-            function clearQuoteSelections() {
-                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
-                document.querySelectorAll('.renewal-years, .mailcloud-years').forEach(input => input.value = '1');
-                document.querySelectorAll('.renewal-discount, .first-year-discount').forEach(input => input.value = '1');
-                document.querySelectorAll('.inner-page-count').forEach(input => input.value = '1');
-                document.querySelectorAll('.language-count, .special-language-count, .chinese-blog-count, .english-blog-count, .mailcloud-quantity').forEach(input => input.value = '0');
-                
-                document.querySelectorAll('.package-card').forEach(card => card.classList.remove('selected'));
-                currentPackage = null;
-
+            function initialize() {
+                loadPriceStore();
+                populatePriceSettings();
+                loadCustomPackages();
+                setupEventListeners();
+                loadState();
+                generateQuoteInfo();
                 updateQuote();
+                document.querySelector('.nav-link[data-tab="combo-packages"]')?.click();
             }
 
-            function getItemsHTML(isForPrint = false) {
-                let html = '';
-                let totalCost = 0;
-                let maxYears = 1;
-
-                document.querySelectorAll('div[data-service-id]').forEach(container => {
-                    const serviceId = container.dataset.serviceId;
-                    const mainCheckbox = container.querySelector('.service-checkbox');
-                    const renewalCheckbox = container.querySelector('.renewal-checkbox');
-
-                    if (!mainCheckbox || (!mainCheckbox.checked && !(renewalCheckbox && renewalCheckbox.checked))) {
-                        return;
+            function loadPriceStore() {
+                const savedPrices = JSON.parse(localStorage.getItem('customPriceStore') || '{}');
+                document.querySelectorAll('div[data-service-id]').forEach(el => {
+                    const id = el.dataset.serviceId;
+                    if (!id) return;
+                    if (!priceStore[id]) priceStore[id] = {};
+                    const main = el.querySelector('.service-checkbox');
+                    if (main) {
+                        const price = parseFloat(main.dataset.price) || 0;
+                        priceStore[id].price = price;
+                        priceStore[id].basePrice = price; // Default basePrice
                     }
-
-                    const name = mainCheckbox.dataset.name;
-                    let basePrice = priceStore[serviceId]?.price !== undefined ? priceStore[serviceId].price : parseFloat(mainCheckbox.dataset.price) || 0;
-                    const descriptionInput = container.querySelector('.description-input');
-                    const description = descriptionInput ? descriptionInput.value.trim() : '';
-                    const featuresList = container.querySelector('ul');
-                    const featuresHTML = featuresList ? featuresList.outerHTML : '';
-                    
-                    // Handle addons with calculated prices
-                    if (serviceId === 'inner-page-design') {
-                        const count = parseInt(container.querySelector('.inner-page-count').value) || 0;
-                        basePrice = (priceStore['inner-page-design']?.price !== undefined ? priceStore['inner-page-design'].price : 20000) * count;
-                    } else if (serviceId === 'language-add') {
-                        const normalCount = parseInt(container.querySelector('.language-count').value) || 0;
-                        const specialCount = parseInt(container.querySelector('.special-language-count').value) || 0;
-                        basePrice = ((priceStore['language-add']?.price !== undefined ? priceStore['language-add'].price : 8000) * normalCount) + ((priceStore['language-add-special']?.price !== undefined ? priceStore['language-add-special'].price : 10000) * specialCount);
-                    } else if (serviceId === 'blog-writing') {
-                        const chineseCount = parseInt(container.querySelector('.chinese-blog-count').value) || 0;
-                        const englishCount = parseInt(container.querySelector('.english-blog-count').value) || 0;
-                        basePrice = ((priceStore['blog-writing']?.price !== undefined ? priceStore['blog-writing'].price : 15000) * chineseCount) + ((priceStore['blog-writing-en']?.price !== undefined ? priceStore['blog-writing-en'].price : 15000) * englishCount);
-                    } else if (serviceId === 'mailcloud') {
-                        let mailPrice = 0;
-                        if (container.querySelector('.mailcloud-setup-check').checked) {
-                            mailPrice += (priceStore['mailcloud-setup']?.price !== undefined ? priceStore['mailcloud-setup'].price : 1000);
-                        }
-                        const quantity = parseInt(container.querySelector('.mailcloud-quantity').value) || 0;
-                        const years = parseInt(container.querySelector('.mailcloud-years').value) || 0;
-                        mailPrice += quantity * years * (priceStore['mailcloud-account']?.price !== undefined ? priceStore['mailcloud-account'].price : 1200);
-                        basePrice = mailPrice;
-                    } else if (serviceId === 'custom-dev') {
-                        basePrice = priceStore['custom-dev']?.price || 0;
-                    }
-                    
-                    let mainServiceHTML = '';
-                    let renewalServiceHTML = '';
-
-                    if (mainCheckbox.checked) {
-                        const firstYearDiscountInput = container.querySelector('.first-year-discount');
-                        const firstYearDiscount = firstYearDiscountInput ? parseFloat(firstYearDiscountInput.value) || 1 : 1;
-                        const discountedFirstYearPrice = basePrice * firstYearDiscount;
-                        totalCost += discountedFirstYearPrice;
-
-                        let priceText;
-                        if (serviceId === 'custom-dev' && discountedFirstYearPrice === 0) {
-                            priceText = '依工程師估價';
-                        } else if (basePrice === 0 && serviceId !== 'custom-dev') {
-                             priceText = `<span class="text-green-600 font-semibold">特別優惠</span>`;
-                        }
-                        else {
-                            priceText = `NT$ ${Math.round(discountedFirstYearPrice).toLocaleString()}`;
-                        }
-                        
-                        let displayName = name;
-                        if (serviceId === 'inner-page-design') {
-                            const count = parseInt(container.querySelector('.inner-page-count').value) || 0;
-                            if (count > 0) displayName += ` (共 ${count} 頁)`;
-                        } else if (serviceId === 'language-add') {
-                            const normalCount = parseInt(container.querySelector('.language-count').value) || 0;
-                            const specialCount = parseInt(container.querySelector('.special-language-count').value) || 0;
-                            const totalCount = normalCount + specialCount;
-                            if (totalCount > 0) displayName += ` (共 ${totalCount} 組)`;
-                        } else if (serviceId === 'blog-writing') {
-                            const chineseCount = parseInt(container.querySelector('.chinese-blog-count').value) || 0;
-                            const englishCount = parseInt(container.querySelector('.english-blog-count').value) || 0;
-                            const totalCount = chineseCount + englishCount;
-                            if (totalCount > 0) displayName += ` (共 ${totalCount} 篇)`;
-                        } else if (serviceId === 'mailcloud') {
-                            const quantity = parseInt(container.querySelector('.mailcloud-quantity').value) || 0;
-                            const years = parseInt(container.querySelector('.mailcloud-years').value) || 0;
-                            let details = [];
-                            if (quantity > 0) details.push(`${quantity} 組`);
-                            if (years > 0) details.push(`${years} 年`);
-                            if (details.length > 0) displayName += ` (${details.join(', ')})`;
-                        }
-
-                        mainServiceHTML = `
-                            <div class="flex justify-between items-start">
-                                <div class="flex-1 pr-2">
-                                    <span class="text-sm text-gray-800 font-bold">${displayName}</span>
-                                </div>
-                                <div class="text-right flex-shrink-0">
-                                    <div class="text-sm font-semibold text-gray-800">${priceText}</div>
-                                    ${firstYearDiscount !== 1 && basePrice > 0 && firstYearDiscountInput ? `<div class="text-xs text-green-600">首年 ${Math.round(firstYearDiscount*100)} 折</div>` : ''}
-                                </div>
-                            </div>
-                            ${isForPrint ? `<div class="text-xs text-gray-600 mt-2 pl-2 features-list">${featuresHTML}</div>` : ''}
-                            ${description ? `<p class="text-xs text-gray-500 mt-2 pl-2 border-l-2 border-gray-200">${description}</p>` : ''}
-                        `;
-                    }
-
-                    if (renewalCheckbox && renewalCheckbox.checked) {
-                        const renewalPrice = priceStore[serviceId]?.renewal || 0;
-                        const yearsInput = container.querySelector('.renewal-years');
-                        const discountInput = container.querySelector('.renewal-discount');
-                        
-                        const years = yearsInput ? parseInt(yearsInput.value) || 1 : 1;
-                        const discount = discountInput ? parseFloat(discountInput.value) || 1 : 1;
-                        
-                        const renewalTotal = renewalPrice * years * discount;
-                        totalCost += renewalTotal;
-                        maxYears = Math.max(maxYears, 1 + years);
-
-                        // If for print and main service is not checked, prepend the details
-                        if (isForPrint && !mainCheckbox.checked) {
-                             renewalServiceHTML += `
-                                <div class="flex justify-between items-start">
-                                    <div class="flex-1 pr-2">
-                                        <span class="text-sm text-gray-800 font-bold">${name}</span>
-                                    </div>
-                                </div>
-                                <div class="text-xs text-gray-600 mt-2 pl-2 features-list">${featuresHTML}</div>
-                                ${description ? `<p class="text-xs text-gray-500 mt-2 pl-2 border-l-2 border-gray-200">${description}</p>` : ''}
-                                <div class="mt-2 pt-2 border-t border-gray-200"></div>
-                             `;
-                        }
-                        
-                        renewalServiceHTML += `
-                            <div class="flex justify-between items-center ${isForPrint && !mainCheckbox.checked ? 'pl-4' : ''}">
-                                <span class="text-sm text-gray-700">${renewalCheckbox.dataset.name} (${years}年)</span>
-                                <div class="text-right">
-                                    <div class="text-sm font-semibold text-gray-800">NT$ ${Math.round(renewalTotal).toLocaleString()}</div>
-                                    ${discount !== 1 ? `<div class="text-xs text-green-600">${Math.round(discount*100)} 折</div>` : ''}
-                                </div>
-                            </div>`;
-                    }
-
-                    if (mainServiceHTML || renewalServiceHTML) {
-                        html += `<div class="py-2 border-b border-gray-100 break-inside-avoid">${mainServiceHTML}${renewalServiceHTML}</div>`;
+                    const renewal = el.querySelector('.renewal-checkbox');
+                    if (renewal) {
+                        const renewalPrice = parseFloat(renewal.dataset.renewalPrice) || 0;
+                        priceStore[id].renewal = renewalPrice;
+                        priceStore[id].baseRenewal = renewalPrice; // Default baseRenewal
                     }
                 });
+                const defaults = { 'language-add': { price: 8000, basePrice: 8000 }, 'language-add-special': { price: 10000, basePrice: 10000 }, 'blog-writing': { price: 15000, basePrice: 15000 }, 'blog-writing-en': { price: 15000, basePrice: 15000 }, 'mailcloud-setup': { price: 1000, basePrice: 1000 }, 'mailcloud-account': { price: 1200, basePrice: 1200 } };
+                Object.assign(priceStore, defaults);
 
-                return { html, totalCost, maxYears };
-            }
-
-            function updateQuote() {
-                const { html, totalCost, maxYears } = getItemsHTML(false); // false for preview
-                const hasSelections = html.length > 0;
-
-                const monthlyAverage = totalCost > 0 ? Math.round(totalCost / (maxYears * 12)) : 0;
-                
-                grandTotalEl.textContent = `NT$ ${Math.round(totalCost).toLocaleString()}`;
-                monthlyAverageEl.textContent = `NT$ ${monthlyAverage.toLocaleString()}`;
-
-                if (taxCheckbox.checked) {
-                    const taxedTotal = totalCost * 1.05;
-                    grandTotalTaxedEl.textContent = `NT$ ${Math.round(taxedTotal).toLocaleString()}`;
-                    taxTotalContainer.classList.remove('hidden');
-                } else {
-                    taxTotalContainer.classList.add('hidden');
-                }
-
-                if (!hasSelections) {
-                    quoteSummary.innerHTML = '<p id="empty-quote" class="text-center text-gray-500 pt-12">尚未選擇任何服務項目。</p>';
-                } else {
-                    quoteSummary.innerHTML = html;
+                for (const id in savedPrices) {
+                    if (!priceStore[id]) priceStore[id] = {};
+                    Object.assign(priceStore[id], savedPrices[id]);
                 }
             }
             
             function populatePriceSettings() {
-                const container = document.getElementById('price-settings-container');
-                container.innerHTML = ''; 
-                const savedPrices = JSON.parse(localStorage.getItem('customPriceStore') || '{}');
-
-                const allServices = document.querySelectorAll('.border[data-service-id]');
-                
-                allServices.forEach(serviceEl => {
-                    const serviceId = serviceEl.dataset.serviceId;
-                    if (!serviceId && serviceId !== "" && serviceId !== "custom-dev") return;
-
-                    const name = serviceEl.querySelector('h3').textContent;
-                    
-                    const mainCheckbox = serviceEl.querySelector('.service-checkbox');
-                    if (mainCheckbox && (mainCheckbox.dataset.price || serviceId === 'custom-dev')) {
-                        const defaultPrice = parseInt(mainCheckbox.dataset.price) || 0;
-                        const savedPrice = savedPrices[serviceId]?.price;
-                        const price = (savedPrice !== undefined) ? savedPrice : defaultPrice;
-                        
-                        if (!priceStore[serviceId]) priceStore[serviceId] = {};
-                        priceStore[serviceId].price = price;
-                        
-                        const settingRow = document.createElement('div');
-                        settingRow.className = 'flex justify-between items-center py-2 border-b';
-                        settingRow.innerHTML = `
-                            <label for="price-edit-${serviceId}" class="text-sm">${name}</label>
-                            <input type="number" id="price-edit-${serviceId}" data-target-id="${serviceId}" data-price-type="price" class="form-input w-32 highlight-input" value="${price}">
-                        `;
-                        container.appendChild(settingRow);
-                    }
-                    
-                    const renewalCheckbox = serviceEl.querySelector('.renewal-checkbox');
-                    if (renewalCheckbox) {
-                        const defaultRenewalPrice = parseInt(renewalCheckbox.dataset.renewalPrice);
-                        const savedRenewalPrice = savedPrices[serviceId]?.renewal;
-                        const renewalPrice = (savedRenewalPrice !== undefined) ? savedRenewalPrice : defaultRenewalPrice;
-
-                        if (!priceStore[serviceId]) priceStore[serviceId] = {};
-                        priceStore[serviceId].renewal = renewalPrice;
-
-                        const settingRow = document.createElement('div');
-                        settingRow.className = 'flex justify-between items-center py-2 border-b';
-                        settingRow.innerHTML = `
-                            <label for="price-edit-renewal-${serviceId}" class="text-sm">${name} - 續約</label>
-                            <input type="number" id="price-edit-renewal-${serviceId}" data-target-id="${serviceId}" data-price-type="renewal" class="form-input w-32 highlight-input" value="${renewalPrice}">
-                        `;
-                        container.appendChild(settingRow);
-                    }
+                dom.priceSettingsContainer.innerHTML = ''; 
+                document.querySelectorAll('.border[data-service-id]').forEach(el => {
+                    const id = el.dataset.serviceId, name = el.querySelector('h3').textContent;
+                    if (!id) return;
+                    if (priceStore[id]?.price !== undefined) addPriceSettingRow(id, name, 'price', priceStore[id].price, priceStore[id].basePrice);
+                    if (priceStore[id]?.renewal !== undefined) addPriceSettingRow(id, `${name} - 續約`, 'renewal', priceStore[id].renewal, priceStore[id].baseRenewal);
                 });
-
-                // Manually add calculated items
-                const calculatedItems = [
-                    {id: 'language-add', name: '新增語系 (一般)', defaultPrice: 8000},
-                    {id: 'language-add-special', name: '新增語系 (特殊)', defaultPrice: 10000},
-                    {id: 'blog-writing', name: '部落格文案撰寫 (中文)', defaultPrice: 15000},
-                    {id: 'blog-writing-en', name: '部落格文案撰寫 (英文)', defaultPrice: 15000},
-                    {id: 'mailcloud-setup', name: 'MailCloud 首次設定費', defaultPrice: 1000},
-                    {id: 'mailcloud-account', name: 'MailCloud 帳號費用/年', defaultPrice: 1200},
-                ];
-
-                calculatedItems.forEach(item => {
-                    const savedPrice = savedPrices[item.id]?.price;
-                    const price = (savedPrice !== undefined) ? savedPrice : item.defaultPrice;
-                    if (!priceStore[item.id]) priceStore[item.id] = {};
-                    priceStore[item.id].price = price;
-
-                     const settingRow = document.createElement('div');
-                    settingRow.className = 'flex justify-between items-center py-2 border-b';
-                    settingRow.innerHTML = `
-                        <label for="price-edit-${item.id}" class="text-sm">${item.name}</label>
-                        <input type="number" id="price-edit-${item.id}" data-target-id="${item.id}" data-price-type="price" class="form-input w-32 highlight-input" value="${price}">
-                    `;
-                    container.appendChild(settingRow);
-                });
-                
-                addPriceSettingListeners(container);
-            }
-
-            function addPriceSettingListeners(container) {
-                 container.querySelectorAll('input').forEach(input => {
-                    input.addEventListener('input', (e) => {
-                        const targetId = e.target.dataset.targetId;
-                        const priceType = e.target.dataset.priceType;
-                        const newValue = parseInt(e.target.value) || 0;
-                        
-                        if (!priceStore[targetId]) priceStore[targetId] = {};
-                        priceStore[targetId][priceType] = newValue;
-                        
-                        const priceDisplay = document.querySelector(`.price-display[data-price-id="${targetId}"]`);
-                        if (priceDisplay && priceType === 'price') {
-                             if (targetId === 'custom-dev' && newValue === 0) {
-                                priceDisplay.textContent = '依工程師估價';
-                            } else {
-                                priceDisplay.textContent = `NT$ ${newValue.toLocaleString()}`;
-                            }
-                        }
-                        const renewalPriceDisplay = document.querySelector(`.renewal-price-display[data-renewal-price-id="${targetId}"]`);
-                        if (renewalPriceDisplay && priceType === 'renewal') {
-                            renewalPriceDisplay.textContent = `NT$ ${newValue.toLocaleString()} /年`;
-                        }
-                        
-                        localStorage.setItem('customPriceStore', JSON.stringify(priceStore));
-                        updateQuote();
-                    });
-                });
-            }
-
-            // Delegated event listeners for real-time updates
-            appContainer.addEventListener('input', function(e) {
-                if (e.target.matches('.description-input, .first-year-discount, .renewal-years, .renewal-discount, .inner-page-count, .language-count, .special-language-count, .chinese-blog-count, .english-blog-count, .mailcloud-quantity, .mailcloud-years, .number-input')) {
-                    updateQuote();
-                }
-            });
-
-            appContainer.addEventListener('change', function(e) {
-                if (e.target.matches('.service-checkbox, .renewal-checkbox, .mailcloud-setup-check, #include-tax-checkbox')) {
-                    if (e.target.matches('.service-checkbox, .renewal-checkbox')) {
-                        currentPackage = null;
-                        document.querySelectorAll('.package-card').forEach(card => card.classList.remove('selected'));
-                    }
-                    updateQuote();
-                }
-            });
-
-            function setupClickListeners() {
-                document.body.addEventListener('click', function(e) {
-                    // Stepper buttons
-                    if (e.target.classList.contains('stepper-btn')) {
-                        const wrapper = e.target.closest('.number-input-wrapper');
-                        const input = wrapper.querySelector('.number-input');
-                        const step = parseFloat(e.target.dataset.step) || 1;
-                        const min = parseFloat(input.min) || 0;
-                        
-                        let currentValue = parseFloat(input.value);
-                        if (isNaN(currentValue)) currentValue = 0;
-
-                        if (e.target.classList.contains('plus')) {
-                            currentValue += step;
-                        } else {
-                            currentValue -= step;
-                        }
-
-                        if (currentValue < min) {
-                            currentValue = min;
-                        }
-                        
-                        if (step < 1) {
-                            input.value = currentValue.toFixed(2);
-                        } else {
-                            input.value = currentValue;
-                        }
-                        // Manually dispatch 'input' event to trigger updateQuote
-                        input.dispatchEvent(new Event('input', { bubbles: true }));
-                    }
-
-                    // Select package button
-                    if (e.target.closest('.select-package-btn')) {
-                        const packageCard = e.target.closest('.package-card');
-                        const packageId = packageCard.dataset.packageId;
-                        selectPackage(packageId);
-                    }
-                    
-                    // Delete custom package button
-                    if (e.target.closest('.delete-custom-package-btn')) {
-                        const packageCard = e.target.closest('.package-card');
-                        const packageId = packageCard.dataset.packageId;
-                        if (confirm(`確定要刪除自訂方案 "${allPackages[packageId].name}" 嗎？`)) {
-                            deleteCustomPackage(packageId);
-                        }
-                    }
-
-                    // Compare button
-                    if (e.target.closest('.compare-btn')) {
-                        const btn = e.target.closest('.compare-btn');
-                        const packageId = btn.closest('.package-card').dataset.packageId;
-                        toggleCompare(packageId, btn);
-                    }
-                });
-                
-                document.getElementById('save-as-package').addEventListener('click', saveCurrentSelectionAsPackage);
-                document.getElementById('clear-comparison').addEventListener('click', clearComparison);
+                const calcItems = [ {id: 'language-add', name: '新增語系 (一般)'}, {id: 'language-add-special', name: '新增語系 (特殊)'}, {id: 'blog-writing', name: '部落格文案撰寫 (中文)'}, {id: 'blog-writing-en', name: '部落格文案撰寫 (英文)'}, {id: 'mailcloud-setup', name: 'MailCloud 首次設定費'}, {id: 'mailcloud-account', name: 'MailCloud 帳號費用/年'} ];
+                calcItems.forEach(item => { if (priceStore[item.id]?.price !== undefined) addPriceSettingRow(item.id, item.name, 'price', priceStore[item.id].price, priceStore[item.id].basePrice); });
             }
             
-            function selectPackage(packageId) {
-                clearQuoteSelections();
-                
-                const packageInfo = allPackages[packageId];
-                if (!packageInfo) return;
-
-                currentPackage = packageId;
-                document.querySelector(`.package-card[data-package-id="${packageId}"]`)?.classList.add('selected');
-
-                packageInfo.items.forEach(itemState => {
-                    const container = document.querySelector(`div[data-service-id="${itemState.id}"]`);
-                    if (!container) return;
-
-                    const mainCheckbox = container.querySelector('.service-checkbox');
-                    if (mainCheckbox) mainCheckbox.checked = itemState.mainChecked;
-                    
-                    const renewalCheckbox = container.querySelector('.renewal-checkbox');
-                    if (renewalCheckbox) renewalCheckbox.checked = itemState.renewalChecked;
-
-                    for (const inputClass in itemState.inputs) {
-                        const inputEl = container.querySelector(`.${inputClass}`);
-                        if (inputEl) {
-                            if(inputEl.type === 'checkbox') {
-                                inputEl.checked = itemState.inputs[inputClass];
-                            } else {
-                                inputEl.value = itemState.inputs[inputClass];
-                            }
-                        }
-                    }
-                });
-                
-                updateQuote();
-            }
-
-            function saveCurrentSelectionAsPackage() {
-                const nameInput = document.getElementById('new-package-name');
-                const name = nameInput.value.trim();
-                if (!name) {
-                    alert('請為您的組合方案命名。');
-                    nameInput.focus();
-                    return;
-                }
-
-                const itemsState = [];
-                document.querySelectorAll('div[data-service-id]').forEach(container => {
-                    const serviceId = container.dataset.serviceId;
-                    const mainCheckbox = container.querySelector('.service-checkbox');
-                    const renewalCheckbox = container.querySelector('.renewal-checkbox');
-
-                    if ((mainCheckbox && mainCheckbox.checked) || (renewalCheckbox && renewalCheckbox.checked)) {
-                        const itemState = {
-                            id: serviceId,
-                            mainChecked: mainCheckbox ? mainCheckbox.checked : false,
-                            renewalChecked: renewalCheckbox ? renewalCheckbox.checked : false,
-                            inputs: {}
-                        };
-
-                        const inputsToSave = container.querySelectorAll('.first-year-discount, .renewal-years, .renewal-discount, .inner-page-count, .language-count, .special-language-count, .chinese-blog-count, .english-blog-count, .mailcloud-quantity, .mailcloud-years, .description-input, .mailcloud-setup-check');
-                        
-                        inputsToSave.forEach(input => {
-                            const key = input.classList[0] || input.id;
-                            if (input.type === 'checkbox') {
-                                itemState.inputs[key] = input.checked;
-                            } else {
-                                itemState.inputs[key] = input.value;
-                            }
-                        });
-                        itemsState.push(itemState);
-                    }
-                });
-
-                if (itemsState.length === 0) {
-                    alert("沒有選擇任何項目，無法儲存。");
-                    return;
-                }
-
-                const packageId = 'custom-' + Date.now();
-                const newPackage = {
-                    id: packageId,
-                    name: name,
-                    items: itemsState,
-                    isCustom: true
-                };
-
-                allPackages[packageId] = newPackage;
-                localStorage.setItem('customQuotePackages', JSON.stringify(allPackages));
-                renderCustomPackage(newPackage);
-                nameInput.value = ''; // Clear input
-                alert(`組合方案 "${newPackage.name}" 已儲存！`);
-            }
-
-            function renderCustomPackage(packageData) {
-                const container = document.getElementById('packages-container');
-                const card = document.createElement('div');
-                card.className = 'package-card border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-all duration-300 relative flex flex-col';
-                card.dataset.packageId = packageData.id;
-
-                const itemsHTML = packageData.items.map(item => {
-                    const serviceContainer = document.querySelector(`[data-service-id="${item.id}"]`);
-                    if (!serviceContainer) return '';
-                    
-                    let itemHTML = '';
-                    if (item.mainChecked) {
-                        const name = serviceContainer.querySelector('.service-checkbox').dataset.name;
-                        itemHTML += `<li>${name}</li>`;
-                    }
-                    if (item.renewalChecked) {
-                        const name = serviceContainer.querySelector('.renewal-checkbox').dataset.name;
-                        const years = item.inputs['renewal-years'] || 1;
-                        itemHTML += `<li>${name} (${years}年)</li>`;
-                    }
-                    return itemHTML;
-                }).join('');
-
-                card.innerHTML = `
-                    <button class="delete-custom-package-btn absolute top-3 left-3 text-gray-400 hover:text-red-500 transition-colors z-10">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                    <div class="absolute top-4 right-4 bg-gray-500 text-white text-xs font-bold px-2 py-1 rounded-full">自訂方案</div>
-                    <h3 class="text-xl font-bold text-gray-700">${packageData.name}</h3>
-                    <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2 text-sm flex-grow">${itemsHTML}</ul>
-                    <div class="mt-auto pt-4 text-right">
-                        <button class="mt-2 w-full bg-yellow-400 text-yellow-800 px-4 py-1.5 rounded-lg hover:bg-yellow-500 transition-colors text-sm font-bold compare-btn">
-                            <i class="fas fa-balance-scale-right mr-2"></i>加入比較
-                        </button>
-                        <button class="mt-3 bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 w-full select-package-btn">選擇此方案</button>
-                    </div>
+            function addPriceSettingRow(id, name, type, price, basePrice) {
+                const row = document.createElement('div');
+                row.className = 'grid grid-cols-[1fr_auto_auto] gap-x-2 items-center py-2 border-b';
+                row.innerHTML = `
+                    <label for="price-edit-${type}-${id}" class="text-sm">${name}</label>
+                    <div class="flex flex-col"><label class="text-xs text-gray-500 text-center">售價</label><input type="number" id="price-edit-${type}-${id}" data-target-id="${id}" data-price-type="${type}" class="form-input w-24 highlight-input" value="${price}"></div>
+                    <div class="flex flex-col"><label class="text-xs text-gray-500 text-center">底價</label><input type="number" id="base-price-edit-${type}-${id}" data-target-id="${id}" data-price-type="base${type.charAt(0).toUpperCase() + type.slice(1)}" class="form-input w-24 highlight-input" value="${basePrice ?? price}"></div>
                 `;
-                container.appendChild(card);
-            }
-            
-            function loadCustomPackages() {
-                const savedPackages = JSON.parse(localStorage.getItem('customQuotePackages') || '{}');
-                Object.keys(savedPackages).forEach(key => {
-                    if (savedPackages[key].isCustom) {
-                        allPackages[key] = savedPackages[key];
-                        renderCustomPackage(savedPackages[key]);
-                    }
-                });
+                dom.priceSettingsContainer.appendChild(row);
             }
 
-            function deleteCustomPackage(packageId) {
-                document.querySelector(`[data-package-id="${packageId}"]`).remove();
-                delete allPackages[packageId];
-                localStorage.setItem('customQuotePackages', JSON.stringify(allPackages));
-                updateQuote();
-            }
-            
             function generateQuoteInfo() {
-                const now = new Date();
-                const year = now.getFullYear();
-                const month = (now.getMonth() + 1).toString().padStart(2, '0');
-                const day = now.getDate().toString().padStart(2, '0');
-                const hours = now.getHours().toString().padStart(2, '0');
-                const minutes = now.getMinutes().toString().padStart(2, '0');
-
-                const quoteNumber = `${year}${month}${day}${hours}${minutes}`;
-                const today = `${year}-${month}-${day}`;
-
-                document.getElementById('cust-quote-num').value = quoteNumber;
-                document.getElementById('cust-date').value = today;
+                const quoteNumInput = document.getElementById('cust-quote-num');
+                if (quoteNumInput.value) return;
+                const now = new Date(), p = (n) => n.toString().padStart(2, '0');
+                quoteNumInput.value = `${now.getFullYear()}${p(now.getMonth() + 1)}${p(now.getDate())}${p(now.getHours())}${p(now.getMinutes())}`;
+                document.getElementById('cust-date').value = `${now.getFullYear()}-${p(now.getMonth() + 1)}-${p(now.getDate())}`;
             }
 
-            function calculatePackagePrice(packageId) {
-                const packageInfo = allPackages[packageId];
-                if (!packageInfo) return { totalPrice: 0, totalYears: 1 };
-
-                let totalCost = 0;
-                let maxYears = 1;
-
-                packageInfo.items.forEach(itemState => {
-                    const basePrice = priceStore[itemState.id]?.price || 0;
-                    const renewalPrice = priceStore[itemState.id]?.renewal || 0;
-                    
-                    let itemFirstYear = 0;
-                    let itemYears = 1;
-
-                    if (itemState.mainChecked) {
-                        const discount = parseFloat(itemState.inputs['first-year-discount']) || 1;
-                        itemFirstYear = basePrice * discount;
-                    }
-
-                    if (itemState.renewalChecked) {
-                        const years = parseInt(itemState.inputs['renewal-years']) || 1;
-                        const discount = parseFloat(itemState.inputs['renewal-discount']) || 1;
-                        totalCost += itemFirstYear + (renewalPrice * years * discount);
-                        itemYears = 1 + years;
-                    } else {
-                        totalCost += itemFirstYear;
-                    }
-                    maxYears = Math.max(maxYears, itemYears);
-                });
-
-                return { totalPrice: totalCost, totalYears: maxYears };
+            // =================================================================
+            // 3. EVENT HANDLING
+            // =================================================================
+            
+            function setupEventListeners() {
+                dom.appContainer.addEventListener('click', handleAppClick);
+                dom.appContainer.addEventListener('input', handleAppInput);
+                dom.appContainer.addEventListener('change', handleAppChange);
+                dom.appContainer.addEventListener('blur', (e) => { if (e.target.matches('[contenteditable="true"]')) saveState(); }, true);
+                document.getElementById('open-price-settings').addEventListener('click', () => dom.priceSettingsModal.classList.remove('hidden'));
+                document.getElementById('close-price-settings').addEventListener('click', () => dom.priceSettingsModal.classList.add('hidden'));
+                document.getElementById('add-custom-item').addEventListener('click', addCustomItem);
+                dom.priceSettingsContainer.addEventListener('input', handlePriceSettingChange);
             }
 
-            function toggleCompare(packageId, btn) {
-                const index = comparisonList.indexOf(packageId);
-                if (index > -1) {
-                    comparisonList.splice(index, 1);
-                    btn.classList.remove('added');
-                    btn.innerHTML = `<i class="fas fa-balance-scale-right mr-2"></i>加入比較`;
+            function handleAppClick(e) {
+                const target = e.target, card = target.closest('.package-card');
+                if (target.matches('.nav-link')) { e.preventDefault(); handleTabClick(target); }
+                else if (target.matches('.stepper-btn')) { handleStepperClick(target); }
+                else if (target.matches('.select-package-btn') && card) { selectPackage(card.dataset.packageId); }
+                else if (target.closest('.delete-custom-package-btn') && card) { if (confirm(`確定要刪除自訂方案 "${allPackages[card.dataset.packageId].name}" 嗎？`)) deleteCustomPackage(card.dataset.packageId); }
+                else if (target.closest('.compare-btn') && card) { toggleCompare(card.dataset.packageId, target.closest('.compare-btn')); }
+                else if (target.id === 'clear-quote') { if (confirm('確定要清空所有已選的服務項目嗎？客戶資料將會保留。')) clearQuoteData(); }
+                else if (target.id === 'print-quote') { printQuote(); }
+                else if (target.id === 'clear-customer-info') { clearCustomerInfo(); }
+                else if (target.id === 'save-as-package') { saveCurrentSelectionAsPackage(); }
+                else if (target.id === 'clear-comparison') { clearComparison(); }
+                else if (target.matches('.remove-from-compare')) {
+                    const id = target.dataset.id, btn = document.querySelector(`.package-card[data-package-id="${id}"] .compare-btn`);
+                    toggleCompare(id, btn);
+                }
+            }
+            
+            function handleAppInput(e) { if (e.target.matches('.description-input, .number-input, #customer-info-form input, header input')) { updateQuote(); saveState(); } }
+            function handleAppChange(e) { if (e.target.matches('.service-checkbox, .renewal-checkbox, .mailcloud-setup-check, #include-tax-checkbox')) { if (e.target.matches('.service-checkbox, .renewal-checkbox')) { currentPackageId = null; document.querySelectorAll('.package-card').forEach(c => c.classList.remove('selected')); } updateQuote(); saveState(); } }
+            function handleTabClick(link) { document.querySelectorAll('.nav-link').forEach(i => i.classList.remove('active')); link.classList.add('active'); document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('hidden', c.id !== link.dataset.tab)); }
+            function handleStepperClick(btn) { const input = btn.closest('.number-input-wrapper').querySelector('.number-input'), step = parseFloat(btn.dataset.step) || 1, min = parseFloat(input.min) ?? 0; let val = parseFloat(input.value) || 0; val += (btn.classList.contains('plus') ? step : -step); if (val < min) val = min; input.value = step < 1 ? val.toFixed(2) : val; input.dispatchEvent(new Event('input', { bubbles: true })); }
+            function handlePriceSettingChange(e) { if (e.target.matches('.highlight-input')) { const { targetId, priceType } = e.target.dataset, val = parseFloat(e.target.value) || 0; if (!priceStore[targetId]) priceStore[targetId] = {}; priceStore[targetId][priceType] = val; updatePriceDisplays(targetId, priceType, val); savePriceStore(); updateQuote(); } }
+
+            // =================================================================
+            // 4. CALCULATION LOGIC & UI
+            // =================================================================
+
+            function updateQuote() { const { html, totalCost, maxYears } = getQuoteDetails(false); const monthly = totalCost > 0 ? Math.round(totalCost / (maxYears * 12)) : 0; dom.grandTotalEl.textContent = `NT$ ${Math.round(totalCost).toLocaleString()}`; dom.monthlyAverageEl.textContent = `NT$ ${monthly.toLocaleString()}`; if (dom.taxCheckbox.checked) { dom.grandTotalTaxedEl.textContent = `NT$ ${Math.round(totalCost * 1.05).toLocaleString()}`; dom.taxTotalContainer.classList.remove('hidden'); } else { dom.taxTotalContainer.classList.add('hidden'); } dom.quoteSummary.innerHTML = html || '<p id="empty-quote" class="text-center text-gray-500 pt-12">尚未選擇任何服務項目。</p>'; updateDynamicServicePrices(); }
+            function getQuoteDetails(isForPrint = false) { let html = '', totalCost = 0, maxYears = 1; document.querySelectorAll('div[data-service-id]').forEach(c => { const id = c.dataset.serviceId, main = c.querySelector('.service-checkbox'), renewal = c.querySelector('.renewal-checkbox'); if (!main || (!main.checked && !(renewal && renewal.checked))) return; const calc = serviceCalculators[id], base = calc ? calc(c) : (priceStore[id]?.price || 0); let mainCost = 0, renewalCost = 0, years = 1; if (main.checked) { const discount = parseFloat(c.querySelector('.first-year-discount')?.value) || 1, priceToDiscount = calc ? base : (priceStore[id]?.price || 0); mainCost = calc ? base * discount : priceToDiscount * discount; } if (renewal && renewal.checked) { const rPrice = priceStore[id]?.renewal || 0, rYears = parseInt(c.querySelector('.renewal-years')?.value) || 1, rDiscount = parseFloat(c.querySelector('.renewal-discount')?.value) || 1; renewalCost = rPrice * rYears * rDiscount; years = 1 + rYears; } totalCost += mainCost + renewalCost; maxYears = Math.max(maxYears, years); const itemHtml = generateItemHTML(c, mainCost, renewalCost, isForPrint); if (itemHtml) html += `<div class="py-2 border-b border-gray-100 break-inside-avoid">${itemHtml}</div>`; }); return { html, totalCost, maxYears }; }
+            function calculatePackagePrice(id) { const pkg = allPackages[id]; if (!pkg) return { totalPrice: 0, totalYears: 1 }; let total = 0, maxYears = 1; pkg.items.forEach(item => { let itemTotal = 0, itemYears = 1; const serviceId = item.id; if (item.mainChecked) itemTotal += (priceStore[serviceId]?.price || 0) * (parseFloat(item.inputs['first-year-discount']) || 1); if (item.renewalChecked) { const years = parseInt(item.inputs['renewal-years']) || 1; itemTotal += (priceStore[serviceId]?.renewal || 0) * years * (parseFloat(item.inputs['renewal-discount']) || 1); itemYears = 1 + years; } total += itemTotal; maxYears = Math.max(maxYears, itemYears); }); return { totalPrice: total, totalYears: maxYears }; }
+            function updateDynamicServicePrices() { document.querySelectorAll('[data-service-id]').forEach(c => { const id = c.dataset.serviceId, calc = serviceCalculators[id]; if (calc) { const price = calc(c), el = c.querySelector('.language-total, .blog-total, .mailcloud-total, .inner-page-total'), p = c.querySelector('.language-cost-p, .blog-cost-p, .mailcloud-cost-p'); if (el) el.textContent = `NT$ ${price.toLocaleString()}`; if (p) p.classList.toggle('hidden', price === 0); } }); }
+            
+            function generateItemHTML(c, mainCost, renewalCost, isForPrint) {
+                const main = c.querySelector('.service-checkbox'), renewal = c.querySelector('.renewal-checkbox');
+                if (!main.checked && !renewal?.checked) return '';
+                const id = c.dataset.serviceId, name = main.dataset.name, note = c.querySelector('.description-input')?.value.trim() || '';
+                let mainHTML = '', renewalHTML = '';
+
+                const basePrice = priceStore[id]?.basePrice ?? priceStore[id]?.price ?? 0;
+                const baseRenewal = priceStore[id]?.baseRenewal ?? priceStore[id]?.renewal ?? 0;
+
+                if (isForPrint) {
+                    const descHTML = c.querySelector('p.text-gray-500')?.innerHTML || '', featuresHTML = c.querySelector('ul.list-disc')?.innerHTML || '';
+                    if (main.checked) {
+                        const discount = parseFloat(c.querySelector('.first-year-discount')?.value) || 1;
+                        let priceText = `NT$ ${Math.round(mainCost).toLocaleString()}`;
+                        if (id === 'custom-dev' && mainCost === 0) priceText = '依工程師估價';
+                        else if (mainCost === 0) priceText = `<span class="text-green-600 font-semibold">特別優惠</span>`;
+                        mainHTML = `<div class="flex justify-between items-start"><div class="flex-1 pr-2"><span class="text-sm text-gray-800 font-bold">${getDisplayName(c)}</span></div><div class="text-right flex-shrink-0"><div class="text-sm font-semibold ${mainCost < basePrice ? 'text-red-600' : 'text-gray-800'}">${priceText}</div>${discount !== 1 && (priceStore[id]?.price || 0) > 0 ? `<div class="text-xs text-green-600">首年 ${Math.round(discount*100)} 折</div>` : ''}</div></div>${descHTML ? `<p class="text-xs text-gray-500 mt-1">${descHTML}</p>` : ''}${featuresHTML ? `<div class="text-xs text-gray-600 mt-2 pl-2 features-list"><ul>${featuresHTML}</ul></div>` : ''}${note ? `<p class="text-xs text-gray-500 mt-2 pl-2 border-l-2 border-gray-200">${note}</p>` : ''}`;
+                    }
+                    if (renewal && renewal.checked) {
+                        const years = parseInt(c.querySelector('.renewal-years').value) || 1, discount = parseFloat(c.querySelector('.renewal-discount').value) || 1;
+                        let content = `<div class="flex justify-between items-center ${main.checked ? 'pl-4' : ''}"><span class="text-sm text-gray-700">${renewal.dataset.name} (${years}年)</span><div class="text-right"><div class="text-sm font-semibold ${renewalCost < baseRenewal * years ? 'text-red-600' : 'text-gray-800'}">NT$ ${Math.round(renewalCost).toLocaleString()}</div>${discount !== 1 ? `<div class="text-xs text-green-600">${Math.round(discount*100)} 折</div>` : ''}</div></div>`;
+                        if (!main.checked) content = `<div class="flex-1 pr-2"><span class="text-sm text-gray-800 font-bold">${name}</span></div>${descHTML ? `<p class="text-xs text-gray-500 mt-1">${descHTML}</p>` : ''}${featuresHTML ? `<div class="text-xs text-gray-600 mt-2 pl-2 features-list"><ul>${featuresHTML}</ul></div>` : ''}<div class="mt-2 pt-2 border-t border-gray-200"></div>${content}`;
+                        renewalHTML = content;
+                    }
                 } else {
-                    comparisonList.push(packageId);
-                    btn.classList.add('added');
-                    btn.innerHTML = `<i class="fas fa-check mr-2"></i>已加入比較`;
-                }
-                updateComparisonTable();
-            }
-
-            function updateComparisonTable() {
-                if (comparisonList.length === 0) {
-                    comparisonSection.classList.add('hidden');
-                    return;
-                }
-                comparisonSection.classList.remove('hidden');
-                comparisonTbody.innerHTML = '';
-
-                const packageDetails = comparisonList.map(id => {
-                    const details = calculatePackagePrice(id);
-                    const averageCost = details.totalPrice / details.totalYears;
-                    return { id, name: allPackages[id].name, averageCost };
-                });
-
-                const maxAverageCost = Math.max(...packageDetails.map(p => p.averageCost));
-
-                packageDetails.forEach(detail => {
-                    const savings = maxAverageCost - detail.averageCost;
-                    const row = document.createElement('tr');
-                    row.className = 'border-b';
-                    row.innerHTML = `
-                        <td class="p-2 font-semibold">${detail.name}</td>
-                        <td class="p-2">NT$ ${Math.round(detail.averageCost).toLocaleString()} /年</td>
-                        <td class="p-2 text-green-600">${savings > 0 ? `省 ${Math.round(savings).toLocaleString()}` : '-'}</td>
-                        <td class="p-2"><button class="text-red-500 hover:text-red-700 remove-from-compare" data-id="${detail.id}">&times;</button></td>
-                    `;
-                    comparisonTbody.appendChild(row);
-                });
-
-                document.querySelectorAll('.remove-from-compare').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const idToRemove = e.target.dataset.id;
-                        const btnToReset = document.querySelector(`.package-card[data-package-id="${idToRemove}"] .compare-btn`);
-                        toggleCompare(idToRemove, btnToReset);
-                    });
-                });
-            }
-
-            function clearComparison() {
-                comparisonList = [];
-                document.querySelectorAll('.compare-btn').forEach(btn => {
-                    btn.classList.remove('added');
-                    btn.innerHTML = `<i class="fas fa-balance-scale-right mr-2"></i>加入比較`;
-                });
-                updateComparisonTable();
-            }
-
-            function initialize() {
-                const savedPrices = JSON.parse(localStorage.getItem('customPriceStore') || '{}');
-                
-                populatePriceSettings(); // Populate with defaults first
-                Object.assign(priceStore, savedPrices); // Then overwrite with saved data
-                
-                // Re-apply saved prices to the UI
-                Object.keys(priceStore).forEach(serviceId => {
-                    if (priceStore[serviceId].price !== undefined) {
-                        const input = document.querySelector(`#price-edit-${serviceId}`);
-                        if (input) input.value = priceStore[serviceId].price;
-                        const display = document.querySelector(`.price-display[data-price-id="${serviceId}"]`);
-                        if (display) {
-                            if(serviceId === 'custom-dev' && priceStore[serviceId].price === 0) {
-                                display.textContent = '依工程師估價';
-                            } else {
-                                display.textContent = `NT$ ${priceStore[serviceId].price.toLocaleString()}`;
-                            }
-                        }
+                    if (main.checked) {
+                        const discount = parseFloat(c.querySelector('.first-year-discount')?.value) || 1;
+                        let priceText = `NT$ ${Math.round(mainCost).toLocaleString()}`;
+                        if (id === 'custom-dev' && mainCost === 0) priceText = '依工程師估價';
+                        else if (mainCost === 0) priceText = `<span class="text-green-600 font-semibold">特別優惠</span>`;
+                        mainHTML = `<div class="flex justify-between items-start"><div class="flex-1 pr-2"><span class="text-sm text-gray-800 font-bold">${getDisplayName(c)}</span></div><div class="text-right flex-shrink-0"><div class="text-sm font-semibold ${mainCost < basePrice ? 'text-red-600' : 'text-gray-800'}">${priceText}</div>${discount !== 1 && (priceStore[id]?.price || 0) > 0 ? `<div class="text-xs text-green-600">首年 ${Math.round(discount*100)} 折</div>` : ''}</div></div>${note ? `<p class="text-xs text-gray-500 mt-2 pl-2 border-l-2 border-gray-200">${note}</p>` : ''}`;
                     }
-                    if (priceStore[serviceId].renewal !== undefined) {
-                         const input = document.querySelector(`#price-edit-renewal-${serviceId}`);
-                        if (input) input.value = priceStore[serviceId].renewal;
-                        const display = document.querySelector(`.renewal-price-display[data-renewal-price-id="${serviceId}"]`);
-                        if(display) display.textContent = `NT$ ${priceStore[serviceId].renewal.toLocaleString()} /年`;
+                    if (renewal && renewal.checked) {
+                        const years = parseInt(c.querySelector('.renewal-years').value) || 1, discount = parseFloat(c.querySelector('.renewal-discount').value) || 1;
+                        renewalHTML = `<div class="flex justify-between items-center ${main.checked ? 'pl-4' : ''}"><span class="text-sm text-gray-700">${renewal.dataset.name} (${years}年)</span><div class="text-right"><div class="text-sm font-semibold ${renewalCost < baseRenewal * years ? 'text-red-600' : 'text-gray-800'}">NT$ ${Math.round(renewalCost).toLocaleString()}</div>${discount !== 1 ? `<div class="text-xs text-green-600">${Math.round(discount*100)} 折</div>` : ''}</div></div>`;
                     }
-                });
+                }
+                return mainHTML + renewalHTML;
+            }
 
-                loadCustomPackages();
-                setupClickListeners();
-                generateQuoteInfo();
+            function getDisplayName(c) { const id = c.dataset.serviceId; let name = c.querySelector('.service-checkbox').dataset.name; const details = []; switch (id) { case 'inner-page-design': details.push(`共 ${c.querySelector('.inner-page-count').value || 0} 頁`); break; case 'language-add': const totalLang = (parseInt(c.querySelector('.language-count').value) || 0) + (parseInt(c.querySelector('.special-language-count').value) || 0); if (totalLang > 0) details.push(`共 ${totalLang} 組`); break; case 'blog-writing': const totalBlog = (parseInt(c.querySelector('.chinese-blog-count').value) || 0) + (parseInt(c.querySelector('.english-blog-count').value) || 0); if (totalBlog > 0) details.push(`共 ${totalBlog} 篇`); break; case 'mailcloud': const q = parseInt(c.querySelector('.mailcloud-quantity').value) || 0, y = parseInt(c.querySelector('.mailcloud-years').value) || 0; if (q > 0) details.push(`${q} 組`); if (y > 0) details.push(`${y} 年`); break; } return details.length > 0 ? `${name} (${details.join(', ')})` : name; }
+            function updatePriceDisplays(id, type, val) { const fVal = `NT$ ${val.toLocaleString()}`; if (type === 'price') { const el = document.querySelector(`.price-display[data-price-id="${id}"]`); if (el) el.textContent = (id === 'custom-dev' && val === 0) ? '依工程師估價' : fVal; } else if (type === 'renewal') { const el = document.querySelector(`.renewal-price-display[data-renewal-price-id="${id}"]`); if (el) el.textContent = `${fVal} /年`; } }
+            function updateComparisonTable() { if (comparisonList.length === 0) { dom.comparisonSection.classList.add('hidden'); return; } dom.comparisonSection.classList.remove('hidden'); dom.comparisonTbody.innerHTML = ''; const details = comparisonList.map(id => { const d = calculatePackagePrice(id); const avg = d.totalPrice > 0 && d.totalYears > 0 ? d.totalPrice / d.totalYears : 0; return { id, name: allPackages[id].name, averageCost: avg }; }); if (details.length === 0) return; const maxAvg = Math.max(...details.map(p => p.averageCost)); details.forEach(d => { const savings = maxAvg - d.averageCost; const row = document.createElement('tr'); row.className = 'border-b'; row.innerHTML = `<td class="p-2 font-semibold">${d.name}</td><td class="p-2">NT$ ${Math.round(d.averageCost).toLocaleString()} /年</td><td class="p-2 text-green-600">${savings > 0 ? `省 ${Math.round(savings).toLocaleString()}` : '-'}</td><td class="p-2"><button class="text-red-500 hover:text-red-700 remove-from-compare" data-id="${d.id}">&times;</button></td>`; dom.comparisonTbody.appendChild(row); }); }
+
+            // =================================================================
+            // 6. CORE FUNCTIONALITY & ACTIONS
+            // =================================================================
+
+            function clearQuoteData() {
+                clearQuoteSelections();
+                const savedState = localStorage.getItem('quoteAppState');
+                if (savedState) {
+                    const state = JSON.parse(savedState);
+                    state.services = {}; // Clear only services
+                    localStorage.setItem('quoteAppState', JSON.stringify(state));
+                }
+            }
+
+            function clearQuoteSelections() {
+                document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+                document.querySelectorAll('.renewal-years, .inner-page-count').forEach(i => i.value = '1');
+                document.querySelectorAll('.renewal-discount, .first-year-discount').forEach(i => i.value = '1');
+                document.querySelectorAll('.language-count, .special-language-count, .chinese-blog-count, .english-blog-count, .mailcloud-quantity, .mailcloud-years').forEach(i => i.value = '0');
+                document.querySelectorAll('.package-card').forEach(c => c.classList.remove('selected'));
+                currentPackageId = null;
                 updateQuote();
             }
 
-            initialize();
-            
-            // --- Other Event Listeners ---
-            document.getElementById('clear-quote').addEventListener('click', clearQuoteSelections);
-
-            document.getElementById('clear-customer-info').addEventListener('click', function() {
-                document.getElementById('cust-name').value = '';
-                document.getElementById('cust-contact').value = '';
-                document.getElementById('cust-tel').value = '';
-                document.getElementById('cust-email').value = '';
-                document.getElementById('cust-tax-id').value = '';
-                document.getElementById('cust-address').value = '';
+            function clearCustomerInfo() {
+                document.getElementById('customer-info-form').querySelectorAll('input:not([readonly])').forEach(i => i.value = '');
                 generateQuoteInfo();
-            });
+                saveState();
+            }
 
-            document.getElementById('add-custom-item').addEventListener('click', function() {
-                const nameInput = document.getElementById('custom-item-name');
-                const priceInput = document.getElementById('custom-item-price');
-                const name = nameInput.value.trim();
-                const price = parseFloat(priceInput.value);
+            function selectPackage(id) { clearQuoteSelections(); const pkg = allPackages[id]; if (!pkg) return; currentPackageId = id; document.querySelector(`.package-card[data-package-id="${id}"]`)?.classList.add('selected'); pkg.items.forEach(item => { const c = document.querySelector(`div[data-service-id="${item.id}"]`); if (!c) return; const main = c.querySelector('.service-checkbox'); if (main) main.checked = item.mainChecked; const renewal = c.querySelector('.renewal-checkbox'); if (renewal) renewal.checked = item.renewalChecked; for (const key in item.inputs) { const el = c.querySelector(`.${key}, #${key}`); if (el) el.type === 'checkbox' ? (el.checked = item.inputs[key]) : (el.value = item.inputs[key]); } }); updateQuote(); saveState(); }
+            function toggleCompare(id, btn) { const i = comparisonList.indexOf(id); if (i > -1) { comparisonList.splice(i, 1); btn.classList.remove('added'); btn.innerHTML = `<i class="fas fa-balance-scale-right mr-2"></i>加入比較`; } else { comparisonList.push(id); btn.classList.add('added'); btn.innerHTML = `<i class="fas fa-check mr-2"></i>已加入比較`; } updateComparisonTable(); }
+            function clearComparison() { comparisonList = []; document.querySelectorAll('.compare-btn').forEach(b => { b.classList.remove('added'); b.innerHTML = `<i class="fas fa-balance-scale-right mr-2"></i>加入比較`; }); updateComparisonTable(); }
 
-                if (!name || isNaN(price)) {
-                    alert('請輸入有效的項目名稱和價格。');
-                    return;
-                }
+            // =================================================================
+            // 7. LOCALSTORAGE & CUSTOM ITEMS
+            // =================================================================
+            
+            function savePriceStore() { localStorage.setItem('customPriceStore', JSON.stringify(priceStore)); }
+            function saveState() { const state = { services: {}, customerInfo: {}, projectManagerInfo: {}, taxChecked: dom.taxCheckbox.checked }; document.querySelectorAll('div[data-service-id]').forEach(c => { const id = c.dataset.serviceId; if (!id) return; const sState = { inputs: {}, checkboxes: {}, descriptions: {} }; c.querySelectorAll('input, textarea').forEach(i => { const key = i.id || i.classList[0]; if (i.type === 'checkbox') sState.checkboxes[key] = i.checked; else sState.inputs[key] = i.value; }); const p = c.querySelector('p[contenteditable="true"]'); if (p) sState.descriptions.p = p.innerHTML; const ul = c.querySelector('ul[contenteditable="true"]'); if (ul) sState.descriptions.ul = ul.innerHTML; state.services[id] = sState; }); document.querySelectorAll('#customer-info-form input').forEach(i => { if (i.id) state.customerInfo[i.id] = i.value; }); document.querySelectorAll('header input').forEach(i => { if (i.id) state.projectManagerInfo[i.id] = i.value; }); localStorage.setItem('quoteAppState', JSON.stringify(state)); }
+            function loadState() { const saved = localStorage.getItem('quoteAppState'); if (!saved) return; const state = JSON.parse(saved); if (state.services) { for (const id in state.services) { const c = document.querySelector(`div[data-service-id="${id}"]`); if (!c) continue; const s = state.services[id]; for (const key in s.inputs) { const i = c.querySelector(`#${key}, .${key}`); if (i) i.value = s.inputs[key]; } for (const key in s.checkboxes) { const cb = c.querySelector(`#${key}, .${key}`); if (cb) cb.checked = s.checkboxes[key]; } if (s.descriptions.p) { const p = c.querySelector('p[contenteditable="true"]'); if (p) p.innerHTML = s.descriptions.p; } if (s.descriptions.ul) { const ul = c.querySelector('ul[contenteditable="true"]'); if (ul) ul.innerHTML = s.descriptions.ul; } } } if (state.customerInfo) { for (const id in state.customerInfo) { const i = document.getElementById(id); if (i) i.value = state.customerInfo[id]; } } if (state.projectManagerInfo) { for (const id in state.projectManagerInfo) { const i = document.getElementById(id); if (i) i.value = state.projectManagerInfo[id]; } } dom.taxCheckbox.checked = state.taxChecked || false; }
+            function saveCurrentSelectionAsPackage() { const nameInput = document.getElementById('new-package-name'), name = nameInput.value.trim(); if (!name) { alert('請為您的組合方案命名。'); nameInput.focus(); return; } const items = []; document.querySelectorAll('div[data-service-id]').forEach(c => { const main = c.querySelector('.service-checkbox'), renewal = c.querySelector('.renewal-checkbox'); if ((main && main.checked) || (renewal && renewal.checked)) { const item = { id: c.dataset.serviceId, mainChecked: main ? main.checked : false, renewalChecked: renewal ? renewal.checked : false, inputs: {} }; c.querySelectorAll('.first-year-discount, .renewal-years, .renewal-discount, .inner-page-count, .language-count, .special-language-count, .chinese-blog-count, .english-blog-count, .mailcloud-quantity, .mailcloud-years, .description-input, .mailcloud-setup-check').forEach(i => { const key = i.classList[0] || i.id; item.inputs[key] = i.type === 'checkbox' ? i.checked : i.value; }); items.push(item); } }); if (items.length === 0) { alert("沒有選擇任何項目，無法儲存。"); return; } const id = 'custom-' + Date.now(); allPackages[id] = { id, name, items, isCustom: true }; localStorage.setItem('customQuotePackages', JSON.stringify(allPackages)); renderCustomPackage(allPackages[id]); nameInput.value = ''; alert(`組合方案 "${name}" 已儲存！`); }
+            function loadCustomPackages() { const saved = JSON.parse(localStorage.getItem('customQuotePackages') || '{}'); Object.values(saved).forEach(pkg => { if (pkg.isCustom) { allPackages[pkg.id] = pkg; renderCustomPackage(pkg); } }); }
+            function renderCustomPackage(pkg) { const card = document.createElement('div'); card.className = 'package-card border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-all duration-300 relative flex flex-col'; card.dataset.packageId = pkg.id; const itemsHTML = pkg.items.map(item => { const c = document.querySelector(`[data-service-id="${item.id}"]`); if (!c) return ''; let html = ''; if (item.mainChecked) html += `<li>${c.querySelector('.service-checkbox').dataset.name}</li>`; if (item.renewalChecked) html += `<li>${c.querySelector('.renewal-checkbox').dataset.name} (${item.inputs['renewal-years'] || 1}年)</li>`; return html; }).join(''); card.innerHTML = `<button class="delete-custom-package-btn absolute top-3 left-3 text-gray-400 hover:text-red-500 transition-colors z-10"><i class="fas fa-trash-alt"></i></button><div class="absolute top-4 right-4 bg-gray-500 text-white text-xs font-bold px-2 py-1 rounded-full">自訂方案</div><h3 class="text-xl font-bold text-gray-700">${pkg.name}</h3><ul class="list-disc list-inside mt-4 text-gray-600 space-y-2 text-sm flex-grow">${itemsHTML}</ul><div class="mt-auto pt-4 text-right"><button class="mt-2 w-full bg-yellow-400 text-yellow-800 px-4 py-1.5 rounded-lg hover:bg-yellow-500 transition-colors text-sm font-bold compare-btn"><i class="fas fa-balance-scale-right mr-2"></i>加入比較</button><button class="mt-3 bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 w-full select-package-btn">選擇此方案</button></div>`; dom.packagesContainer.appendChild(card); }
+            function deleteCustomPackage(id) { document.querySelector(`[data-package-id="${id}"]`)?.remove(); delete allPackages[id]; localStorage.setItem('customQuotePackages', JSON.stringify(allPackages)); updateQuote(); }
+            function addCustomItem() { const nameInput = document.getElementById('custom-item-name'), priceInput = document.getElementById('custom-item-price'), name = nameInput.value.trim(), price = parseFloat(priceInput.value); if (!name || isNaN(price)) { alert('請輸入有效的項目名稱和價格。'); return; } const id = 'custom-' + Date.now(); const html = `<div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="${id}"><div class="flex items-start justify-between"><div class="flex-1"><h3 class="text-xl font-bold text-gray-700">${name}</h3><p contenteditable="true" class="text-gray-500 mt-1">請在此輸入服務描述...</p></div><input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-gray-600 focus:ring-gray-500 cursor-pointer ml-4" data-name="${name}" data-price="${price}"></div><ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2"><li>請在此編輯功能項目...</li></ul><div class="mt-2"><textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea></div><div class="mt-4 flex justify-end items-baseline gap-6"><p class="text-gray-500">一次性費用</p><p class="text-gray-800">費用: <span class="font-bold text-2xl text-gray-600 price-display" data-price-id="${id}">NT$ ${price.toLocaleString()}</span></p></div></div>`; dom.additionalServicesContainer.insertAdjacentHTML('beforeend', html); priceStore[id] = { price: price, basePrice: price }; savePriceStore(); addPriceSettingRow(id, name, 'price', price, price); nameInput.value = ''; priceInput.value = ''; handleTabClick(document.querySelector('[data-tab="additional-services"]')); }
 
-                const customId = 'custom-' + Date.now();
-                const additionalServicesContainer = document.getElementById('additional-services');
+            // =================================================================
+            // 8. PRINT FUNCTIONALITY
+            // =================================================================
 
-                const newServiceHTML = `
-                    <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="${customId}">
-                        <div class="flex items-start justify-between">
-                            <div class="flex-1">
-                                <h3 class="text-xl font-bold text-gray-700">${name}</h3>
-                            </div>
-                            <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-gray-600 focus:ring-gray-500 cursor-pointer ml-4" 
-                                   data-name="${name}" data-price="${price}" data-renewal="0">
-                        </div>
-                        <div class="mt-2">
-                            <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
-                        </div>
-                        <div class="mt-4 flex justify-end items-baseline gap-6">
-                           <p class="text-gray-500">一次性費用</p>
-                           <p class="text-gray-800">費用: <span class="font-bold text-2xl text-gray-600 price-display" data-price-id="${customId}">${price === 0 ? '<span class="text-green-600">特別優惠贈送</span>' : `NT$ ${price.toLocaleString()}`}</span></p>
-                        </div>
-                    </div>
-                `;
-                
-                additionalServicesContainer.insertAdjacentHTML('beforeend', newServiceHTML);
+            function printQuote() { if (document.querySelectorAll('.service-checkbox:checked, .renewal-checkbox:checked').length === 0) { alert('請至少選擇一個報價項目後再列印。'); return; } const data = { pmName: document.getElementById('project-manager-name').value, pmPhone: document.getElementById('project-manager-phone').value, pmEmail: document.getElementById('project-manager-email').value, custQuoteNum: document.getElementById('cust-quote-num').value || 'N/A', custDate: document.getElementById('cust-date').value ? new Date(document.getElementById('cust-date').value).toLocaleDateString('zh-TW') : 'N/A', custName: document.getElementById('cust-name').value || 'N/A', custContact: document.getElementById('cust-contact').value || 'N/A', custTel: document.getElementById('cust-tel').value || 'N/A', custEmail: document.getElementById('cust-email').value || 'N/A', custTaxId: document.getElementById('cust-tax-id').value || 'N/A', custAddress: document.getElementById('cust-address').value || 'N/A', grandTotalText: dom.grandTotalEl.textContent, monthlyAverageText: dom.monthlyAverageEl.textContent, includeTax: dom.taxCheckbox.checked, itemsHTML: getQuoteDetails(true).html, comparisonTableHTML: dom.comparisonSection.classList.contains('hidden') ? '' : dom.comparisonSection.outerHTML, }; const printWindow = window.open('', '_blank'); printWindow.document.write(generatePrintHTML(data)); printWindow.document.close(); setTimeout(() => { printWindow.print(); printWindow.close(); }, 250); }
+            function generatePrintHTML(data) { let taxedTotalHTML = ''; if (data.includeTax) { const total = parseFloat(data.grandTotalText.replace(/[^0-9.-]+/g,"")); taxedTotalHTML = `<div class="flex justify-between items-center mt-2"><span class="text-lg font-bold">方案總價 (含稅)</span><span class="font-bold text-2xl text-red-600">NT$ ${Math.round(total * 1.05).toLocaleString()}</span></div>`; } return `<html><head><title>崴浤科技股份有限公司 - 報價單</title><script src="https://cdn.tailwindcss.com"><\/script><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet"><style>body { font-family: 'Noto Sans TC', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; } @page { size: A4; margin: 1.5cm; } .break-inside-avoid { break-inside: avoid; } .features-list ul { list-style-type: disc; list-style-position: inside; padding-left: 0.5rem; } .features-list li { margin-top: 0.25rem; } #comparison-section { display: block !important; } .delete-custom-package-btn, .remove-from-compare, .select-package-btn, .compare-btn { display: none !important; }</style></head><body class="p-4"><header class="mb-8 flex justify-between items-start"><div><h1 class="text-2xl font-bold text-gray-800">崴浤科技股份有限公司</h1><p class="text-gray-500 text-sm">網站設計 & SEO 優化方案報價單</p></div><div class="text-sm text-gray-700"><div class="grid grid-cols-[auto_1fr] gap-x-2 text-left"><strong class="font-semibold">專案人員:</strong> <span>${data.pmName}</span><strong class="font-semibold">電話:</strong> <span>${data.pmPhone}</span><strong class="font-semibold">Email:</strong> <span>${data.pmEmail}</span></div></div></header><div class="mb-8 p-4 border rounded-lg bg-gray-50"><h2 class="text-lg font-bold mb-3">報價資訊</h2><div class="grid grid-cols-[auto_1fr_auto_1fr] gap-x-4 gap-y-2 text-sm items-baseline"><strong>報價單號：</strong> <p>${data.custQuoteNum}</p><strong>公司名稱：</strong> <p>${data.custName}</p><strong>報價日期：</strong> <p>${data.custDate}</p><strong>聯絡人：</strong> <p>${data.custContact}</p><strong>電話：</strong> <p>${data.custTel}</p><strong>Email：</strong> <p>${data.custEmail}</p><strong>統一編號：</strong> <p>${data.custTaxId}</p><strong>地址：</strong> <p>${data.custAddress}</p></div></div><div class="mb-8"><h2 class="text-lg font-bold mb-3">報價項目</h2><div class="border rounded-lg p-4">${data.itemsHTML}</div></div><footer class="flex justify-end break-inside-avoid"><div class="w-full md:w-2/3 lg:w-1/2 p-6 bg-gray-50 rounded-lg">${data.comparisonTableHTML}<div class="space-y-2 mb-4 border-t border-gray-200 pt-4 mt-4"><div class="flex justify-between items-center text-gray-600"><span>平均每月金額</span><span class="font-semibold text-lg">${data.monthlyAverageText}</span></div></div><div class="border-t border-gray-200 pt-4 space-y-2"><div class="flex justify-between items-center"><span class="text-xl font-bold">方案總價 (未稅)</span><span class="font-bold text-2xl text-blue-600">${data.grandTotalText}</span></div>${taxedTotalHTML}</div></div></footer></body></html>`; }
 
-                priceStore[customId] = { price: price, renewal: 0 };
-                localStorage.setItem('customPriceStore', JSON.stringify(priceStore));
-
-
-                const settingsContainer = document.getElementById('price-settings-container');
-                const settingRow = document.createElement('div');
-                settingRow.className = 'flex justify-between items-center py-2 border-b';
-                settingRow.innerHTML = `
-                    <label for="price-edit-${customId}" class="text-sm">${name}</label>
-                    <input type="number" id="price-edit-${customId}" data-target-id="${customId}" data-price-type="price" class="form-input w-32 highlight-input" value="${price}">
-                `;
-                settingsContainer.appendChild(settingRow);
-                addPriceSettingListeners(settingRow);
-
-                nameInput.value = '';
-                priceInput.value = '';
-                document.querySelector('[data-tab="additional-services"]').click();
-            });
-
-            // --- Print Functionality ---
-            document.getElementById('print-quote').addEventListener('click', function() {
-                if (document.querySelectorAll('.service-checkbox:checked, .renewal-checkbox:checked').length === 0) {
-                    alert('請至少選擇一個報價項目後再列印。');
-                    return;
-                }
-
-                const pmName = document.getElementById('project-manager-name').value;
-                const pmPhone = document.getElementById('project-manager-phone').value;
-                const pmEmail = document.getElementById('project-manager-email').value;
-
-                const custQuoteNum = document.getElementById('cust-quote-num').value || 'N/A';
-                const custDate = document.getElementById('cust-date').value ? new Date(document.getElementById('cust-date').value).toLocaleDateString('zh-TW') : 'N/A';
-                const custName = document.getElementById('cust-name').value || 'N/A';
-                const custContact = document.getElementById('cust-contact').value || 'N/A';
-                const custTel = document.getElementById('cust-tel').value || 'N/A';
-                const custEmail = document.getElementById('cust-email').value || 'N/A';
-                const custTaxId = document.getElementById('cust-tax-id').value || 'N/A';
-                const custAddress = document.getElementById('cust-address').value || 'N/A';
-
-                const grandTotalText = document.getElementById('grand-total').textContent;
-                const monthlyAverageText = document.getElementById('monthly-average').textContent;
-                const includeTax = document.getElementById('include-tax-checkbox').checked;
-                
-                let taxedTotalHTML = '';
-                if (includeTax) {
-                    const totalCost = parseFloat(grandTotalText.replace(/[^0-9.-]+/g,""));
-                    const taxedTotal = totalCost * 1.05;
-                    taxedTotalHTML = `
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold">方案總價 (含稅)</span>
-                            <span class="font-bold text-2xl text-red-600">NT$ ${Math.round(taxedTotal).toLocaleString()}</span>
-                        </div>
-                    `;
-                }
-                
-                const { html: printItemsHTML } = getItemsHTML(true); // true for print
-                const comparisonTableHTML = comparisonSection.classList.contains('hidden') ? '' : comparisonSection.outerHTML;
-
-                const printWindow = window.open('', '_blank');
-                printWindow.document.write(`
-                    <html>
-                        <head>
-                            <title>崴浤科技股份有限公司 - 報價單</title>
-                            <script src="https://cdn.tailwindcss.com"><\/script>
-                            <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
-                            <style>
-                                body { font-family: 'Noto Sans TC', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-                                @page { size: A4; margin: 1.5cm; }
-                                .break-inside-avoid { break-inside: avoid; }
-                                .features-list ul { list-style-type: disc; list-style-position: inside; padding-left: 0.5rem; }
-                                .features-list li { margin-top: 0.25rem; }
-                                #comparison-section { display: block !important; }
-                                .delete-custom-package-btn, .remove-from-compare { display: none; }
-                            </style>
-                        </head>
-                        <body class="p-4">
-                            <header class="mb-8 flex justify-between items-start">
-                                <div>
-                                    <h1 class="text-2xl font-bold text-gray-800">崴浤科技股份有限公司</h1>
-                                    <p class="text-gray-500 text-sm">網站設計 & SEO 優化方案報價單</p>
-                                </div>
-                                <div class="text-sm text-gray-700">
-                                    <div class="grid grid-cols-[auto_1fr] gap-x-2 text-left">
-                                        <strong class="font-semibold">專案人員:</strong>
-                                        <span>${pmName}</span>
-                                        <strong class="font-semibold">電話:</strong>
-                                        <span>${pmPhone}</span>
-                                        <strong class="font-semibold">Email:</strong>
-                                        <span>${pmEmail}</span>
-                                    </div>
-                                </div>
-                            </header>
-                            
-                            <div class="mb-8 p-4 border rounded-lg bg-gray-50">
-                                 <h2 class="text-lg font-bold mb-3">報價資訊</h2>
-                                 <div class="grid grid-cols-[auto_1fr_auto_1fr] gap-x-4 gap-y-2 text-sm items-baseline">
-                                    <strong class="font-semibold text-left">報價單號：</strong>
-                                    <p>${custQuoteNum}</p>
-                                    <strong class="font-semibold text-left">公司名稱：</strong>
-                                    <p>${custName}</p>
-                                    
-                                    <strong class="font-semibold text-left">報價日期：</strong>
-                                    <p>${custDate}</p>
-                                    <strong class="font-semibold text-left">聯絡人：</strong>
-                                    <p>${custContact}</p>
-
-                                    <strong class="font-semibold text-left">電話：</strong>
-                                    <p>${custTel}</p>
-                                    <strong class="font-semibold text-left">Email：</strong>
-                                    <p>${custEmail}</p>
-
-                                    <strong class="font-semibold text-left">統一編號：</strong>
-                                    <p>${custTaxId}</p>
-                                    <strong class="font-semibold text-left">地址：</strong>
-                                    <p>${custAddress}</p>
-                                </div>
-                            </div>
-
-                            <div class="mb-8">
-                                <h2 class="text-lg font-bold mb-3">報價項目</h2>
-                                <div class="border rounded-lg p-4">
-                                    ${printItemsHTML}
-                                </div>
-                            </div>
-
-                            <footer class="flex justify-end break-inside-avoid">
-                                <div class="w-full md:w-2/3 lg:w-1/2 p-6 bg-gray-50 rounded-lg">
-                                    ${comparisonTableHTML}
-                                    <div class="space-y-2 mb-4 border-t border-gray-200 pt-4 mt-4">
-                                         <div class="flex justify-between items-center text-gray-600">
-                                            <span>平均每月金額</span>
-                                            <span id="monthly-average" class="font-semibold text-lg">${monthlyAverageText}</span>
-                                        </div>
-                                    </div>
-                                    <div class="border-t border-gray-200 pt-4 space-y-2">
-                                        <div class="flex justify-between items-center">
-                                            <span class="text-xl font-bold">方案總價 (未稅)</span>
-                                            <span class="font-bold text-2xl text-blue-600">${grandTotalText}</span>
-                                        </div>
-                                        ${taxedTotalHTML}
-                                    </div>
-                                </div>
-                            </footer>
-                        </body>
-                    </html>
-                `);
-                
-                printWindow.document.close();
-                setTimeout(() => {
-                    printWindow.print();
-                    printWindow.close();
-                }, 250);
-            });
+            // --- Run Application ---
+            initialize();
         });
     </script>
 </body>
