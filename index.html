@@ -257,21 +257,24 @@
                                 </div>
                             </div>
 
+                            <!-- UPDATED: Basic Custom Image Design -->
                             <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="basic-design">
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <h3 class="text-xl font-bold text-green-700">基礎形象客製設計</h3>
-                                        <p contenteditable="true" class="text-gray-500 mt-1">適合需要建立專業形象，並具備高度彈性的企業。</p>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">風格提版以風格頁設計為主(首頁一頁、內頁各一頁),修改次數以兩次為限,超過費用另計。</p>
                                     </div>
                                     <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-green-600 focus:ring-green-500 cursor-pointer ml-4" 
                                            data-name="基礎形象客製設計" data-price="200000">
                                 </div>
                                 <ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2">
-                                    <li><b>客製提版：</b>企業網站客製平面提版，首頁"三大主題"區塊設計</li>
-                                    <li><b>頁面設計：</b>內頁頁面設計"2頁"</li>
-                                    <li><b>靜態首頁：</b>靜態全景式首頁（首頁Banner＊2、內頁Banner＊1）</li>
-                                    <li><b>商用圖庫：</b>123RF / iStock 版權圖庫 10 張（限網頁設計用版權商用圖庫）</li>
-                                    <li><b>技術規格：</b>全站 RWD 響應式網頁，語言版本：中文＆英文</li>
+                                    <li><b>設計範圍：</b>首頁Banner大圖*2,內頁banner*1 (含手機Banner排版)。</li>
+                                    <li><b>版面規劃：</b>首頁區塊限制 4區(含banner橫幅)，內頁設計範圍依照內頁設計範例說明。</li>
+                                    <li><b>行動裝置：</b>含手機選單設計。</li>
+                                    <li><b>語系版本：</b>中文、英文。</li>
+                                    <li><b>版權圖庫：</b>123RF or iStock 版權圖庫 *10張，圖庫僅提供設計使用,因版權問題不另行提供原始檔下載。</li>
+                                    <li><b>功能列表：</b>產品展示、SEO搜尋引擎最佳化、系統管理、詢報價管理(B)、聯絡我們、檔案管理、訊息管理、社群管理、會員管理(如需權限管理另行報價)、廣告管理、客問答、檔案下載、網站連結。</li>
+                                    <li><b>技術規格：</b>全面支援Google WebP 次世代圖片格式、DDoS 雙雲端平台攻擊防護(GCP+Azure)、圖片資料7天完整備份,資料庫30天完整備份, AWS雲端異地備份、Winho WAF 五大洲頂級應用程式防火牆。</li>
                                 </ul>
                                 <div class="mt-2">
                                     <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
@@ -295,6 +298,69 @@
                                             <label for="renewal-check-2" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
                                         </div>
                                         <span class="font-semibold text-lg text-gray-600 renewal-price-display" data-renewal-price-id="basic-design">NT$ 20,000 /年</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4 pl-7">
+                                        <div>
+                                            <label class="text-sm text-gray-600">續約年份</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus">-</button>
+                                                <input type="number" value="1" min="1" class="renewal-years number-input">
+                                                <button type="button" class="stepper-btn plus">+</button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="text-sm text-gray-600">續約折扣</label>
+                                            <div class="number-input-wrapper">
+                                                <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
+                                                <input type="number" value="1" step="0.01" min="0" class="renewal-discount number-input">
+                                                <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- NEW: Exquisite Custom Image Design -->
+                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-lg transition-shadow duration-300" data-service-id="exquisite-design">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-xl font-bold text-yellow-700">精緻形象客製設計</h3>
+                                        <p contenteditable="true" class="text-gray-500 mt-1">風格提版以風格頁設計為主(首頁一頁、內頁兩頁),修改次數以兩次為限,超過費用另計。</p>
+                                    </div>
+                                    <input type="checkbox" class="service-checkbox h-6 w-6 rounded border-gray-400 text-yellow-600 focus:ring-yellow-500 cursor-pointer ml-4" 
+                                           data-name="精緻形象客製設計" data-price="298000">
+                                </div>
+                                <ul contenteditable="true" class="list-disc list-inside mt-4 text-gray-600 space-y-2">
+                                    <li><b>設計範圍：</b>首頁Banner大圖*2,內頁banner*1 (含手機Banner排版)。</li>
+                                    <li><b>版面規劃：</b>首頁區塊限制 6區(含banner橫幅)，內頁設計範圍依照內頁設計範例說明。</li>
+                                    <li><b>行動裝置：</b>含手機選單設計。</li>
+                                    <li><b>語系版本：</b>中文、英文。</li>
+                                    <li><b>版權圖庫：</b>123RF or iStock 版權圖庫 *10張，圖庫僅提供設計使用,因版權問題不另行提供原始檔下載。</li>
+                                    <li><b>功能列表：</b>產品展示、SEO搜尋引擎最佳化、系統管理、詢報價管理(B)、聯絡我們、檔案管理、訊息管理、社群管理、會員管理(如需權限管理另行報價)、廣告管理、客問答、檔案下載、網站連結。</li>
+                                    <li><b>技術規格：</b>全面支援Google WebP 次世代圖片格式、DDoS 雙雲端平台攻擊防護(GCP+Azure)、圖片資料7天完整備份,資料庫30天完整備份, AWS雲端異地備份、Winho WAF 五大洲頂級應用程式防火牆。</li>
+                                </ul>
+                                <div class="mt-2">
+                                    <textarea maxlength="30" class="form-input text-sm description-input" placeholder="備註說明 (最多30字)"></textarea>
+                                </div>
+                                <div class="mt-4 flex justify-end items-center gap-4">
+                                   <div>
+                                        <label class="text-sm text-gray-600">首年折扣</label>
+                                        <div class="number-input-wrapper">
+                                            <button type="button" class="stepper-btn minus" data-step="0.01">-</button>
+                                            <input type="number" value="1" step="0.01" min="0" class="first-year-discount number-input">
+                                            <button type="button" class="stepper-btn plus" data-step="0.01">+</button>
+                                        </div>
+                                   </div>
+                                   <p class="text-gray-800">首年: <span class="font-bold text-2xl text-yellow-600 price-display" data-price-id="exquisite-design">NT$ 298,000</span></p>
+                                </div>
+                                 <div class="mt-4 border-t pt-4 space-y-2 renewal-section">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" id="renewal-check-exquisite" class="renewal-checkbox h-5 w-5 rounded border-gray-400 text-yellow-600 focus:ring-yellow-500 cursor-pointer" 
+                                                   data-renewal-price="30000" data-name="精緻形象客製設計 - 續約">
+                                            <label for="renewal-check-exquisite" class="font-semibold text-gray-700 cursor-pointer">續約服務</label>
+                                        </div>
+                                        <span class="font-semibold text-lg text-gray-600 renewal-price-display" data-renewal-price-id="exquisite-design">NT$ 30,000 /年</span>
                                     </div>
                                     <div class="grid grid-cols-2 gap-4 pl-7">
                                         <div>
@@ -1098,45 +1164,92 @@
             function calculatePackagePrice(id) { const pkg = allPackages[id]; if (!pkg) return { totalPrice: 0, totalYears: 1 }; let total = 0, maxYears = 1; pkg.items.forEach(item => { let itemTotal = 0, itemYears = 1; const serviceId = item.id; if (item.mainChecked) itemTotal += (priceStore[serviceId]?.price || 0) * (parseFloat(item.inputs['first-year-discount']) || 1); if (item.renewalChecked) { const years = parseInt(item.inputs['renewal-years']) || 1; itemTotal += (priceStore[serviceId]?.renewal || 0) * years * (parseFloat(item.inputs['renewal-discount']) || 1); itemYears = 1 + years; } total += itemTotal; maxYears = Math.max(maxYears, itemYears); }); return { totalPrice: total, totalYears: maxYears }; }
             function updateDynamicServicePrices() { document.querySelectorAll('[data-service-id]').forEach(c => { const id = c.dataset.serviceId, calc = serviceCalculators[id]; if (calc) { const price = calc(c), el = c.querySelector('.language-total, .blog-total, .mailcloud-total, .inner-page-total'), p = c.querySelector('.language-cost-p, .blog-cost-p, .mailcloud-cost-p'); if (el) el.textContent = `NT$ ${price.toLocaleString()}`; if (p) p.classList.toggle('hidden', price === 0); } }); }
             
+            // MODIFIED: This function now shows the original price with a strikethrough if a discount is applied.
             function generateItemHTML(c, mainCost, renewalCost, isForPrint) {
                 const main = c.querySelector('.service-checkbox'), renewal = c.querySelector('.renewal-checkbox');
                 if (!main.checked && !renewal?.checked) return '';
+                
                 const id = c.dataset.serviceId, name = main.dataset.name, note = c.querySelector('.description-input')?.value.trim() || '';
                 let mainHTML = '', renewalHTML = '';
 
-                const basePrice = priceStore[id]?.basePrice ?? priceStore[id]?.price ?? 0;
+                // Determine base prices for comparison
+                const calc = serviceCalculators[id];
+                const basePrice = calc ? calc(c) : (priceStore[id]?.basePrice ?? priceStore[id]?.price ?? 0);
                 const baseRenewal = priceStore[id]?.baseRenewal ?? priceStore[id]?.renewal ?? 0;
+                
+                const generatePriceHTML = (discountedPrice, originalPrice, priceTextPrefix = 'NT$ ') => {
+                    let text = `${priceTextPrefix}${Math.round(discountedPrice).toLocaleString()}`;
+                    if (id === 'custom-dev' && discountedPrice === 0) text = '依工程師估價';
+                    else if (discountedPrice === 0 && originalPrice > 0) text = `<span class="text-green-600 font-semibold">特別優惠</span>`;
 
-                if (isForPrint) {
-                    const descHTML = c.querySelector('p.text-gray-500')?.innerHTML || '', featuresHTML = c.querySelector('ul.list-disc')?.innerHTML || '';
-                    if (main.checked) {
-                        const discount = parseFloat(c.querySelector('.first-year-discount')?.value) || 1;
-                        let priceText = `NT$ ${Math.round(mainCost).toLocaleString()}`;
-                        if (id === 'custom-dev' && mainCost === 0) priceText = '依工程師估價';
-                        else if (mainCost === 0) priceText = `<span class="text-green-600 font-semibold">特別優惠</span>`;
-                        mainHTML = `<div class="flex justify-between items-start"><div class="flex-1 pr-2"><span class="text-sm text-gray-800 font-bold">${getDisplayName(c)}</span></div><div class="text-right flex-shrink-0"><div class="text-sm font-semibold ${mainCost < basePrice ? 'text-red-600' : 'text-gray-800'}">${priceText}</div>${discount !== 1 && (priceStore[id]?.price || 0) > 0 ? `<div class="text-xs text-green-600">首年 ${Math.round(discount*100)} 折</div>` : ''}</div></div>${descHTML ? `<p class="text-xs text-gray-500 mt-1">${descHTML}</p>` : ''}${featuresHTML ? `<div class="text-xs text-gray-600 mt-2 pl-2 features-list"><ul>${featuresHTML}</ul></div>` : ''}${note ? `<p class="text-xs text-gray-500 mt-2 pl-2 border-l-2 border-gray-200">${note}</p>` : ''}`;
+                    if (discountedPrice < originalPrice && originalPrice > 0) {
+                        return `<span class="text-xs text-gray-500 line-through mr-2">NT$ ${Math.round(originalPrice).toLocaleString()}</span><span class="text-red-600">${text}</span>`;
                     }
-                    if (renewal && renewal.checked) {
-                        const years = parseInt(c.querySelector('.renewal-years').value) || 1, discount = parseFloat(c.querySelector('.renewal-discount').value) || 1;
-                        let content = `<div class="flex justify-between items-center ${main.checked ? 'pl-4' : ''}"><span class="text-sm text-gray-700">${renewal.dataset.name} (${years}年)</span><div class="text-right"><div class="text-sm font-semibold ${renewalCost < baseRenewal * years ? 'text-red-600' : 'text-gray-800'}">NT$ ${Math.round(renewalCost).toLocaleString()}</div>${discount !== 1 ? `<div class="text-xs text-green-600">${Math.round(discount*100)} 折</div>` : ''}</div></div>`;
-                        if (!main.checked) content = `<div class="flex-1 pr-2"><span class="text-sm text-gray-800 font-bold">${name}</span></div>${descHTML ? `<p class="text-xs text-gray-500 mt-1">${descHTML}</p>` : ''}${featuresHTML ? `<div class="text-xs text-gray-600 mt-2 pl-2 features-list"><ul>${featuresHTML}</ul></div>` : ''}<div class="mt-2 pt-2 border-t border-gray-200"></div>${content}`;
-                        renewalHTML = content;
-                    }
-                } else {
-                    if (main.checked) {
-                        const discount = parseFloat(c.querySelector('.first-year-discount')?.value) || 1;
-                        let priceText = `NT$ ${Math.round(mainCost).toLocaleString()}`;
-                        if (id === 'custom-dev' && mainCost === 0) priceText = '依工程師估價';
-                        else if (mainCost === 0) priceText = `<span class="text-green-600 font-semibold">特別優惠</span>`;
-                        mainHTML = `<div class="flex justify-between items-start"><div class="flex-1 pr-2"><span class="text-sm text-gray-800 font-bold">${getDisplayName(c)}</span></div><div class="text-right flex-shrink-0"><div class="text-sm font-semibold ${mainCost < basePrice ? 'text-red-600' : 'text-gray-800'}">${priceText}</div>${discount !== 1 && (priceStore[id]?.price || 0) > 0 ? `<div class="text-xs text-green-600">首年 ${Math.round(discount*100)} 折</div>` : ''}</div></div>${note ? `<p class="text-xs text-gray-500 mt-2 pl-2 border-l-2 border-gray-200">${note}</p>` : ''}`;
-                    }
-                    if (renewal && renewal.checked) {
-                        const years = parseInt(c.querySelector('.renewal-years').value) || 1, discount = parseFloat(c.querySelector('.renewal-discount').value) || 1;
-                        renewalHTML = `<div class="flex justify-between items-center ${main.checked ? 'pl-4' : ''}"><span class="text-sm text-gray-700">${renewal.dataset.name} (${years}年)</span><div class="text-right"><div class="text-sm font-semibold ${renewalCost < baseRenewal * years ? 'text-red-600' : 'text-gray-800'}">NT$ ${Math.round(renewalCost).toLocaleString()}</div>${discount !== 1 ? `<div class="text-xs text-green-600">${Math.round(discount*100)} 折</div>` : ''}</div></div>`;
+                    return `<span>${text}</span>`;
+                };
+
+                // Logic for main service item
+                if (main.checked) {
+                    const discount = parseFloat(c.querySelector('.first-year-discount')?.value) || 1;
+                    const priceDisplayHTML = generatePriceHTML(mainCost, basePrice);
+                    const discountText = (discount !== 1 && basePrice > 0) ? `<div class="text-xs text-green-600">首年 ${Math.round(discount*100)} 折</div>` : '';
+                    
+                    if (isForPrint) {
+                        const descHTML = c.querySelector('p.text-gray-500')?.innerHTML || '';
+                        const featuresHTML = c.querySelector('ul.list-disc')?.innerHTML || '';
+                        mainHTML = `<div class="flex justify-between items-start">
+                                        <div class="flex-1 pr-2"><span class="text-sm text-gray-800 font-bold">${getDisplayName(c)}</span></div>
+                                        <div class="text-right flex-shrink-0">
+                                            <div class="text-sm font-semibold">${priceDisplayHTML}</div>
+                                            ${discountText}
+                                        </div>
+                                    </div>
+                                    ${descHTML ? `<p class="text-xs text-gray-500 mt-1">${descHTML}</p>` : ''}
+                                    ${featuresHTML ? `<div class="text-xs text-gray-600 mt-2 pl-2 features-list"><ul>${featuresHTML}</ul></div>` : ''}
+                                    ${note ? `<p class="text-xs text-gray-500 mt-2 pl-2 border-l-2 border-gray-200">${note}</p>` : ''}`;
+                    } else {
+                        mainHTML = `<div class="flex justify-between items-start">
+                                        <div class="flex-1 pr-2"><span class="text-sm text-gray-800 font-bold">${getDisplayName(c)}</span></div>
+                                        <div class="text-right flex-shrink-0">
+                                            <div class="text-sm font-semibold">${priceDisplayHTML}</div>
+                                            ${discountText}
+                                        </div>
+                                    </div>
+                                    ${note ? `<p class="text-xs text-gray-500 mt-2 pl-2 border-l-2 border-gray-200">${note}</p>` : ''}`;
                     }
                 }
+
+                // Logic for renewal item
+                if (renewal && renewal.checked) {
+                    const years = parseInt(c.querySelector('.renewal-years').value) || 1;
+                    const discount = parseFloat(c.querySelector('.renewal-discount').value) || 1;
+                    const originalRenewalTotal = baseRenewal * years;
+                    const priceDisplayHTML = generatePriceHTML(renewalCost, originalRenewalTotal);
+                    const discountText = (discount !== 1) ? `<div class="text-xs text-green-600">${Math.round(discount*100)} 折</div>` : '';
+                    
+                    let content = `<div class="flex justify-between items-center ${main.checked ? 'pl-4 mt-1' : ''}">
+                                    <span class="text-sm text-gray-700">${renewal.dataset.name} (${years}年)</span>
+                                    <div class="text-right">
+                                        <div class="text-sm font-semibold">${priceDisplayHTML}</div>
+                                        ${discountText}
+                                    </div>
+                                   </div>`;
+
+                    if (isForPrint && !main.checked) {
+                        const descHTML = c.querySelector('p.text-gray-500')?.innerHTML || '';
+                        const featuresHTML = c.querySelector('ul.list-disc')?.innerHTML || '';
+                        content = `<div class="flex-1 pr-2"><span class="text-sm text-gray-800 font-bold">${name}</span></div>
+                                   ${descHTML ? `<p class="text-xs text-gray-500 mt-1">${descHTML}</p>` : ''}
+                                   ${featuresHTML ? `<div class="text-xs text-gray-600 mt-2 pl-2 features-list"><ul>${featuresHTML}</ul></div>` : ''}
+                                   <div class="mt-2 pt-2 border-t border-gray-200"></div>
+                                   ${content}`;
+                    }
+                    renewalHTML = content;
+                }
+
                 return mainHTML + renewalHTML;
             }
+
 
             function getDisplayName(c) { const id = c.dataset.serviceId; let name = c.querySelector('.service-checkbox').dataset.name; const details = []; switch (id) { case 'inner-page-design': details.push(`共 ${c.querySelector('.inner-page-count').value || 0} 頁`); break; case 'language-add': const totalLang = (parseInt(c.querySelector('.language-count').value) || 0) + (parseInt(c.querySelector('.special-language-count').value) || 0); if (totalLang > 0) details.push(`共 ${totalLang} 組`); break; case 'blog-writing': const totalBlog = (parseInt(c.querySelector('.chinese-blog-count').value) || 0) + (parseInt(c.querySelector('.english-blog-count').value) || 0); if (totalBlog > 0) details.push(`共 ${totalBlog} 篇`); break; case 'mailcloud': const q = parseInt(c.querySelector('.mailcloud-quantity').value) || 0, y = parseInt(c.querySelector('.mailcloud-years').value) || 0; if (q > 0) details.push(`${q} 組`); if (y > 0) details.push(`${y} 年`); break; } return details.length > 0 ? `${name} (${details.join(', ')})` : name; }
             function updatePriceDisplays(id, type, val) { const fVal = `NT$ ${val.toLocaleString()}`; if (type === 'price') { const el = document.querySelector(`.price-display[data-price-id="${id}"]`); if (el) el.textContent = (id === 'custom-dev' && val === 0) ? '依工程師估價' : fVal; } else if (type === 'renewal') { const el = document.querySelector(`.renewal-price-display[data-renewal-price-id="${id}"]`); if (el) el.textContent = `${fVal} /年`; } }
@@ -1194,8 +1307,8 @@
             // =================================================================
 
             function printQuote() { if (document.querySelectorAll('.service-checkbox:checked, .renewal-checkbox:checked').length === 0) { alert('請至少選擇一個報價項目後再列印。'); return; } const data = { pmName: document.getElementById('project-manager-name').value, pmPhone: document.getElementById('project-manager-phone').value, pmEmail: document.getElementById('project-manager-email').value, custQuoteNum: document.getElementById('cust-quote-num').value || 'N/A', custDate: document.getElementById('cust-date').value ? new Date(document.getElementById('cust-date').value).toLocaleDateString('zh-TW') : 'N/A', custName: document.getElementById('cust-name').value || 'N/A', custContact: document.getElementById('cust-contact').value || 'N/A', custTel: document.getElementById('cust-tel').value || 'N/A', custEmail: document.getElementById('cust-email').value || 'N/A', custTaxId: document.getElementById('cust-tax-id').value || 'N/A', custAddress: document.getElementById('cust-address').value || 'N/A', grandTotalText: dom.grandTotalEl.textContent, monthlyAverageText: dom.monthlyAverageEl.textContent, includeTax: dom.taxCheckbox.checked, itemsHTML: getQuoteDetails(true).html, comparisonTableHTML: dom.comparisonSection.classList.contains('hidden') ? '' : dom.comparisonSection.outerHTML, }; const printWindow = window.open('', '_blank'); printWindow.document.write(generatePrintHTML(data)); printWindow.document.close(); setTimeout(() => { printWindow.print(); printWindow.close(); }, 250); }
-            function generatePrintHTML(data) { let taxedTotalHTML = ''; if (data.includeTax) { const total = parseFloat(data.grandTotalText.replace(/[^0-9.-]+/g,"")); taxedTotalHTML = `<div class="flex justify-between items-center mt-2"><span class="text-lg font-bold">方案總價 (含稅)</span><span class="font-bold text-2xl text-red-600">NT$ ${Math.round(total * 1.05).toLocaleString()}</span></div>`; } return `<html><head><title>崴浤科技股份有限公司 - 報價單</title><script src="https://cdn.tailwindcss.com"><\/script><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet"><style>body { font-family: 'Noto Sans TC', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; } @page { size: A4; margin: 1.5cm; } .break-inside-avoid { break-inside: avoid; } .features-list ul { list-style-type: disc; list-style-position: inside; padding-left: 0.5rem; } .features-list li { margin-top: 0.25rem; } #comparison-section { display: block !important; } .delete-custom-package-btn, .remove-from-compare, .select-package-btn, .compare-btn { display: none !important; }</style></head><body class="p-4"><header class="mb-8 flex justify-between items-start"><div><div class="flex items-center gap-4 mb-2"><img src="https://www.winho.com.tw/uploadfiles/338/images-new/winho-logo5.png" alt="崴浤科技 LOGO" class="h-12"><h1 class="text-2xl font-bold text-gray-800">崴浤科技股份有限公司</h1></div><p class="text-gray-500 text-sm">網站設計 & SEO 優化方案報價單</p></div><div class="text-sm text-gray-700"><div class="grid grid-cols-[auto_1fr] gap-x-2 text-left"><strong class="font-semibold">專案人員:</strong> <span>${data.pmName}</span><strong class="font-semibold">電話:</strong> <span>${data.pmPhone}</span><strong class="font-semibold">Email:</strong> <span>${data.pmEmail}</span></div></div></header><div class="mb-8 p-4 border rounded-lg bg-gray-50"><h2 class="text-lg font-bold mb-3">報價資訊</h2><div class="grid grid-cols-[auto_1fr_auto_1fr] gap-x-4 gap-y-2 text-sm items-baseline"><strong>報價單號：</strong> <p>${data.custQuoteNum}</p><strong>公司名稱：</strong> <p>${data.custName}</p><strong>報價日期：</strong> <p>${data.custDate}</p><strong>聯絡人：</strong> <p>${data.custContact}</p><strong>電話：</strong> <p>${data.custTel}</p><strong>Email：</strong> <p>${data.custEmail}</p><strong>統一編號：</strong> <p>${data.custTaxId}</p><strong>地址：</strong> <p>${data.custAddress}</p></div></div><div class="mb-8"><h2 class="text-lg font-bold mb-3">報價項目</h2><div class="border rounded-lg p-4">${data.itemsHTML}</div></div><footer class="flex justify-end break-inside-avoid"><div class="w-full md:w-2/3 lg:w-1/2 p-6 bg-gray-50 rounded-lg">${data.comparisonTableHTML}<div class="space-y-2 mb-4 border-t border-gray-200 pt-4 mt-4"><div class="flex justify-between items-center text-gray-600"><span>平均每月金額</span><span class="font-semibold text-lg">${data.monthlyAverageText}</span></div></div><div class="border-t border-gray-200 pt-4 space-y-2"><div class="flex justify-between items-center"><span class="text-xl font-bold">方案總價 (未稅)</span><span class="font-bold text-2xl text-blue-600">${data.grandTotalText}</span></div>${taxedTotalHTML}</div></div></footer></body></html>`; }
             
+            // MODIFIED: This function now also shows the original price with a strikethrough for the print view.
             function generatePrintHTML(data) {
                 let taxedTotalHTML = '';
                 if (data.includeTax) {
@@ -1203,7 +1316,6 @@
                     taxedTotalHTML = `<div class="flex justify-between items-center mt-2"><span class="text-lg font-bold">方案總價 (含稅)</span><span class="font-bold text-2xl text-red-600">NT$ ${Math.round(total * 1.05).toLocaleString()}</span></div>`;
                 }
             
-                // **MODIFIED FOR PRINT** Add the logo to the print header
                 const printHeaderHTML = `
                 <header class="mb-8 flex justify-between items-start">
                     <div>
