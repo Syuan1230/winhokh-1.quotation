@@ -1184,11 +1184,35 @@
             // =================================================================
 
             function updateQuote() { const { html, totalCost, maxYears } = getQuoteDetails(false); const monthly = totalCost > 0 ? Math.round(totalCost / (maxYears * 12)) : 0; dom.grandTotalEl.textContent = `NT$ ${Math.round(totalCost).toLocaleString()}`; dom.monthlyAverageEl.textContent = `NT$ ${monthly.toLocaleString()}`; if (dom.taxCheckbox.checked) { dom.grandTotalTaxedEl.textContent = `NT$ ${Math.round(totalCost * 1.05).toLocaleString()}`; dom.taxTotalContainer.classList.remove('hidden'); } else { dom.taxTotalContainer.classList.add('hidden'); } dom.quoteSummary.innerHTML = html || '<p id="empty-quote" class="text-center text-gray-500 pt-12">尚未選擇任何服務項目。</p>'; updateDynamicServicePrices(); }
-            function getQuoteDetails(isForPrint = false) { let html = '', totalCost = 0, maxYears = 1; document.querySelectorAll('div[data-service-id]').forEach(c => { const id = c.dataset.serviceId, main = c.querySelector('.service-checkbox'), renewal = c.querySelector('.renewal-checkbox'); if (!main || (!main.checked && !(renewal && renewal.checked))) return; const calc = serviceCalculators[id], base = calc ? calc(c) : (priceStore[id]?.price || 0); let mainCost = 0, renewalCost = 0, years = 1; if (main.checked) { const discount = parseFloat(c.querySelector('.first-year-discount')?.value) || 1, priceToDiscount = calc ? base : (priceStore[id]?.price || 0); mainCost = calc ? base * discount : priceToDiscount * discount; } if (renewal && renewal.checked) { const rPrice = priceStore[id]?.renewal || 0, rYears = parseInt(c.querySelector('.renewal-years')?.value) || 1, rDiscount = parseFloat(c.querySelector('.renewal-discount')?.value) || 1; renewalCost = rPrice * rYears * rDiscount; years = 1 + rYears; } totalCost += mainCost + renewalCost; maxYears = Math.max(maxYears, years); const itemHtml = generateItemHTML(c, mainCost, renewalCost, isForPrint); if (itemHtml) html += `<div class="py-2 border-b border-gray-100 break-inside-avoid">${itemHtml}</div>`; }); return { html, totalCost, maxYears }; }
+            
+            function getQuoteDetails(isForPrint = false, showDealOverride = null) { // MODIFIED
+                let html = '', totalCost = 0, maxYears = 1; 
+                document.querySelectorAll('div[data-service-id]').forEach(c => { 
+                    const id = c.dataset.serviceId, main = c.querySelector('.service-checkbox'), renewal = c.querySelector('.renewal-checkbox'); 
+                    if (!main || (!main.checked && !(renewal && renewal.checked))) return; 
+                    const calc = serviceCalculators[id], base = calc ? calc(c) : (priceStore[id]?.price || 0); 
+                    let mainCost = 0, renewalCost = 0, years = 1; 
+                    if (main.checked) { 
+                        const discount = parseFloat(c.querySelector('.first-year-discount')?.value) || 1, priceToDiscount = calc ? base : (priceStore[id]?.price || 0); 
+                        mainCost = calc ? base * discount : priceToDiscount * discount; 
+                    } 
+                    if (renewal && renewal.checked) { 
+                        const rPrice = priceStore[id]?.renewal || 0, rYears = parseInt(c.querySelector('.renewal-years')?.value) || 1, rDiscount = parseFloat(c.querySelector('.renewal-discount')?.value) || 1; 
+                        renewalCost = rPrice * rYears * rDiscount; 
+                        years = 1 + rYears; 
+                    } 
+                    totalCost += mainCost + renewalCost; 
+                    maxYears = Math.max(maxYears, years); 
+                    const itemHtml = generateItemHTML(c, mainCost, renewalCost, isForPrint, showDealOverride); // MODIFIED
+                    if (itemHtml) html += `<div class="py-2 border-b border-gray-100 break-inside-avoid">${itemHtml}</div>`; 
+                }); 
+                return { html, totalCost, maxYears }; 
+            }
+
             function calculatePackagePrice(id) { const pkg = allPackages[id]; if (!pkg) return { totalPrice: 0, totalYears: 1 }; let total = 0, maxYears = 1; pkg.items.forEach(item => { let itemTotal = 0, itemYears = 1; const serviceId = item.id; if (item.mainChecked) itemTotal += (priceStore[serviceId]?.price || 0) * (parseFloat(item.inputs['first-year-discount']) || 1); if (item.renewalChecked) { const years = parseInt(item.inputs['renewal-years']) || 1; itemTotal += (priceStore[serviceId]?.renewal || 0) * years * (parseFloat(item.inputs['renewal-discount']) || 1); itemYears = 1 + years; } total += itemTotal; maxYears = Math.max(maxYears, itemYears); }); return { totalPrice: total, totalYears: maxYears }; }
             function updateDynamicServicePrices() { document.querySelectorAll('[data-service-id]').forEach(c => { const id = c.dataset.serviceId, calc = serviceCalculators[id]; if (calc) { const price = calc(c), el = c.querySelector('.language-total, .blog-total, .mailcloud-total, .inner-page-total'), p = c.querySelector('.language-cost-p, .blog-cost-p, .mailcloud-cost-p'); if (el) el.textContent = `NT$ ${price.toLocaleString()}`; if (p) p.classList.toggle('hidden', price === 0); } }); }
             
-            function generateItemHTML(c, mainCost, renewalCost, isForPrint) {
+            function generateItemHTML(c, mainCost, renewalCost, isForPrint, showDealOverride = null) { // MODIFIED
                 const main = c.querySelector('.service-checkbox'), renewal = c.querySelector('.renewal-checkbox');
                 if (!main.checked && !renewal?.checked) return '';
                 
@@ -1201,7 +1225,7 @@
                 const baseRenewal = priceStore[id]?.baseRenewal ?? priceStore[id]?.renewal ?? 0;
                 
                 const generatePriceHTML = (discountedPrice, originalPrice, priceTextPrefix = 'NT$ ') => {
-                    const showDeal = dom.showPackageDealCheckbox.checked;
+                    const showDeal = (showDealOverride !== null) ? showDealOverride : dom.showPackageDealCheckbox.checked; // MODIFIED
                     let text = `${priceTextPrefix}${Math.round(discountedPrice).toLocaleString()}`;
                     if (id === 'custom-dev' && discountedPrice === 0) text = '依工程師估價';
                     else if (discountedPrice === 0 && originalPrice > 0) text = `<span class="text-green-600 font-semibold">特別優惠</span>`;
@@ -1336,7 +1360,39 @@
             // 8. PRINT FUNCTIONALITY
             // =================================================================
 
-            function printQuote() { if (document.querySelectorAll('.service-checkbox:checked, .renewal-checkbox:checked').length === 0) { alert('請至少選擇一個報價項目後再列印。'); return; } const data = { pmName: document.getElementById('project-manager-name').value, pmPhone: document.getElementById('project-manager-phone').value, pmEmail: document.getElementById('project-manager-email').value, custQuoteNum: document.getElementById('cust-quote-num').value || 'N/A', custDate: document.getElementById('cust-date').value ? new Date(document.getElementById('cust-date').value).toLocaleDateString('zh-TW') : 'N/A', custName: document.getElementById('cust-name').value || 'N/A', custContact: document.getElementById('cust-contact').value || 'N/A', custTel: document.getElementById('cust-tel').value || 'N/A', custEmail: document.getElementById('cust-email').value || 'N/A', custTaxId: document.getElementById('cust-tax-id').value || 'N/A', custAddress: document.getElementById('cust-address').value || 'N/A', grandTotalText: dom.grandTotalEl.textContent, monthlyAverageText: dom.monthlyAverageEl.textContent, includeTax: dom.taxCheckbox.checked, showTotalOnly: dom.showTotalOnlyCheckbox.checked, paymentNotes: document.getElementById('payment-method-notes').value, itemsHTML: getQuoteDetails(true).html, comparisonTableHTML: dom.comparisonSection.classList.contains('hidden') ? '' : dom.comparisonSection.outerHTML, }; const printWindow = window.open('', '_blank'); printWindow.document.write(generatePrintHTML(data)); printWindow.document.close(); setTimeout(() => { printWindow.print(); printWindow.close(); }, 250); }
+            function printQuote() { 
+                if (document.querySelectorAll('.service-checkbox:checked, .renewal-checkbox:checked').length === 0) { 
+                    alert('請至少選擇一個報價項目後再列印。'); 
+                    return; 
+                } 
+                const data = { 
+                    pmName: document.getElementById('project-manager-name').value, 
+                    pmPhone: document.getElementById('project-manager-phone').value, 
+                    pmEmail: document.getElementById('project-manager-email').value, 
+                    custQuoteNum: document.getElementById('cust-quote-num').value || 'N/A', 
+                    custDate: document.getElementById('cust-date').value ? new Date(document.getElementById('cust-date').value).toLocaleDateString('zh-TW') : 'N/A', 
+                    custName: document.getElementById('cust-name').value || 'N/A', 
+                    custContact: document.getElementById('cust-contact').value || 'N/A', 
+                    custTel: document.getElementById('cust-tel').value || 'N/A', 
+                    custEmail: document.getElementById('cust-email').value || 'N/A', 
+                    custTaxId: document.getElementById('cust-tax-id').value || 'N/A', 
+                    custAddress: document.getElementById('cust-address').value || 'N/A', 
+                    grandTotalText: dom.grandTotalEl.textContent, 
+                    monthlyAverageText: dom.monthlyAverageEl.textContent, 
+                    includeTax: dom.taxCheckbox.checked, 
+                    showTotalOnly: dom.showTotalOnlyCheckbox.checked, 
+                    paymentNotes: document.getElementById('payment-method-notes').value, 
+                    itemsHTML: getQuoteDetails(true, dom.showPackageDealCheckbox.checked).html, // MODIFIED
+                    comparisonTableHTML: dom.comparisonSection.classList.contains('hidden') ? '' : dom.comparisonSection.outerHTML, 
+                }; 
+                const printWindow = window.open('', '_blank'); 
+                printWindow.document.write(generatePrintHTML(data)); 
+                printWindow.document.close(); 
+                setTimeout(() => { 
+                    printWindow.print(); 
+                    printWindow.close(); 
+                }, 250); 
+            }
             
             function generatePrintHTML(data) {
                 let taxedTotalHTML = '';
